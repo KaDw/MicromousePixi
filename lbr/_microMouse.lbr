@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.2.0">
+<eagle version="7.1.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.01" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="yes"/>
@@ -32,7 +32,7 @@
 <layer number="22" name="bPlace" color="7" fill="1" visible="no" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
@@ -457,6 +457,47 @@ Source: ww1.microchip.com/downloads/en/DeviceDoc/39605c.pdf</description>
 <rectangle x1="-1.6" y1="2.525" x2="-1" y2="2.875" layer="31" rot="R270"/>
 <rectangle x1="-2.25" y1="2.525" x2="-1.65" y2="2.875" layer="31" rot="R270"/>
 </package>
+<package name="QFN24-4X4">
+<smd name="GND4" x="1.95" y="1.5" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="VDDIO" x="1.95" y="1" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="SPI_CS_B" x="1.95" y="0.5" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="VREGD" x="1.95" y="0" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="VDD" x="1.95" y="-0.5" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="GND3" x="1.95" y="-1" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="SA0/MISO" x="1.95" y="-1.5" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="RGND4" x="1.05" y="1.75" dx="0.8" dy="0.3" layer="1" rot="R90" stop="no"/>
+<smd name="RGND5" x="0.55" y="1.75" dx="0.8" dy="0.3" layer="1" rot="R90" stop="no"/>
+<smd name="RGND6" x="0.05" y="1.75" dx="0.8" dy="0.3" layer="1" rot="R90" stop="no"/>
+<smd name="RGND7" x="-0.45" y="1.75" dx="0.8" dy="0.3" layer="1" rot="R90" stop="no"/>
+<smd name="RGND8" x="-0.95" y="1.75" dx="0.8" dy="0.3" layer="1" rot="R90" stop="no"/>
+<smd name="SDA/MOSI" x="1.05" y="-1.75" dx="0.8" dy="0.3" layer="1" rot="R270" stop="no"/>
+<smd name="SCL/SCLK" x="0.55" y="-1.75" dx="0.8" dy="0.3" layer="1" rot="R90" stop="no"/>
+<smd name="RGND3" x="0.05" y="-1.75" dx="0.8" dy="0.3" layer="1" rot="R90" stop="no"/>
+<smd name="RGND2" x="-0.45" y="-1.75" dx="0.8" dy="0.3" layer="1" rot="R90" stop="no"/>
+<smd name="I2C_B/SPI" x="-0.95" y="-1.75" dx="0.8" dy="0.3" layer="1" rot="R90" stop="no"/>
+<smd name="GND1" x="-1.85" y="1.5" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="PWR_CTRL" x="-1.85" y="1" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="INT1" x="-1.85" y="0.5" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="RST_B" x="-1.85" y="0" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="GND2" x="-1.85" y="-0.5" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="RGND" x="-1.85" y="-1" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<smd name="RGND1" x="-1.85" y="-1.5" dx="0.8" dy="0.3" layer="1" stop="no"/>
+<wire x1="-2.05" y1="-1.95" x2="-2.05" y2="1.95" width="0.127" layer="21"/>
+<wire x1="-2.05" y1="1.95" x2="2.15" y2="1.95" width="0.127" layer="21"/>
+<wire x1="2.15" y1="1.95" x2="2.15" y2="-1.95" width="0.127" layer="21"/>
+<wire x1="2.15" y1="-1.95" x2="-2.05" y2="-1.95" width="0.127" layer="21"/>
+<wire x1="0" y1="0" x2="0" y2="1.05" width="0.127" layer="21"/>
+<wire x1="0" y1="1.05" x2="0.2" y2="0.85" width="0.127" layer="21"/>
+<wire x1="0" y1="1.05" x2="-0.2" y2="0.85" width="0.127" layer="21"/>
+<wire x1="-0.2" y1="0.85" x2="0.2" y2="0.85" width="0.127" layer="21"/>
+<wire x1="0" y1="0" x2="1.05" y2="0" width="0.127" layer="21"/>
+<wire x1="1.05" y1="0" x2="0.85" y2="-0.2" width="0.127" layer="21"/>
+<wire x1="1.05" y1="0" x2="0.85" y2="0.2" width="0.127" layer="21"/>
+<wire x1="0.85" y1="0.2" x2="0.85" y2="-0.2" width="0.127" layer="21"/>
+<text x="1.05" y="0.2" size="0.3048" layer="21">x</text>
+<text x="0.35" y="0.8" size="0.3048" layer="21">y</text>
+<wire x1="-1.81" y1="1.71" x2="-1.8" y2="1.71" width="0.3048" layer="21"/>
+</package>
 </packages>
 <symbols>
 <symbol name="TEFT4300">
@@ -546,6 +587,35 @@ Source: ww1.microchip.com/downloads/en/DeviceDoc/39605c.pdf</description>
 <text x="-15.24" y="10.668" size="1.778" layer="95">&lt;Name&gt;</text>
 </symbol>
 <symbol name="FXAS21002C">
+<wire x1="-17.78" y1="15.24" x2="-17.78" y2="-15.24" width="0.254" layer="94"/>
+<wire x1="-17.78" y1="-15.24" x2="17.78" y2="-15.24" width="0.254" layer="94"/>
+<wire x1="17.78" y1="-15.24" x2="17.78" y2="15.24" width="0.254" layer="94"/>
+<wire x1="17.78" y1="15.24" x2="-17.78" y2="15.24" width="0.254" layer="94"/>
+<pin name="GND1" x="-20.32" y="7.62" length="short"/>
+<pin name="PWR_CTRL" x="-20.32" y="5.08" length="short"/>
+<pin name="INT1" x="-20.32" y="2.54" length="short"/>
+<pin name="RST_B" x="-20.32" y="0" length="short"/>
+<pin name="GND2" x="-20.32" y="-2.54" length="short"/>
+<pin name="RGND" x="-20.32" y="-5.08" length="short"/>
+<pin name="RGND1" x="-20.32" y="-7.62" length="short"/>
+<pin name="I2C_B/SPI" x="-5.08" y="-17.78" length="short" rot="R90"/>
+<pin name="RGND2" x="-2.54" y="-17.78" length="short" rot="R90"/>
+<pin name="RGND3" x="0" y="-17.78" length="short" rot="R90"/>
+<pin name="SCL/SCLK" x="2.54" y="-17.78" length="short" rot="R90"/>
+<pin name="SDA/MOSI" x="5.08" y="-17.78" length="short" rot="R90"/>
+<pin name="SA0/MISO" x="20.32" y="-7.62" length="short" rot="R180"/>
+<pin name="GND3" x="20.32" y="-5.08" length="short" rot="R180"/>
+<pin name="VDD" x="20.32" y="-2.54" length="short" rot="R180"/>
+<pin name="VREGD" x="20.32" y="0" length="short" rot="R180"/>
+<pin name="SPI_CS_B" x="20.32" y="2.54" length="short" rot="R180"/>
+<pin name="VDDIO" x="20.32" y="5.08" length="short" rot="R180"/>
+<pin name="GND4" x="20.32" y="7.62" length="short" rot="R180"/>
+<pin name="RGND4" x="5.08" y="17.78" length="short" rot="R270"/>
+<pin name="RGND5" x="2.54" y="17.78" length="short" rot="R270"/>
+<pin name="RGND6" x="0" y="17.78" length="short" rot="R270"/>
+<pin name="RGND7" x="-2.54" y="17.78" length="short" rot="R270"/>
+<pin name="RGND8" x="-5.08" y="17.78" length="short" rot="R270"/>
+<text x="10.16" y="17.78" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -605,6 +675,44 @@ Source: ww1.microchip.com/downloads/en/DeviceDoc/39605c.pdf</description>
 <connect gate="G$1" pin="SDA/MOSI" pad="P$6"/>
 <connect gate="G$1" pin="VDD" pad="P$14"/>
 <connect gate="G$1" pin="VDDIO" pad="P$1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="FXAS21002C" prefix="IC">
+<gates>
+<gate name="G$1" symbol="FXAS21002C" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="QFN24-4X4">
+<connects>
+<connect gate="G$1" pin="GND1" pad="GND1"/>
+<connect gate="G$1" pin="GND2" pad="GND2"/>
+<connect gate="G$1" pin="GND3" pad="GND3"/>
+<connect gate="G$1" pin="GND4" pad="GND4"/>
+<connect gate="G$1" pin="I2C_B/SPI" pad="I2C_B/SPI"/>
+<connect gate="G$1" pin="INT1" pad="INT1"/>
+<connect gate="G$1" pin="PWR_CTRL" pad="PWR_CTRL"/>
+<connect gate="G$1" pin="RGND" pad="RGND"/>
+<connect gate="G$1" pin="RGND1" pad="RGND1"/>
+<connect gate="G$1" pin="RGND2" pad="RGND2"/>
+<connect gate="G$1" pin="RGND3" pad="RGND3"/>
+<connect gate="G$1" pin="RGND4" pad="RGND4"/>
+<connect gate="G$1" pin="RGND5" pad="RGND5"/>
+<connect gate="G$1" pin="RGND6" pad="RGND6"/>
+<connect gate="G$1" pin="RGND7" pad="RGND7"/>
+<connect gate="G$1" pin="RGND8" pad="RGND8"/>
+<connect gate="G$1" pin="RST_B" pad="RST_B"/>
+<connect gate="G$1" pin="SA0/MISO" pad="SA0/MISO"/>
+<connect gate="G$1" pin="SCL/SCLK" pad="SCL/SCLK"/>
+<connect gate="G$1" pin="SDA/MOSI" pad="SDA/MOSI"/>
+<connect gate="G$1" pin="SPI_CS_B" pad="SPI_CS_B"/>
+<connect gate="G$1" pin="VDD" pad="VDD"/>
+<connect gate="G$1" pin="VDDIO" pad="VDDIO"/>
+<connect gate="G$1" pin="VREGD" pad="VREGD"/>
 </connects>
 <technologies>
 <technology name=""/>
