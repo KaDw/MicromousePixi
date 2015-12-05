@@ -12715,6 +12715,35 @@ In this library the device names are the same as the pin names of the symbols, t
 <circle x="0.035" y="0.5" radius="0.082003125" width="0.127" layer="21"/>
 <text x="-0.2" y="1.15" size="1.4224" layer="21" ratio="23">&lt;Name</text>
 </package>
+<package name="SO8">
+<description>&lt;b&gt;8-Lead Small Outline IC&lt;/b&gt; (SO-8)&lt;p&gt;
+Source: http://www.analog.com/UploadedFiles/Data_Sheets/703465986AD8611_2_0.pdf</description>
+<wire x1="2.4" y1="1.9" x2="2.4" y2="-1.4" width="0.2032" layer="51"/>
+<wire x1="2.4" y1="-1.4" x2="2.4" y2="-1.9" width="0.2032" layer="51"/>
+<wire x1="2.4" y1="-1.9" x2="-2.4" y2="-1.9" width="0.2032" layer="51"/>
+<wire x1="-2.4" y1="-1.9" x2="-2.4" y2="-1.4" width="0.2032" layer="51"/>
+<wire x1="-2.4" y1="-1.4" x2="-2.4" y2="1.9" width="0.2032" layer="51"/>
+<wire x1="-2.4" y1="1.9" x2="2.4" y2="1.9" width="0.2032" layer="51"/>
+<wire x1="2.4" y1="-1.4" x2="-2.4" y2="-1.4" width="0.2032" layer="51"/>
+<smd name="2" x="-0.635" y="-2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="7" x="-0.635" y="2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="1" x="-1.905" y="-2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="3" x="0.635" y="-2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="4" x="1.905" y="-2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="8" x="-1.905" y="2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="6" x="0.635" y="2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="5" x="1.905" y="2.6" dx="0.6" dy="2.2" layer="1"/>
+<text x="-3.175" y="-1.905" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+<text x="4.445" y="-1.905" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
+<rectangle x1="-2.1501" y1="-3.1001" x2="-1.6599" y2="-2" layer="51"/>
+<rectangle x1="-0.8801" y1="-3.1001" x2="-0.3899" y2="-2" layer="51"/>
+<rectangle x1="0.3899" y1="-3.1001" x2="0.8801" y2="-2" layer="51"/>
+<rectangle x1="1.6599" y1="-3.1001" x2="2.1501" y2="-2" layer="51"/>
+<rectangle x1="1.6599" y1="2" x2="2.1501" y2="3.1001" layer="51"/>
+<rectangle x1="0.3899" y1="2" x2="0.8801" y2="3.1001" layer="51"/>
+<rectangle x1="-0.8801" y1="2" x2="-0.3899" y2="3.1001" layer="51"/>
+<rectangle x1="-2.1501" y1="2" x2="-1.6599" y2="3.1001" layer="51"/>
+</package>
 </packages>
 <symbols>
 <symbol name="FXOS8700CQ">
@@ -12740,6 +12769,46 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="12.7" y1="10.16" x2="12.7" y2="-12.7" width="0.254" layer="94"/>
 <wire x1="12.7" y1="-12.7" x2="-15.24" y2="-12.7" width="0.254" layer="94"/>
 <text x="-15.24" y="10.668" size="1.778" layer="95">&lt;Name</text>
+</symbol>
+<symbol name="N-MOSFET-GDS-D">
+<wire x1="-2.54" y1="-2.54" x2="-1.2192" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="0" y1="0.762" x2="0" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="-0.762" width="0.254" layer="94"/>
+<wire x1="0" y1="3.683" x2="0" y2="2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="2.54" x2="0" y2="1.397" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="2.54" y2="0" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="0" x2="2.54" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="0" y1="-1.397" x2="0" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="-2.54" x2="0" y2="-3.683" width="0.254" layer="94"/>
+<wire x1="-1.143" y1="2.54" x2="-1.143" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="2.54" x2="2.54" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="2.54" x2="2.54" y2="5.08" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="-2.54" x2="0" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="3.81" y1="2.54" x2="3.81" y2="0.508" width="0.1524" layer="94"/>
+<wire x1="3.81" y1="0.508" x2="3.81" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="-2.54" x2="3.81" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="2.54" x2="3.81" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="4.572" y1="0.762" x2="4.318" y2="0.508" width="0.1524" layer="94"/>
+<wire x1="4.318" y1="0.508" x2="3.81" y2="0.508" width="0.1524" layer="94"/>
+<wire x1="3.81" y1="0.508" x2="3.302" y2="0.508" width="0.1524" layer="94"/>
+<wire x1="3.302" y1="0.508" x2="3.048" y2="0.254" width="0.1524" layer="94"/>
+<circle x="2.54" y="-2.54" radius="0.3592" width="0" layer="94"/>
+<circle x="2.54" y="2.54" radius="0.3592" width="0" layer="94"/>
+<text x="-11.43" y="0" size="1.778" layer="96">&gt;VALUE</text>
+<text x="-11.43" y="2.54" size="1.778" layer="95">&gt;NAME</text>
+<pin name="D" x="2.54" y="5.08" visible="off" length="point" direction="pas" rot="R180"/>
+<pin name="S" x="2.54" y="-5.08" visible="off" length="short" direction="pas" rot="R90"/>
+<pin name="G" x="-5.08" y="-2.54" visible="off" length="short" direction="pas"/>
+<polygon width="0.1524" layer="94">
+<vertex x="3.81" y="0.508"/>
+<vertex x="3.302" y="-0.254"/>
+<vertex x="4.318" y="-0.254"/>
+</polygon>
+<polygon width="0.1524" layer="94">
+<vertex x="0.254" y="0"/>
+<vertex x="1.27" y="0.762"/>
+<vertex x="1.27" y="-0.762"/>
+</polygon>
 </symbol>
 </symbols>
 <devicesets>
@@ -12767,6 +12836,27 @@ In this library the device names are the same as the pin names of the symbols, t
 <connect gate="G$1" pin="SDA/MOSI" pad="P$6"/>
 <connect gate="G$1" pin="VDD" pad="P$14"/>
 <connect gate="G$1" pin="VDDIO" pad="P$1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="IRF7101" prefix="Q">
+<gates>
+<gate name="A" symbol="N-MOSFET-GDS-D" x="0" y="5.08"/>
+<gate name="B" symbol="N-MOSFET-GDS-D" x="0" y="-12.7"/>
+</gates>
+<devices>
+<device name="" package="SO8">
+<connects>
+<connect gate="A" pin="D" pad="7 8"/>
+<connect gate="A" pin="G" pad="2"/>
+<connect gate="A" pin="S" pad="1"/>
+<connect gate="B" pin="D" pad="5 6"/>
+<connect gate="B" pin="G" pad="4"/>
+<connect gate="B" pin="S" pad="3"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -12861,6 +12951,14 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
 <part name="C4" library="rcl" deviceset="C-EU" device="C0603" value="100n"/>
 <part name="C5" library="rcl" deviceset="CPOL-EU" device="SMCA" value="tant-a-4u7"/>
+<part name="Q5" library="_microMouse" deviceset="IRF7101" device=""/>
+<part name="Q6" library="_microMouse" deviceset="IRF7101" device=""/>
+<part name="AGND1" library="supply2" deviceset="GND" device=""/>
+<part name="P+2" library="supply1" deviceset="VCC" device=""/>
+<part name="R5" library="rcl" deviceset="R-EU_" device="R0805"/>
+<part name="R6" library="rcl" deviceset="R-EU_" device="R0805"/>
+<part name="R7" library="rcl" deviceset="R-EU_" device="R0805"/>
+<part name="R8" library="rcl" deviceset="R-EU_" device="R0805"/>
 </parts>
 <sheets>
 <sheet>
@@ -12873,6 +12971,7 @@ In this library the device names are the same as the pin names of the symbols, t
  Interface mode.</text>
 <text x="373.38" y="91.44" size="1.778" layer="90">RST - Connect to GND if unused</text>
 <text x="327.66" y="53.34" size="1.778" layer="91">INT: data-ready or wake-up</text>
+<text x="104.14" y="142.24" size="1.778" layer="91">diody</text>
 </plain>
 <instances>
 <instance part="U$1" gate="G$1" x="0" y="2.54"/>
@@ -12898,6 +12997,16 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="GND6" gate="1" x="325.12" y="68.58" rot="R270"/>
 <instance part="C4" gate="G$1" x="396.24" y="78.74" rot="R180"/>
 <instance part="C5" gate="G$1" x="401.32" y="81.28"/>
+<instance part="Q5" gate="A" x="73.66" y="127"/>
+<instance part="Q5" gate="B" x="93.98" y="127"/>
+<instance part="Q6" gate="A" x="114.3" y="127"/>
+<instance part="Q6" gate="B" x="134.62" y="127"/>
+<instance part="AGND1" gate="GND" x="104.14" y="116.84"/>
+<instance part="P+2" gate="VCC" x="101.6" y="167.64"/>
+<instance part="R5" gate="G$1" x="76.2" y="154.94" rot="R90"/>
+<instance part="R6" gate="G$1" x="96.52" y="154.94" rot="R90"/>
+<instance part="R7" gate="G$1" x="116.84" y="154.94" rot="R90"/>
+<instance part="R8" gate="G$1" x="139.7" y="154.94" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -13030,6 +13139,21 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="GND6" gate="1" pin="GND"/>
 <wire x1="327.66" y1="68.58" x2="330.2" y2="68.58" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="Q5" gate="A" pin="S"/>
+<wire x1="76.2" y1="121.92" x2="76.2" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="AGND1" gate="GND" pin="GND"/>
+<wire x1="76.2" y1="119.38" x2="96.52" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="Q6" gate="A" pin="S"/>
+<wire x1="96.52" y1="119.38" x2="104.14" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="119.38" x2="116.84" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="119.38" x2="116.84" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="Q5" gate="B" pin="S"/>
+<wire x1="96.52" y1="121.92" x2="96.52" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="Q6" gate="B" pin="S"/>
+<wire x1="116.84" y1="119.38" x2="137.16" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="119.38" x2="137.16" y2="121.92" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="N$1" class="0">
 <segment>
@@ -13087,6 +13211,22 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="U$2" gate="G$1" pin="VDD"/>
 <wire x1="388.62" y1="81.28" x2="378.46" y2="81.28" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="P+2" gate="VCC" pin="VCC"/>
+<wire x1="101.6" y1="165.1" x2="101.6" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="162.56" x2="96.52" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="162.56" x2="76.2" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="162.56" x2="116.84" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="162.56" x2="139.7" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="162.56" x2="139.7" y2="160.02" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="162.56" x2="116.84" y2="160.02" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="162.56" x2="96.52" y2="160.02" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="162.56" x2="76.2" y2="160.02" width="0.1524" layer="91"/>
+<pinref part="R5" gate="G$1" pin="2"/>
+<pinref part="R6" gate="G$1" pin="2"/>
+<pinref part="R7" gate="G$1" pin="2"/>
+<pinref part="R8" gate="G$1" pin="2"/>
+</segment>
 </net>
 <net name="N$5" class="0">
 <segment>
@@ -13104,6 +13244,34 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="383.54" y1="73.66" x2="383.54" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="383.54" y1="58.42" x2="299.72" y2="58.42" width="0.1524" layer="91"/>
 <label x="299.72" y="58.42" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="MOS_L" class="0">
+<segment>
+<pinref part="Q5" gate="B" pin="G"/>
+<wire x1="88.9" y1="124.46" x2="81.28" y2="124.46" width="0.1524" layer="91"/>
+<label x="81.28" y="121.92" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="MOS_L_PRZOD" class="0">
+<segment>
+<pinref part="Q5" gate="A" pin="G"/>
+<wire x1="68.58" y1="124.46" x2="58.42" y2="124.46" width="0.1524" layer="91"/>
+<label x="53.34" y="121.92" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="MOS_R" class="0">
+<segment>
+<pinref part="Q6" gate="A" pin="G"/>
+<wire x1="109.22" y1="124.46" x2="101.6" y2="124.46" width="0.1524" layer="91"/>
+<label x="101.6" y="121.92" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="MOS_R_PRZOD" class="0">
+<segment>
+<pinref part="Q6" gate="B" pin="G"/>
+<wire x1="129.54" y1="124.46" x2="121.92" y2="124.46" width="0.1524" layer="91"/>
+<label x="119.38" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
