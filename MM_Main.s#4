@@ -12829,6 +12829,7 @@ Source: http://www.analog.com/UploadedFiles/Data_Sheets/703465986AD8611_2_0.pdf<
 <pin name="OUT" x="15.24" y="5.08" length="short" rot="R180"/>
 <pin name="PWRGD" x="15.24" y="-5.08" length="short" rot="R180"/>
 <pin name="SHDN" x="-12.7" y="-5.08" length="short" function="dot"/>
+<text x="-7.366" y="9.398" size="1.6764" layer="95">&gt;NAME</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -13031,7 +13032,6 @@ We've spent an enormous amount of time creating and checking these footprints an
 <part name="C_V1" library="rcl" deviceset="C-EU" device="C0805" value="100nF"/>
 <part name="C_V2" library="rcl" deviceset="C-EU" device="C0805" value="100nF"/>
 <part name="C_V3" library="rcl" deviceset="C-EU" device="C0805" value="100nF"/>
-<part name="C9" library="rcl" deviceset="C-EU" device="C0805"/>
 <part name="R9" library="rcl" deviceset="R-EU_" device="R0805" value="47k"/>
 <part name="GND7" library="SparkFun" deviceset="GND" device=""/>
 <part name="R10" library="rcl" deviceset="R-EU_" device="R0805" value="47k"/>
@@ -13089,13 +13089,12 @@ We've spent an enormous amount of time creating and checking these footprints an
 <instance part="C_V1" gate="G$1" x="-73.66" y="25.4"/>
 <instance part="C_V2" gate="G$1" x="-81.28" y="25.4"/>
 <instance part="C_V3" gate="G$1" x="-88.9" y="25.4"/>
-<instance part="C9" gate="G$1" x="-96.52" y="25.4"/>
 <instance part="R9" gate="G$1" x="-5.08" y="40.64" rot="R90"/>
 <instance part="GND7" gate="1" x="0" y="43.18"/>
 <instance part="R10" gate="G$1" x="2.54" y="-35.56" rot="R90"/>
 <instance part="GND8" gate="1" x="2.54" y="-45.72"/>
-<instance part="U$3" gate="G$1" x="88.9" y="25.4"/>
-<instance part="C6" gate="G$1" x="60.96" y="33.02"/>
+<instance part="U$3" gate="G$1" x="124.46" y="17.78"/>
+<instance part="C6" gate="G$1" x="96.52" y="25.4"/>
 </instances>
 <busses>
 </busses>
@@ -13119,6 +13118,11 @@ We've spent an enormous amount of time creating and checking these footprints an
 <wire x1="139.7" y1="91.44" x2="139.7" y2="93.98" width="0.1524" layer="91"/>
 <junction x="137.16" y="91.44"/>
 <label x="139.7" y="93.98" size="1.27" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$3" gate="G$1" pin="OUT"/>
+<wire x1="139.7" y1="22.86" x2="142.24" y2="22.86" width="0.1524" layer="91"/>
+<label x="142.24" y="22.86" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="R_PRZOD" class="0">
@@ -13249,11 +13253,6 @@ We've spent an enormous amount of time creating and checking these footprints an
 <wire x1="-5.08" y1="48.26" x2="0" y2="48.26" width="0.1524" layer="91"/>
 <wire x1="0" y1="48.26" x2="0" y2="45.72" width="0.1524" layer="91"/>
 <pinref part="GND7" gate="1" pin="GND"/>
-</segment>
-<segment>
-<pinref part="GND8" gate="1" pin="GND"/>
-<pinref part="R10" gate="G$1" pin="1"/>
-<wire x1="2.54" y1="-43.18" x2="2.54" y2="-40.64" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -13471,39 +13470,41 @@ We've spent an enormous amount of time creating and checking these footprints an
 <segment>
 <pinref part="U$3" gate="G$1" pin="GND"/>
 <pinref part="C6" gate="G$1" pin="2"/>
-<wire x1="76.2" y1="25.4" x2="60.96" y2="25.4" width="0.1524" layer="91"/>
-<wire x1="60.96" y1="25.4" x2="60.96" y2="27.94" width="0.1524" layer="91"/>
-<wire x1="60.96" y1="25.4" x2="55.88" y2="25.4" width="0.1524" layer="91"/>
-<junction x="60.96" y="25.4"/>
+<wire x1="111.76" y1="17.78" x2="96.52" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="17.78" x2="96.52" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="17.78" x2="91.44" y2="17.78" width="0.1524" layer="91"/>
+<junction x="96.52" y="17.78"/>
 </segment>
 </net>
-<net name="N$15" class="0">
-<segment>
-<pinref part="U$3" gate="G$1" pin="OUT"/>
-<wire x1="104.14" y1="30.48" x2="111.76" y2="30.48" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$16" class="0">
-<segment>
-<pinref part="U$3" gate="G$1" pin="PWRGD"/>
-<wire x1="104.14" y1="20.32" x2="109.22" y2="20.32" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$17" class="0">
+<net name="5V" class="0">
 <segment>
 <pinref part="U$3" gate="G$1" pin="SHDN"/>
-<wire x1="76.2" y1="20.32" x2="73.66" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="12.7" x2="109.22" y2="12.7" width="0.1524" layer="91"/>
 <pinref part="U$3" gate="G$1" pin="IN"/>
-<wire x1="76.2" y1="30.48" x2="73.66" y2="30.48" width="0.1524" layer="91"/>
-<wire x1="73.66" y1="30.48" x2="68.58" y2="30.48" width="0.1524" layer="91"/>
-<wire x1="73.66" y1="20.32" x2="73.66" y2="30.48" width="0.1524" layer="91"/>
-<junction x="73.66" y="30.48"/>
+<wire x1="111.76" y1="22.86" x2="109.22" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="22.86" x2="104.14" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="12.7" x2="109.22" y2="22.86" width="0.1524" layer="91"/>
+<junction x="109.22" y="22.86"/>
 <pinref part="C6" gate="G$1" pin="1"/>
-<wire x1="60.96" y1="35.56" x2="60.96" y2="38.1" width="0.1524" layer="91"/>
-<wire x1="60.96" y1="38.1" x2="68.58" y2="38.1" width="0.1524" layer="91"/>
-<wire x1="68.58" y1="38.1" x2="68.58" y2="30.48" width="0.1524" layer="91"/>
-<wire x1="60.96" y1="38.1" x2="58.42" y2="38.1" width="0.1524" layer="91"/>
-<junction x="60.96" y="38.1"/>
+<wire x1="96.52" y1="27.94" x2="96.52" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="30.48" x2="104.14" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="30.48" x2="104.14" y2="22.86" width="0.1524" layer="91"/>
+<junction x="96.52" y="30.48"/>
+<wire x1="96.52" y1="30.48" x2="91.44" y2="30.48" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$14" class="0">
+<segment>
+<pinref part="U$3" gate="G$1" pin="PWRGD"/>
+<wire x1="139.7" y1="12.7" x2="142.24" y2="12.7" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="BOOT1" class="0">
+<segment>
+<pinref part="GND8" gate="1" pin="GND"/>
+<pinref part="R10" gate="G$1" pin="1"/>
+<wire x1="2.54" y1="-43.18" x2="2.54" y2="-40.64" width="0.1524" layer="91"/>
+<label x="2.54" y="-43.18" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 </nets>

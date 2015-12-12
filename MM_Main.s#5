@@ -12733,6 +12733,26 @@ Source: http://www.analog.com/UploadedFiles/Data_Sheets/703465986AD8611_2_0.pdf<
 <rectangle x1="-0.8801" y1="2" x2="-0.3899" y2="3.1001" layer="51"/>
 <rectangle x1="-2.1501" y1="2" x2="-1.6599" y2="3.1001" layer="51"/>
 </package>
+<package name="SOT223-5">
+<wire x1="-3.1816" y1="1.6578" x2="3.3716" y2="1.6578" width="0.1524" layer="21"/>
+<wire x1="-3.1816" y1="-2.1458" x2="3.3716" y2="-2.1458" width="0.1524" layer="21"/>
+<wire x1="-3.1816" y1="-2.1458" x2="-3.1816" y2="1.6578" width="0.1524" layer="21"/>
+<wire x1="3.3716" y1="-2.1458" x2="3.3716" y2="1.6578" width="0.1524" layer="21"/>
+<smd name="SHDN" x="-2.445" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
+<smd name="VIN" x="-1.175" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
+<smd name="VOUT" x="1.365" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
+<smd name="GND_TAB" x="0.095" y="2.777" dx="3.81" dy="2.0066" layer="1"/>
+<smd name="GND" x="0.095" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
+<smd name="PWRGD" x="2.635" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
+<text x="-3.08" y="3.8486" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="-3.08" y="-5.905" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+<rectangle x1="-1.429" y1="1.734" x2="1.619" y2="3.7279" layer="51"/>
+<rectangle x1="-2.699" y1="-3.9365" x2="-2.191" y2="-2.222" layer="51"/>
+<rectangle x1="-1.429" y1="-3.9365" x2="-0.921" y2="-2.222" layer="51"/>
+<rectangle x1="-0.159" y1="-3.9365" x2="0.349" y2="-2.222" layer="51"/>
+<rectangle x1="1.111" y1="-3.9365" x2="1.619" y2="-2.222" layer="51"/>
+<rectangle x1="2.381" y1="-3.9365" x2="2.889" y2="-2.222" layer="51"/>
+</package>
 </packages>
 <symbols>
 <symbol name="FXOS8700CQ">
@@ -12799,6 +12819,17 @@ Source: http://www.analog.com/UploadedFiles/Data_Sheets/703465986AD8611_2_0.pdf<
 <vertex x="1.27" y="-0.762"/>
 </polygon>
 </symbol>
+<symbol name="MCP1825">
+<wire x1="-10.16" y1="7.62" x2="12.7" y2="7.62" width="0.254" layer="94"/>
+<wire x1="12.7" y1="7.62" x2="12.7" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="12.7" y1="-7.62" x2="-10.16" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="-7.62" x2="-10.16" y2="7.62" width="0.254" layer="94"/>
+<pin name="IN" x="-12.7" y="5.08" length="short"/>
+<pin name="GND" x="-12.7" y="0" length="short"/>
+<pin name="OUT" x="15.24" y="5.08" length="short" rot="R180"/>
+<pin name="PWRGD" x="15.24" y="-5.08" length="short" rot="R180"/>
+<pin name="SHDN" x="-12.7" y="-5.08" length="short" function="dot"/>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="FXOS8700CQ">
@@ -12846,6 +12877,25 @@ Source: http://www.analog.com/UploadedFiles/Data_Sheets/703465986AD8611_2_0.pdf<
 <connect gate="B" pin="D" pad="5 6"/>
 <connect gate="B" pin="G" pad="4"/>
 <connect gate="B" pin="S" pad="3"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="MCP1825">
+<gates>
+<gate name="G$1" symbol="MCP1825" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SOT223-5">
+<connects>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="IN" pad="VIN"/>
+<connect gate="G$1" pin="OUT" pad="VOUT"/>
+<connect gate="G$1" pin="PWRGD" pad="PWRGD"/>
+<connect gate="G$1" pin="SHDN" pad="SHDN"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -12986,6 +13036,8 @@ We've spent an enormous amount of time creating and checking these footprints an
 <part name="GND7" library="SparkFun" deviceset="GND" device=""/>
 <part name="R10" library="rcl" deviceset="R-EU_" device="R0805" value="47k"/>
 <part name="GND8" library="SparkFun" deviceset="GND" device=""/>
+<part name="U$3" library="_microMouse" deviceset="MCP1825" device=""/>
+<part name="C6" library="rcl" deviceset="C-EU" device="C3216"/>
 </parts>
 <sheets>
 <sheet>
@@ -13042,6 +13094,8 @@ We've spent an enormous amount of time creating and checking these footprints an
 <instance part="GND7" gate="1" x="0" y="43.18"/>
 <instance part="R10" gate="G$1" x="2.54" y="-35.56" rot="R90"/>
 <instance part="GND8" gate="1" x="2.54" y="-45.72"/>
+<instance part="U$3" gate="G$1" x="88.9" y="25.4"/>
+<instance part="C6" gate="G$1" x="60.96" y="33.02"/>
 </instances>
 <busses>
 </busses>
@@ -13411,6 +13465,45 @@ We've spent an enormous amount of time creating and checking these footprints an
 <pinref part="U$1" gate="G$1" pin="PB2"/>
 <pinref part="R10" gate="G$1" pin="2"/>
 <wire x1="2.54" y1="-27.94" x2="2.54" y2="-30.48" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$10" class="0">
+<segment>
+<pinref part="U$3" gate="G$1" pin="GND"/>
+<pinref part="C6" gate="G$1" pin="2"/>
+<wire x1="76.2" y1="25.4" x2="60.96" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="25.4" x2="60.96" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="25.4" x2="55.88" y2="25.4" width="0.1524" layer="91"/>
+<junction x="60.96" y="25.4"/>
+</segment>
+</net>
+<net name="N$15" class="0">
+<segment>
+<pinref part="U$3" gate="G$1" pin="OUT"/>
+<wire x1="104.14" y1="30.48" x2="111.76" y2="30.48" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$16" class="0">
+<segment>
+<pinref part="U$3" gate="G$1" pin="PWRGD"/>
+<wire x1="104.14" y1="20.32" x2="109.22" y2="20.32" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$17" class="0">
+<segment>
+<pinref part="U$3" gate="G$1" pin="SHDN"/>
+<wire x1="76.2" y1="20.32" x2="73.66" y2="20.32" width="0.1524" layer="91"/>
+<pinref part="U$3" gate="G$1" pin="IN"/>
+<wire x1="76.2" y1="30.48" x2="73.66" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="30.48" x2="68.58" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="20.32" x2="73.66" y2="30.48" width="0.1524" layer="91"/>
+<junction x="73.66" y="30.48"/>
+<pinref part="C6" gate="G$1" pin="1"/>
+<wire x1="60.96" y1="35.56" x2="60.96" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="38.1" x2="68.58" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="38.1" x2="68.58" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="38.1" x2="58.42" y2="38.1" width="0.1524" layer="91"/>
+<junction x="60.96" y="38.1"/>
 </segment>
 </net>
 </nets>
