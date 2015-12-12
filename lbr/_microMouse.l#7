@@ -582,12 +582,12 @@ http://www.vishay.com/docs/71151/71151.pdf</description>
 <wire x1="-3.1816" y1="-2.1458" x2="3.3716" y2="-2.1458" width="0.1524" layer="21"/>
 <wire x1="-3.1816" y1="-2.1458" x2="-3.1816" y2="1.6578" width="0.1524" layer="21"/>
 <wire x1="3.3716" y1="-2.1458" x2="3.3716" y2="1.6578" width="0.1524" layer="21"/>
-<smd name="SHDN" x="-2.445" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
-<smd name="VIN" x="-1.175" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
-<smd name="VOUT" x="1.365" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
-<smd name="GND_TAB" x="0.095" y="2.777" dx="3.81" dy="2.0066" layer="1"/>
-<smd name="GND" x="0.095" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
-<smd name="PWRGD" x="2.635" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
+<smd name="1" x="-2.445" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
+<smd name="2" x="-1.175" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
+<smd name="4" x="1.365" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
+<smd name="TAB" x="0.095" y="2.777" dx="3.81" dy="2.0066" layer="1"/>
+<smd name="3" x="0.095" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
+<smd name="5" x="2.635" y="-3.365" dx="0.762" dy="2.032" layer="1"/>
 <text x="-3.08" y="3.8486" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-3.08" y="-5.905" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 <rectangle x1="-1.429" y1="1.734" x2="1.619" y2="3.7279" layer="51"/>
@@ -683,7 +683,7 @@ http://www.vishay.com/docs/71151/71151.pdf</description>
 <wire x1="-15.24" y1="10.16" x2="12.7" y2="10.16" width="0.254" layer="94"/>
 <wire x1="12.7" y1="10.16" x2="12.7" y2="-12.7" width="0.254" layer="94"/>
 <wire x1="12.7" y1="-12.7" x2="-15.24" y2="-12.7" width="0.254" layer="94"/>
-<text x="-14.986" y="11.43" size="1.6764" layer="95">FXOS8700CQR1</text>
+<text x="-15.24" y="10.668" size="1.778" layer="95">&lt;Name&gt;</text>
 </symbol>
 <symbol name="FXAS21002C">
 <wire x1="-17.78" y1="15.24" x2="-17.78" y2="-15.24" width="0.254" layer="94"/>
@@ -714,7 +714,7 @@ http://www.vishay.com/docs/71151/71151.pdf</description>
 <pin name="RGND6" x="0" y="17.78" length="short" rot="R270"/>
 <pin name="RGND7" x="-2.54" y="17.78" length="short" rot="R270"/>
 <pin name="RGND8" x="-5.08" y="17.78" length="short" rot="R270"/>
-<text x="8.382" y="16.256" size="1.6764" layer="95">FXAS21002C</text>
+<text x="10.16" y="17.78" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 <symbol name="NMOS">
 </symbol>
@@ -768,7 +768,6 @@ http://www.vishay.com/docs/71151/71151.pdf</description>
 <pin name="OUT" x="15.24" y="5.08" length="short" rot="R180"/>
 <pin name="PWRGD" x="15.24" y="-5.08" length="short" rot="R180"/>
 <pin name="SHDN" x="-12.7" y="-5.08" length="short" function="dot"/>
-<text x="-8.89" y="8.89" size="1.6764" layer="95">MCP1825</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -910,25 +909,6 @@ Source: http://www.vishay.com/docs/71053/71053.pdf</description>
 <connect gate="B" pin="D" pad="5 6"/>
 <connect gate="B" pin="G" pad="4"/>
 <connect gate="B" pin="S" pad="3"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="MCP1825">
-<gates>
-<gate name="G$1" symbol="MCP1825" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="SOT223-5">
-<connects>
-<connect gate="G$1" pin="GND" pad="GND"/>
-<connect gate="G$1" pin="IN" pad="VIN"/>
-<connect gate="G$1" pin="OUT" pad="VOUT"/>
-<connect gate="G$1" pin="PWRGD" pad="PWRGD"/>
-<connect gate="G$1" pin="SHDN" pad="SHDN"/>
 </connects>
 <technologies>
 <technology name=""/>

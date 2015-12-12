@@ -12968,7 +12968,7 @@ Source: http://www.analog.com/UploadedFiles/Data_Sheets/703465986AD8611_2_0.pdf<
 <pin name="OUT" x="15.24" y="5.08" length="short" rot="R180"/>
 <pin name="PWRGD" x="15.24" y="-5.08" length="short" rot="R180"/>
 <pin name="SHDN" x="-12.7" y="-5.08" length="short" function="dot"/>
-<text x="-8.89" y="8.89" size="1.6764" layer="95">MCP1825</text>
+<text x="-7.366" y="9.398" size="1.6764" layer="95">&gt;NAME</text>
 </symbol>
 <symbol name="FXAS21002C">
 <wire x1="-17.78" y1="15.24" x2="-17.78" y2="-15.24" width="0.254" layer="94"/>

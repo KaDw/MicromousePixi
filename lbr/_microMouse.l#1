@@ -714,7 +714,7 @@ http://www.vishay.com/docs/71151/71151.pdf</description>
 <pin name="RGND6" x="0" y="17.78" length="short" rot="R270"/>
 <pin name="RGND7" x="-2.54" y="17.78" length="short" rot="R270"/>
 <pin name="RGND8" x="-5.08" y="17.78" length="short" rot="R270"/>
-<text x="8.382" y="16.256" size="1.6764" layer="95">FXAS21002C</text>
+<text x="10.16" y="17.78" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 <symbol name="NMOS">
 </symbol>
