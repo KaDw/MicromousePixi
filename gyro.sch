@@ -12318,8 +12318,6 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <smd name="P$5" x="-1.497" y="-1.011" dx="0.77" dy="0.27" layer="1" stop="no"/>
 <smd name="P$6" x="-0.497" y="-1.511" dx="0.77" dy="0.27" layer="1" rot="R90" stop="no"/>
 <wire x1="-1.607" y1="-1.821" x2="-1.607" y2="-1.851" width="0.001" layer="47"/>
-<wire x1="-0.945" y1="-0.959" x2="-0.945" y2="0.957" width="0.01" layer="21"/>
-<wire x1="-0.945" y1="-0.959" x2="0.951" y2="-0.959" width="0.01" layer="21"/>
 <smd name="P$7" x="0.003" y="-1.511" dx="0.77" dy="0.27" layer="1" rot="R90" stop="no"/>
 <smd name="P$8" x="0.503" y="-1.511" dx="0.77" dy="0.27" layer="1" rot="R90" stop="no"/>
 <smd name="P$9" x="1.503" y="-1.011" dx="0.77" dy="0.27" layer="1" rot="R180" stop="no"/>
@@ -12330,18 +12328,8 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <smd name="P$14" x="0.503" y="1.489" dx="0.77" dy="0.27" layer="1" rot="R270" stop="no"/>
 <smd name="P$15" x="0.003" y="1.489" dx="0.77" dy="0.27" layer="1" rot="R270" stop="no"/>
 <smd name="P$16" x="-0.497" y="1.489" dx="0.77" dy="0.27" layer="1" rot="R270" stop="no"/>
-<wire x1="0.951" y1="-0.959" x2="0.951" y2="0.957" width="0.01" layer="21"/>
-<wire x1="0.951" y1="0.957" x2="-0.945" y2="0.957" width="0.01" layer="21"/>
 <circle x="-1.462" y="1.489" radius="0.082003125" width="0.127" layer="21"/>
 <text x="-1.697" y="2.139" size="1.4224" layer="21" ratio="23">&lt;Name</text>
-<wire x1="0" y1="0.1" x2="-0.889" y2="0.1" width="0.127" layer="21"/>
-<wire x1="-0.889" y1="0.1" x2="-0.635" y2="0.354" width="0.127" layer="21"/>
-<wire x1="-0.889" y1="0.1" x2="-0.635" y2="-0.154" width="0.127" layer="21"/>
-<wire x1="0" y1="0.1" x2="0" y2="-0.916" width="0.127" layer="21"/>
-<wire x1="0" y1="-0.916" x2="-0.254" y2="-0.662" width="0.127" layer="21"/>
-<wire x1="0" y1="-0.916" x2="0.254" y2="-0.662" width="0.127" layer="21"/>
-<text x="-0.535" y="0.227" size="0.4064" layer="21" ratio="23">+x</text>
-<text x="0.127" y="-0.535" size="0.4064" layer="21" ratio="23">+y</text>
 <rectangle x1="-0.675" y1="1.075" x2="-0.325" y2="1.925" layer="29"/>
 <rectangle x1="-0.175" y1="1.075" x2="0.175" y2="1.925" layer="29"/>
 <rectangle x1="0.325" y1="1.075" x2="0.675" y2="1.925" layer="29"/>
@@ -12359,11 +12347,23 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <rectangle x1="-1.675" y1="0.0623" x2="-1.325" y2="0.9123" layer="29" rot="R270"/>
 <rectangle x1="-1.675" y1="0.5623" x2="-1.325" y2="1.4123" layer="29" rot="R270"/>
 <rectangle x1="-1.075" y1="-1.075" x2="1.075" y2="1.075" layer="29"/>
+<wire x1="0" y1="0.1" x2="-0.889" y2="0.1" width="0.127" layer="21"/>
+<wire x1="-0.889" y1="0.1" x2="-0.635" y2="0.354" width="0.127" layer="21"/>
+<wire x1="-0.889" y1="0.1" x2="-0.635" y2="-0.154" width="0.127" layer="21"/>
+<wire x1="0" y1="0.1" x2="0" y2="-0.916" width="0.127" layer="21"/>
+<wire x1="0" y1="-0.916" x2="-0.254" y2="-0.662" width="0.127" layer="21"/>
+<wire x1="0" y1="-0.916" x2="0.254" y2="-0.662" width="0.127" layer="21"/>
+<text x="-0.4334" y="0.2651" size="0.4064" layer="21" ratio="23">x</text>
+<text x="0.2286" y="-0.408" size="0.4064" layer="21" ratio="23">y</text>
+<rectangle x1="-0.9398" y1="-0.9525" x2="0.9525" y2="0.9525" layer="41"/>
 <wire x1="-1.778" y1="1.778" x2="1.778" y2="1.778" width="0.127" layer="21"/>
 <wire x1="1.778" y1="1.778" x2="1.778" y2="-1.778" width="0.127" layer="21"/>
 <wire x1="1.778" y1="-1.778" x2="-1.778" y2="-1.778" width="0.127" layer="21"/>
 <wire x1="-1.778" y1="-1.778" x2="-1.778" y2="1.778" width="0.127" layer="21"/>
-<rectangle x1="-0.9398" y1="-0.9525" x2="0.9525" y2="0.9525" layer="39"/>
+<wire x1="-0.635" y1="0.3556" x2="-0.635" y2="-0.1524" width="0.127" layer="21"/>
+<wire x1="-0.6985" y1="-0.0381" x2="-0.6985" y2="0.2159" width="0.127" layer="21"/>
+<wire x1="-0.254" y1="-0.6604" x2="0.254" y2="-0.6604" width="0.127" layer="21"/>
+<wire x1="0.127" y1="-0.7493" x2="-0.1016" y2="-0.7493" width="0.127" layer="21"/>
 </package>
 <package name="QFN24-4X4">
 <smd name="GND4" x="1.95" y="1.5" dx="0.8" dy="0.3" layer="1" stop="no"/>
@@ -12430,8 +12430,8 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <rectangle x1="-2.3" y1="0.8" x2="-1.4" y2="1.2" layer="29"/>
 <rectangle x1="-2.3" y1="1.3" x2="-1.4" y2="1.7" layer="29"/>
 <rectangle x1="-1.4" y1="-1.3" x2="1.5" y2="1.3" layer="29"/>
-<rectangle x1="-1.05" y1="-1" x2="1.2" y2="1" layer="39"/>
-<rectangle x1="-1.05" y1="-1" x2="1.2" y2="1" layer="41"/>
+<rectangle x1="-1.2446" y1="-1.1811" x2="1.3462" y2="1.1811" layer="39"/>
+<rectangle x1="-1.2446" y1="-1.1811" x2="1.3462" y2="1.1811" layer="41"/>
 </package>
 </packages>
 <symbols>
@@ -12944,8 +12944,8 @@ W = angled&lt;p&gt;
 </segment>
 <segment>
 <pinref part="SV1" gate="1" pin="2"/>
-<wire x1="-96.52" y1="60.96" x2="-93.98" y2="58.42" width="0.1524" layer="91"/>
-<label x="-93.98" y="58.42" size="1.27" layer="95" xref="yes"/>
+<wire x1="-96.52" y1="60.96" x2="-93.98" y2="60.96" width="0.1524" layer="91"/>
+<label x="-93.98" y="60.96" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$6" class="0">
@@ -12988,6 +12988,11 @@ W = angled&lt;p&gt;
 <wire x1="30.48" y1="20.32" x2="-53.34" y2="20.32" width="0.1524" layer="91"/>
 <label x="-53.34" y="20.32" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="SV2" gate="1" pin="2"/>
+<wire x1="-96.52" y1="38.1" x2="-93.98" y2="38.1" width="0.1524" layer="91"/>
+<label x="-93.98" y="38.1" size="1.27" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="+3V3" class="0">
 <segment>
@@ -13015,9 +13020,9 @@ W = angled&lt;p&gt;
 <pinref part="R1" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="SV2" gate="1" pin="3"/>
-<wire x1="-96.52" y1="40.64" x2="-93.98" y2="40.64" width="0.1524" layer="91"/>
-<label x="-93.98" y="40.64" size="1.27" layer="95" xref="yes"/>
+<pinref part="SV2" gate="1" pin="4"/>
+<wire x1="-96.52" y1="43.18" x2="-93.98" y2="43.18" width="0.1524" layer="91"/>
+<label x="-93.98" y="43.18" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
 <pinref part="IC3" gate="G$1" pin="VDD"/>
@@ -13041,17 +13046,6 @@ W = angled&lt;p&gt;
 <pinref part="C9" gate="G$1" pin="2"/>
 </segment>
 </net>
-<net name="CS_B" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="SPI_CS_B"/>
-<wire x1="17.78" y1="-30.48" x2="20.32" y2="-30.48" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="SV1" gate="1" pin="1"/>
-<wire x1="-96.52" y1="58.42" x2="-93.98" y2="60.96" width="0.1524" layer="91"/>
-<label x="-93.98" y="60.96" size="1.27" layer="95" xref="yes"/>
-</segment>
-</net>
 <net name="N$26" class="0">
 <segment>
 <pinref part="IC3" gate="G$1" pin="VREGD"/>
@@ -13066,12 +13060,6 @@ W = angled&lt;p&gt;
 <wire x1="-22.86" y1="-27.94" x2="-25.4" y2="-27.94" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$28" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="INT1"/>
-<wire x1="-22.86" y1="-30.48" x2="-25.4" y2="-30.48" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$30" class="0">
 <segment>
 <pinref part="IC3" gate="G$1" pin="RST_B"/>
@@ -13080,11 +13068,10 @@ W = angled&lt;p&gt;
 <pinref part="R1" gate="G$1" pin="1"/>
 </segment>
 </net>
-<net name="NONE" class="0">
+<net name="INT_G" class="0">
 <segment>
-<pinref part="SV2" gate="1" pin="4"/>
-<wire x1="-96.52" y1="43.18" x2="-93.98" y2="43.18" width="0.1524" layer="91"/>
-<label x="-93.98" y="43.18" size="1.27" layer="95" xref="yes"/>
+<pinref part="IC3" gate="G$1" pin="INT1"/>
+<wire x1="-22.86" y1="-30.48" x2="-25.4" y2="-30.48" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="CS_A" class="0">
@@ -13096,9 +13083,20 @@ W = angled&lt;p&gt;
 <label x="-53.34" y="22.86" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SV2" gate="1" pin="2"/>
-<wire x1="-96.52" y1="38.1" x2="-93.98" y2="38.1" width="0.1524" layer="91"/>
-<label x="-93.98" y="38.1" size="1.27" layer="95" xref="yes"/>
+<pinref part="SV2" gate="1" pin="3"/>
+<wire x1="-96.52" y1="40.64" x2="-93.98" y2="40.64" width="0.1524" layer="91"/>
+<label x="-93.98" y="40.64" size="1.27" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="CS_G" class="0">
+<segment>
+<pinref part="IC3" gate="G$1" pin="SPI_CS_B"/>
+<wire x1="17.78" y1="-30.48" x2="20.32" y2="-30.48" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="SV1" gate="1" pin="1"/>
+<wire x1="-96.52" y1="58.42" x2="-93.98" y2="58.42" width="0.1524" layer="91"/>
+<label x="-93.98" y="58.42" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 </nets>
