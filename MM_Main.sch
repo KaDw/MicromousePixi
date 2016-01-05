@@ -13183,6 +13183,14 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-13.335" y1="6.35" x2="-13.335" y2="-6.985" width="1.4224" layer="39"/>
 <text x="-6.35" y="-0.635" size="1.27" layer="25">MODUŁ 9 AXIS</text>
 </package>
+<package name="BUZZER-9.5MM">
+<circle x="0" y="0" radius="4.8" width="0.1524" layer="21"/>
+<circle x="0" y="0" radius="0.5" width="0.1524" layer="21"/>
+<pad name="+" x="-2.4812" y="0" drill="0.6" diameter="1.27"/>
+<pad name="-" x="2.499" y="0" drill="0.6" diameter="1.27"/>
+<text x="-2.54" y="6.35" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="-3.8862" y="-3.81" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+</package>
 </packages>
 <symbols>
 <symbol name="TB6612FNG">
@@ -13421,6 +13429,18 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="10.16" y1="7.62" x2="-10.16" y2="7.62" width="0.254" layer="94"/>
 <text x="5.08" y="10.16" size="1.27" layer="96" rot="R180">9 AXIS SENSOR</text>
 </symbol>
+<symbol name="BUZZER-9.5MM">
+<wire x1="-3.81" y1="4.572" x2="3.81" y2="4.572" width="0.254" layer="94" curve="180"/>
+<wire x1="-3.81" y1="4.572" x2="0" y2="4.572" width="0.254" layer="94"/>
+<wire x1="0" y1="0.762" x2="0" y2="4.572" width="0.1524" layer="94"/>
+<wire x1="0" y1="4.572" x2="3.81" y2="4.572" width="0.254" layer="94"/>
+<wire x1="1.27" y1="-3.048" x2="1.27" y2="0.889" width="0.1524" layer="94"/>
+<wire x1="-1.27" y1="-3.048" x2="-1.27" y2="0.889" width="0.1524" layer="94"/>
+<text x="-3.81" y="5.842" size="1.778" layer="95">&gt;NAME</text>
+<text x="3.81" y="-0.508" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="-" x="3.81" y="-3.048" visible="pad" length="short" direction="pas" rot="R180"/>
+<pin name="+" x="-3.81" y="-3.048" visible="pad" length="short" direction="pas"/>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="TB6612FNG" prefix="IC">
@@ -13655,6 +13675,22 @@ MOS dual H-bridge motor driver, 1.2A current 3.2A peak
 <connect gate="G$1" pin="MISO" pad="P$8"/>
 <connect gate="G$1" pin="MOSI" pad="P$6"/>
 <connect gate="G$1" pin="SCLK" pad="P$5"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="BUZZER-9.5MM" prefix="BUZ">
+<gates>
+<gate name="G$1" symbol="BUZZER-9.5MM" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="BUZZER-9.5MM">
+<connects>
+<connect gate="G$1" pin="+" pad="+"/>
+<connect gate="G$1" pin="-" pad="-"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -20554,67 +20590,6 @@ Low profile connectors, straight&lt;p&gt;
 </deviceset>
 </devicesets>
 </library>
-<library name="buzzer">
-<description>&lt;b&gt;Speakers and Buzzers&lt;/b&gt;&lt;p&gt;
-&lt;ul&gt;Distributors:
-&lt;li&gt;Buerklin
-&lt;li&gt;Spoerle
-&lt;li&gt;Schukat
-&lt;/ul&gt;
-&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
-<packages>
-<package name="F/QMX">
-<description>&lt;b&gt;BUZZER&lt;/b&gt;</description>
-<wire x1="3.175" y1="2.54" x2="4.191" y2="2.54" width="0.1524" layer="21"/>
-<wire x1="3.683" y1="2.032" x2="3.683" y2="3.048" width="0.1524" layer="21"/>
-<circle x="0" y="0" radius="6.096" width="0.1524" layer="21"/>
-<circle x="0" y="0" radius="1.143" width="0.1524" layer="21"/>
-<circle x="3.683" y="2.54" radius="0.889" width="0.1524" layer="21"/>
-<pad name="-" x="-3.2512" y="0" drill="0.9144" diameter="2.159" shape="octagon"/>
-<pad name="+" x="3.2512" y="0" drill="0.9144" diameter="2.159" shape="octagon"/>
-<text x="4.699" y="4.445" size="1.27" layer="25" ratio="10">&gt;NAME</text>
-<text x="-3.556" y="-3.81" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
-</package>
-</packages>
-<symbols>
-<symbol name="BWS">
-<wire x1="-2.54" y1="5.08" x2="5.08" y2="5.08" width="0.254" layer="94" curve="180"/>
-<wire x1="-2.54" y1="5.08" x2="5.08" y2="5.08" width="0.254" layer="94"/>
-<wire x1="0" y1="3.175" x2="1.27" y2="3.175" width="0.1524" layer="94" curve="-180" cap="flat"/>
-<wire x1="1.27" y1="3.175" x2="2.54" y2="3.175" width="0.1524" layer="94" curve="180" cap="flat"/>
-<wire x1="2.54" y1="-2.54" x2="2.54" y2="1.397" width="0.1524" layer="94"/>
-<wire x1="0" y1="-2.54" x2="0" y2="1.397" width="0.1524" layer="94"/>
-<text x="-2.54" y="6.35" size="1.778" layer="95">&gt;NAME</text>
-<text x="6.35" y="0" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="2" x="5.08" y="-2.54" visible="pad" length="short" direction="pas" rot="R180"/>
-<pin name="1" x="-2.54" y="-2.54" visible="pad" length="short" direction="pas"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="F/QMX" prefix="SG">
-<description>&lt;b&gt;BUZZER&lt;/b&gt;&lt;p&gt; Source: Buerklin</description>
-<gates>
-<gate name="G$1" symbol="BWS" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="F/QMX">
-<connects>
-<connect gate="G$1" pin="1" pad="-"/>
-<connect gate="G$1" pin="2" pad="+"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="MF" value="" constant="no"/>
-<attribute name="MPN" value="" constant="no"/>
-<attribute name="OC_FARNELL" value="unknown" constant="no"/>
-<attribute name="OC_NEWARK" value="unknown" constant="no"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="special">
 <description>&lt;b&gt;Special Devices&lt;/b&gt;&lt;p&gt;
 7-segment displays, switches, heatsinks, crystals, transformers, etc.&lt;p&gt;
@@ -20917,7 +20892,6 @@ Distributor Buerklin, 11G810</description>
 <part name="+3V19" library="supply1" deviceset="+3V3" device=""/>
 <part name="+3V20" library="supply1" deviceset="+3V3" device=""/>
 <part name="ZAS" library="special" deviceset="SW_DIP-1" device=""/>
-<part name="SG2" library="buzzer" deviceset="F/QMX" device=""/>
 <part name="S1" library="switch" deviceset="255SB" device=""/>
 <part name="FUSE" library="resistor" deviceset="R-EU_" device="M2012"/>
 <part name="SUPPLY6" library="supply2" deviceset="+7V" device=""/>
@@ -20946,6 +20920,7 @@ Distributor Buerklin, 11G810</description>
 <part name="GND1" library="supply1" deviceset="GNDA" device=""/>
 <part name="GND2" library="supply1" deviceset="GNDA" device=""/>
 <part name="GND3" library="supply1" deviceset="GNDA" device=""/>
+<part name="BUZ1" library="_microMouse" deviceset="BUZZER-9.5MM" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -20959,12 +20934,14 @@ x0 - main flash memory
 11 - SRAM</text>
 <text x="-116.84" y="2.54" size="1.778" layer="97">DO ENKODEROW</text>
 <text x="-109.22" y="22.86" size="1.27" layer="91">Tu jest +5V</text>
-<text x="-139.7" y="180.34" size="1.27" layer="91">Dobrać obudowę buzzera</text>
+<text x="-139.7" y="180.34" size="1.27" layer="91">+Dobrać obudowę buzzera</text>
 <text x="-139.7" y="177.8" size="1.27" layer="91">dobrać obudowę bezpiecznika i switcha zasilania</text>
 <text x="-139.7" y="175.26" size="1.27" layer="91">dobrać gniazda do bat</text>
 <text x="241.3" y="-25.4" size="1.27" layer="91">też bootloader</text>
 <text x="167.64" y="-53.34" size="1.27" layer="91" rot="R180">Boot1</text>
 <text x="7.62" y="35.56" size="1.27" layer="91">VSSA</text>
+<text x="-139.7" y="172.72" size="1.27" layer="91">zmienic zasilanie dla diod IR z 7v na 5v</text>
+<text x="-139.7" y="170.18" size="1.27" layer="91">zmienic zasilanie dla diod IR z 7v na 5v</text>
 </plain>
 <instances>
 <instance part="Q1" gate="G$1" x="73.66" y="83.82"/>
@@ -21100,7 +21077,6 @@ x0 - main flash memory
 <instance part="+3V19" gate="G$1" x="-91.44" y="78.74"/>
 <instance part="+3V20" gate="G$1" x="-68.58" y="76.2"/>
 <instance part="ZAS" gate="G$1" x="-152.4" y="119.38" rot="R90"/>
-<instance part="SG2" gate="G$1" x="83.82" y="119.38" rot="MR180"/>
 <instance part="S1" gate="1" x="289.56" y="22.86"/>
 <instance part="FUSE" gate="G$1" x="-134.62" y="121.92" rot="R180"/>
 <instance part="SUPPLY6" gate="G$1" x="68.58" y="119.38" rot="R270"/>
@@ -21129,6 +21105,7 @@ x0 - main flash memory
 <instance part="GND1" gate="1" x="38.1" y="114.3"/>
 <instance part="GND2" gate="1" x="160.02" y="124.46"/>
 <instance part="GND3" gate="1" x="175.26" y="124.46"/>
+<instance part="BUZ1" gate="G$1" x="85.09" y="118.872" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -21750,9 +21727,9 @@ x0 - main flash memory
 <wire x1="160.02" y1="162.56" x2="175.26" y2="162.56" width="0.1524" layer="91"/>
 <wire x1="175.26" y1="162.56" x2="175.26" y2="147.32" width="0.1524" layer="91"/>
 <pinref part="C1" gate="G$1" pin="1"/>
-<pinref part="SG2" gate="G$1" pin="2"/>
 <wire x1="76.2" y1="162.56" x2="68.58" y2="162.56" width="0.1524" layer="91"/>
 <pinref part="R22" gate="G$1" pin="2"/>
+<pinref part="BUZ1" gate="G$1" pin="+"/>
 </segment>
 <segment>
 <pinref part="IC2" gate="G$1" pin="VM1"/>
@@ -22361,7 +22338,7 @@ x0 - main flash memory
 <segment>
 <pinref part="IC1" gate="A" pin="O7"/>
 <wire x1="66.04" y1="121.92" x2="81.28" y2="121.92" width="0.1524" layer="91"/>
-<pinref part="SG2" gate="G$1" pin="1"/>
+<pinref part="BUZ1" gate="G$1" pin="-"/>
 </segment>
 </net>
 <net name="BUZZER" class="0">
