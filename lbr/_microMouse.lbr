@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.005" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="yes"/>
@@ -1396,6 +1396,8 @@ http://www.vishay.com/docs/71151/71151.pdf</description>
 <pad name="-" x="2.499" y="0" drill="0.6" diameter="1.27"/>
 <text x="-2.54" y="6.35" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-3.8862" y="-3.81" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+<text x="-3.048" y="0.762" size="1.27" layer="21">+</text>
+<text x="2.286" y="0.889" size="1.27" layer="21">-</text>
 </package>
 </packages>
 <symbols>
@@ -1813,16 +1815,18 @@ http://www.vishay.com/docs/71151/71151.pdf</description>
 <text x="-4.064" y="4.826" size="1.778" layer="96">&gt;NAME</text>
 </symbol>
 <symbol name="BUZZER-9.5MM">
-<wire x1="-3.81" y1="4.572" x2="3.81" y2="4.572" width="0.254" layer="94" curve="180"/>
-<wire x1="-3.81" y1="4.572" x2="0" y2="4.572" width="0.254" layer="94"/>
-<wire x1="0" y1="0.762" x2="0" y2="4.572" width="0.1524" layer="94"/>
-<wire x1="0" y1="4.572" x2="3.81" y2="4.572" width="0.254" layer="94"/>
-<wire x1="1.27" y1="-3.048" x2="1.27" y2="0.889" width="0.1524" layer="94"/>
-<wire x1="-1.27" y1="-3.048" x2="-1.27" y2="0.889" width="0.1524" layer="94"/>
-<text x="-3.81" y="5.842" size="1.778" layer="95">&gt;NAME</text>
-<text x="3.81" y="-0.508" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="-" x="3.81" y="-3.048" visible="pad" length="short" direction="pas" rot="R180"/>
-<pin name="+" x="-3.81" y="-3.048" visible="pad" length="short" direction="pas"/>
+<wire x1="-3.81" y1="7.112" x2="3.81" y2="7.112" width="0.254" layer="94" curve="180"/>
+<wire x1="-3.81" y1="7.112" x2="0" y2="7.112" width="0.254" layer="94"/>
+<wire x1="0" y1="3.302" x2="0" y2="7.112" width="0.1524" layer="94"/>
+<wire x1="0" y1="7.112" x2="3.81" y2="7.112" width="0.254" layer="94"/>
+<wire x1="1.27" y1="0" x2="1.27" y2="3.429" width="0.1524" layer="94"/>
+<wire x1="-1.27" y1="0" x2="-1.27" y2="3.429" width="0.1524" layer="94"/>
+<text x="-3.81" y="8.382" size="1.778" layer="95">&gt;NAME</text>
+<text x="3.81" y="4.572" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="-" x="5.08" y="0" visible="pad" length="short" direction="pas" rot="R180"/>
+<pin name="+" x="-5.08" y="0" visible="pad" length="short" direction="pas"/>
+<wire x1="-2.54" y1="0" x2="-1.27" y2="0" width="0.1524" layer="94"/>
+<wire x1="1.27" y1="0" x2="2.54" y2="0" width="0.1524" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
