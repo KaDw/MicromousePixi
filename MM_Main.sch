@@ -21060,14 +21060,14 @@ x0 - main flash memory
 <instance part="U1" gate="A" x="208.28" y="-20.32"/>
 <instance part="L1" gate="A" x="187.96" y="261.62"/>
 <instance part="L2" gate="A" x="187.96" y="241.3"/>
-<instance part="AGND8" gate="GND" x="187.96" y="25.4" rot="R270"/>
-<instance part="AGND9" gate="GND" x="187.96" y="22.86" rot="R270"/>
-<instance part="AGND10" gate="GND" x="187.96" y="20.32" rot="R270"/>
-<instance part="AGND14" gate="GND" x="187.96" y="17.78" rot="R270"/>
-<instance part="AGND16" gate="GND" x="187.96" y="15.24" rot="R270"/>
-<instance part="+3V2" gate="G$1" x="187.96" y="-68.58" rot="R90"/>
-<instance part="+3V7" gate="G$1" x="187.96" y="-71.12" rot="R90"/>
-<instance part="+3V9" gate="G$1" x="187.96" y="-73.66" rot="R90"/>
+<instance part="AGND8" gate="GND" x="185.42" y="25.4" rot="R270"/>
+<instance part="AGND9" gate="GND" x="185.42" y="22.86" rot="R270"/>
+<instance part="AGND10" gate="GND" x="185.42" y="20.32" rot="R270"/>
+<instance part="AGND14" gate="GND" x="185.42" y="17.78" rot="R270"/>
+<instance part="AGND16" gate="GND" x="185.42" y="15.24" rot="R270"/>
+<instance part="+3V2" gate="G$1" x="185.42" y="-68.58" rot="R90"/>
+<instance part="+3V7" gate="G$1" x="185.42" y="-71.12" rot="R90"/>
+<instance part="+3V9" gate="G$1" x="185.42" y="-73.66" rot="R90"/>
 <instance part="+3V15" gate="G$1" x="187.96" y="7.62" rot="R90"/>
 <instance part="AGND19" gate="GND" x="-55.88" y="259.08"/>
 <instance part="AGND20" gate="GND" x="-5.08" y="259.08"/>
@@ -21300,22 +21300,27 @@ x0 - main flash memory
 <segment>
 <pinref part="U1" gate="A" pin="VDDA"/>
 <pinref part="AGND8" gate="GND" pin="GND"/>
+<wire x1="187.96" y1="25.4" x2="190.5" y2="25.4" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="VDD_2"/>
 <pinref part="AGND9" gate="GND" pin="GND"/>
+<wire x1="187.96" y1="22.86" x2="190.5" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="VDD_3"/>
 <pinref part="AGND10" gate="GND" pin="GND"/>
+<wire x1="187.96" y1="20.32" x2="190.5" y2="20.32" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="VDD_4"/>
 <pinref part="AGND14" gate="GND" pin="GND"/>
+<wire x1="187.96" y1="17.78" x2="190.5" y2="17.78" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="VDD"/>
 <pinref part="AGND16" gate="GND" pin="GND"/>
+<wire x1="187.96" y1="15.24" x2="190.5" y2="15.24" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$5" gate="G$1" pin="L_GND"/>
@@ -21663,14 +21668,17 @@ x0 - main flash memory
 <segment>
 <pinref part="U1" gate="A" pin="VSSA"/>
 <pinref part="+3V2" gate="G$1" pin="+3V3"/>
+<wire x1="187.96" y1="-68.58" x2="190.5" y2="-68.58" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="VSS_2"/>
 <pinref part="+3V7" gate="G$1" pin="+3V3"/>
+<wire x1="187.96" y1="-71.12" x2="190.5" y2="-71.12" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="VSS"/>
 <pinref part="+3V9" gate="G$1" pin="+3V3"/>
+<wire x1="187.96" y1="-73.66" x2="190.5" y2="-73.66" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="VBAT"/>
@@ -21959,9 +21967,9 @@ x0 - main flash memory
 <label x="-104.14" y="48.26" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U1" gate="A" pin="PA12"/>
-<wire x1="226.06" y1="-17.78" x2="231.14" y2="-17.78" width="0.1524" layer="91"/>
-<label x="231.14" y="-17.78" size="1.27" layer="95" xref="yes"/>
+<pinref part="U1" gate="A" pin="PB9"/>
+<wire x1="226.06" y1="22.86" x2="231.14" y2="22.86" width="0.1524" layer="91"/>
+<label x="231.14" y="22.86" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="LED2" class="0">
@@ -21976,9 +21984,9 @@ x0 - main flash memory
 <label x="-83.82" y="48.26" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U1" gate="A" pin="PA11"/>
-<wire x1="226.06" y1="-20.32" x2="231.14" y2="-20.32" width="0.1524" layer="91"/>
-<label x="231.14" y="-20.32" size="1.27" layer="95" xref="yes"/>
+<pinref part="U1" gate="A" pin="PB8"/>
+<wire x1="226.06" y1="20.32" x2="231.14" y2="20.32" width="0.1524" layer="91"/>
+<label x="231.14" y="20.32" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$31" class="0">
@@ -22476,18 +22484,6 @@ x0 - main flash memory
 <wire x1="226.06" y1="2.54" x2="228.6" y2="2.54" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$36" class="0">
-<segment>
-<pinref part="U1" gate="A" pin="PB8"/>
-<wire x1="226.06" y1="20.32" x2="228.6" y2="20.32" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$37" class="0">
-<segment>
-<pinref part="U1" gate="A" pin="PB9"/>
-<wire x1="226.06" y1="22.86" x2="228.6" y2="22.86" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$38" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="PB13"/>
@@ -22510,6 +22506,12 @@ x0 - main flash memory
 <segment>
 <pinref part="U1" gate="A" pin="PC5"/>
 <wire x1="190.5" y1="-48.26" x2="187.96" y2="-48.26" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$42" class="0">
+<segment>
+<pinref part="U1" gate="A" pin="PB11"/>
+<wire x1="190.5" y1="-60.96" x2="187.96" y2="-60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
