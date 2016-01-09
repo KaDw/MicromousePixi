@@ -20947,6 +20947,8 @@ Distributor Buerklin, 11G810</description>
 <part name="AGND1" library="supply2" deviceset="GND" device=""/>
 <part name="+3V5" library="supply1" deviceset="+3V3" device=""/>
 <part name="GND4" library="supply1" deviceset="GNDA" device=""/>
+<part name="GND5" library="supply1" deviceset="GNDA" device=""/>
+<part name="GND6" library="supply1" deviceset="GNDA" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -21076,7 +21078,7 @@ x0 - main flash memory
 <instance part="P+3" gate="1" x="-10.16" y="248.92" rot="R180"/>
 <instance part="R9" gate="G$1" x="-106.68" y="129.54" rot="R90"/>
 <instance part="R17" gate="G$1" x="-106.68" y="119.38" rot="R90"/>
-<instance part="SUPPLY1" gate="G$1" x="-106.68" y="137.16"/>
+<instance part="SUPPLY1" gate="G$1" x="-106.68" y="139.7"/>
 <instance part="R18" gate="G$1" x="269.24" y="12.7"/>
 <instance part="R19" gate="G$1" x="274.32" y="7.62" rot="R90"/>
 <instance part="AGND21" gate="GND" x="274.32" y="0"/>
@@ -21124,6 +21126,8 @@ x0 - main flash memory
 <attribute name="VALUE" x="-145.796" y="28.956" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="GND4" gate="1" x="-152.4" y="111.76"/>
+<instance part="GND5" gate="1" x="-144.78" y="139.7"/>
+<instance part="GND6" gate="1" x="-139.7" y="139.7"/>
 </instances>
 <busses>
 </busses>
@@ -21604,6 +21608,14 @@ x0 - main flash memory
 <wire x1="-152.4" y1="127" x2="-152.4" y2="114.3" width="0.1524" layer="91"/>
 <pinref part="GND4" gate="1" pin="GNDA"/>
 </segment>
+<segment>
+<pinref part="BAT1" gate="A" pin="1"/>
+<pinref part="GND5" gate="1" pin="GNDA"/>
+</segment>
+<segment>
+<pinref part="BAT1" gate="A" pin="3"/>
+<pinref part="GND6" gate="1" pin="GNDA"/>
+</segment>
 </net>
 <net name="+3V3" class="0">
 <segment>
@@ -21776,6 +21788,7 @@ x0 - main flash memory
 <segment>
 <pinref part="R9" gate="G$1" pin="2"/>
 <pinref part="SUPPLY1" gate="G$1" pin="+7V"/>
+<wire x1="-106.68" y1="137.16" x2="-106.68" y2="134.62" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="IC4" gate="G$1" pin="IN"/>
@@ -22438,6 +22451,9 @@ x0 - main flash memory
 <wire x1="-149.86" y1="129.54" x2="-149.86" y2="121.92" width="0.1524" layer="91"/>
 <pinref part="ZAS" gate="G$1" pin="1"/>
 <wire x1="-149.86" y1="121.92" x2="-147.32" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="BAT1" gate="A" pin="2"/>
+<wire x1="-142.24" y1="142.24" x2="-142.24" y2="127" width="0.1524" layer="91"/>
+<wire x1="-142.24" y1="127" x2="-147.32" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$19" class="0">
