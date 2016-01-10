@@ -20951,6 +20951,7 @@ Distributor Buerklin, 11G810</description>
 <part name="GND6" library="supply1" deviceset="GNDA" device=""/>
 <part name="GND10" library="supply1" deviceset="GNDA" device=""/>
 <part name="AGND17" library="supply2" deviceset="GND" device=""/>
+<part name="R14" library="resistor" deviceset="R-EU_" device="R0201" value="pcb"/>
 </parts>
 <sheets>
 <sheet>
@@ -21131,7 +21132,8 @@ x0 - main flash memory
 <instance part="GND5" gate="1" x="-144.78" y="139.7"/>
 <instance part="GND6" gate="1" x="-139.7" y="139.7"/>
 <instance part="GND10" gate="1" x="-88.9" y="134.62"/>
-<instance part="AGND17" gate="GND" x="-83.82" y="134.62"/>
+<instance part="AGND17" gate="GND" x="-78.74" y="134.62"/>
+<instance part="R14" gate="G$1" x="-83.82" y="137.16" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -21397,6 +21399,10 @@ x0 - main flash memory
 <pinref part="AGND1" gate="GND" pin="GND"/>
 <wire x1="-132.08" y1="27.94" x2="-124.46" y2="27.94" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="R14" gate="G$1" pin="1"/>
+<pinref part="AGND17" gate="GND" pin="GND"/>
+</segment>
 </net>
 <net name="MOSI" class="0">
 <segment>
@@ -21619,6 +21625,10 @@ x0 - main flash memory
 <segment>
 <pinref part="BAT1" gate="A" pin="3"/>
 <pinref part="GND6" gate="1" pin="GNDA"/>
+</segment>
+<segment>
+<pinref part="GND10" gate="1" pin="GNDA"/>
+<pinref part="R14" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
