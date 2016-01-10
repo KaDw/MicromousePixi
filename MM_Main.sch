@@ -20863,7 +20863,7 @@ Distributor Buerklin, 11G810</description>
 <part name="BTN1" library="GeekAmmo" deviceset="TACTILE-SWITCH" device="-7914G" value="TACTILE-SWITCH-7914G"/>
 <part name="R11" library="resistor" deviceset="R-EU_" device="R0805" value="10K"/>
 <part name="AGND15" library="supply2" deviceset="GND" device=""/>
-<part name="C15" library="rcl" deviceset="CPOL-EU" device="SMCA" value="tant-a-100u"/>
+<part name="C15" library="rcl" deviceset="CPOL-EU" device="SMCD" value="tant-d-220u"/>
 <part name="GND11" library="supply1" deviceset="GNDA" device=""/>
 <part name="U$4" library="_microMouse" deviceset="MCP1825" device=""/>
 <part name="IC4" library="v-reg" deviceset="LD117A?*" device="DT" technology="50TR"/>
@@ -20949,6 +20949,8 @@ Distributor Buerklin, 11G810</description>
 <part name="GND4" library="supply1" deviceset="GNDA" device=""/>
 <part name="GND5" library="supply1" deviceset="GNDA" device=""/>
 <part name="GND6" library="supply1" deviceset="GNDA" device=""/>
+<part name="GND10" library="supply1" deviceset="GNDA" device=""/>
+<part name="AGND17" library="supply2" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -21128,6 +21130,8 @@ x0 - main flash memory
 <instance part="GND4" gate="1" x="-152.4" y="111.76"/>
 <instance part="GND5" gate="1" x="-144.78" y="139.7"/>
 <instance part="GND6" gate="1" x="-139.7" y="139.7"/>
+<instance part="GND10" gate="1" x="-88.9" y="134.62"/>
+<instance part="AGND17" gate="GND" x="-83.82" y="134.62"/>
 </instances>
 <busses>
 </busses>
