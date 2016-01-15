@@ -12355,7 +12355,6 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <wire x1="0" y1="-0.916" x2="0.254" y2="-0.662" width="0.127" layer="21"/>
 <text x="-0.4334" y="0.2651" size="0.4064" layer="21" ratio="23">x</text>
 <text x="0.2286" y="-0.408" size="0.4064" layer="21" ratio="23">y</text>
-<rectangle x1="-0.9398" y1="-0.9525" x2="0.9525" y2="0.9525" layer="41"/>
 <wire x1="-1.778" y1="1.778" x2="1.778" y2="1.778" width="0.127" layer="21"/>
 <wire x1="1.778" y1="1.778" x2="1.778" y2="-1.778" width="0.127" layer="21"/>
 <wire x1="1.778" y1="-1.778" x2="-1.778" y2="-1.778" width="0.127" layer="21"/>
@@ -12364,6 +12363,8 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <wire x1="-0.6985" y1="-0.0381" x2="-0.6985" y2="0.2159" width="0.127" layer="21"/>
 <wire x1="-0.254" y1="-0.6604" x2="0.254" y2="-0.6604" width="0.127" layer="21"/>
 <wire x1="0.127" y1="-0.7493" x2="-0.1016" y2="-0.7493" width="0.127" layer="21"/>
+<rectangle x1="-1.905" y1="-1.905" x2="1.905" y2="1.905" layer="42"/>
+<rectangle x1="-1.524" y1="-1.524" x2="1.524" y2="1.524" layer="41"/>
 </package>
 <package name="QFN24-4X4">
 <smd name="GND4" x="1.95" y="1.5" dx="0.8" dy="0.3" layer="1" stop="no"/>
@@ -12430,8 +12431,9 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <rectangle x1="-2.3" y1="0.8" x2="-1.4" y2="1.2" layer="29"/>
 <rectangle x1="-2.3" y1="1.3" x2="-1.4" y2="1.7" layer="29"/>
 <rectangle x1="-1.4" y1="-1.3" x2="1.5" y2="1.3" layer="29"/>
-<rectangle x1="-1.2446" y1="-1.1811" x2="1.3462" y2="1.1811" layer="39"/>
-<rectangle x1="-1.2446" y1="-1.1811" x2="1.3462" y2="1.1811" layer="41"/>
+<rectangle x1="-1.2446" y1="-1.1811" x2="1.3462" y2="1.1811" layer="40"/>
+<rectangle x1="-2.286" y1="-2.159" x2="2.413" y2="2.159" layer="42"/>
+<rectangle x1="-1.778" y1="-1.651" x2="1.905" y2="1.651" layer="41"/>
 </package>
 </packages>
 <symbols>
