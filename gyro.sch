@@ -12329,7 +12329,7 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <smd name="P$15" x="0.003" y="1.489" dx="0.77" dy="0.27" layer="1" rot="R270" stop="no"/>
 <smd name="P$16" x="-0.497" y="1.489" dx="0.77" dy="0.27" layer="1" rot="R270" stop="no"/>
 <circle x="-1.462" y="1.489" radius="0.082003125" width="0.127" layer="21"/>
-<text x="-1.697" y="2.139" size="1.4224" layer="21" ratio="23">&lt;Name</text>
+<text x="-1.697" y="2.139" size="1.016" layer="25" ratio="23">&gt;Name</text>
 <rectangle x1="-0.675" y1="1.075" x2="-0.325" y2="1.925" layer="29"/>
 <rectangle x1="-0.175" y1="1.075" x2="0.175" y2="1.925" layer="29"/>
 <rectangle x1="0.325" y1="1.075" x2="0.675" y2="1.925" layer="29"/>
@@ -12745,8 +12745,8 @@ W = angled&lt;p&gt;
 <part name="+3V7" library="supply1" deviceset="+3V3" device=""/>
 <part name="C9" library="rcl" deviceset="C-EU" device="C0603" value="100n"/>
 <part name="C10" library="rcl" deviceset="C-EU" device="C0603" value="100n"/>
-<part name="SV1" library="con-lstb" deviceset="MA04-1" device=""/>
-<part name="SV2" library="con-lstb" deviceset="MA04-1" device=""/>
+<part name="SPI" library="con-lstb" deviceset="MA04-1" device=""/>
+<part name="ZAS" library="con-lstb" deviceset="MA04-1" device=""/>
 <part name="R1" library="rcl" deviceset="R-EU_" device="R0603"/>
 <part name="+3V1" library="supply1" deviceset="+3V3" device=""/>
 </parts>
@@ -12786,8 +12786,8 @@ W = angled&lt;p&gt;
 <instance part="+3V7" gate="G$1" x="-43.18" y="-15.24"/>
 <instance part="C9" gate="G$1" x="30.48" y="-20.32"/>
 <instance part="C10" gate="G$1" x="35.56" y="-38.1"/>
-<instance part="SV1" gate="1" x="-63.5" y="38.1" rot="R180"/>
-<instance part="SV2" gate="1" x="-104.14" y="40.64"/>
+<instance part="SPI" gate="1" x="-63.5" y="38.1" rot="R180"/>
+<instance part="ZAS" gate="1" x="-104.14" y="40.64"/>
 <instance part="R1" gate="G$1" x="-43.18" y="-25.4" rot="R90"/>
 <instance part="+3V1" gate="G$1" x="-7.62" y="-60.96" rot="R180"/>
 </instances>
@@ -12906,7 +12906,7 @@ W = angled&lt;p&gt;
 <pinref part="C10" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="SV2" gate="1" pin="1"/>
+<pinref part="ZAS" gate="1" pin="1"/>
 <wire x1="-96.52" y1="35.56" x2="-93.98" y2="35.56" width="0.1524" layer="91"/>
 <label x="-93.98" y="35.56" size="1.27" layer="95" xref="yes"/>
 </segment>
@@ -12928,7 +12928,7 @@ W = angled&lt;p&gt;
 <label x="5.08" y="-55.88" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="3"/>
+<pinref part="SPI" gate="1" pin="3"/>
 <wire x1="-71.12" y1="38.1" x2="-73.66" y2="38.1" width="0.1524" layer="91"/>
 <label x="-73.66" y="38.1" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
@@ -12945,7 +12945,7 @@ W = angled&lt;p&gt;
 <label x="22.86" y="-40.64" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="2"/>
+<pinref part="SPI" gate="1" pin="2"/>
 <wire x1="-71.12" y1="40.64" x2="-73.66" y2="40.64" width="0.1524" layer="91"/>
 <label x="-73.66" y="40.64" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
@@ -12977,7 +12977,7 @@ W = angled&lt;p&gt;
 <label x="5.08" y="-58.42" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="4"/>
+<pinref part="SPI" gate="1" pin="4"/>
 <wire x1="-71.12" y1="35.56" x2="-73.66" y2="35.56" width="0.1524" layer="91"/>
 <label x="-73.66" y="35.56" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
@@ -12991,7 +12991,7 @@ W = angled&lt;p&gt;
 <label x="-53.34" y="20.32" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SV2" gate="1" pin="2"/>
+<pinref part="ZAS" gate="1" pin="2"/>
 <wire x1="-96.52" y1="38.1" x2="-93.98" y2="38.1" width="0.1524" layer="91"/>
 <label x="-93.98" y="38.1" size="1.27" layer="95" xref="yes"/>
 </segment>
@@ -13022,7 +13022,7 @@ W = angled&lt;p&gt;
 <pinref part="R1" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="SV2" gate="1" pin="4"/>
+<pinref part="ZAS" gate="1" pin="4"/>
 <wire x1="-96.52" y1="43.18" x2="-93.98" y2="43.18" width="0.1524" layer="91"/>
 <label x="-93.98" y="43.18" size="1.27" layer="95" xref="yes"/>
 </segment>
@@ -13085,7 +13085,7 @@ W = angled&lt;p&gt;
 <label x="-53.34" y="22.86" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SV2" gate="1" pin="3"/>
+<pinref part="ZAS" gate="1" pin="3"/>
 <wire x1="-96.52" y1="40.64" x2="-93.98" y2="40.64" width="0.1524" layer="91"/>
 <label x="-93.98" y="40.64" size="1.27" layer="95" xref="yes"/>
 </segment>
@@ -13096,7 +13096,7 @@ W = angled&lt;p&gt;
 <wire x1="17.78" y1="-30.48" x2="20.32" y2="-30.48" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="1"/>
+<pinref part="SPI" gate="1" pin="1"/>
 <wire x1="-71.12" y1="43.18" x2="-73.66" y2="43.18" width="0.1524" layer="91"/>
 <label x="-73.66" y="43.18" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
