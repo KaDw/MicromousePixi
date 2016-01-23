@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
 <eagle version="7.2.0">
 <drawing>
@@ -8,34 +8,34 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
-<layer number="2" name="Route2" color="1" fill="3" visible="yes" active="no"/>
-<layer number="3" name="Route3" color="4" fill="3" visible="yes" active="no"/>
-<layer number="4" name="Route4" color="1" fill="4" visible="yes" active="no"/>
-<layer number="5" name="Route5" color="4" fill="4" visible="yes" active="no"/>
-<layer number="6" name="Route6" color="1" fill="8" visible="yes" active="no"/>
-<layer number="7" name="Route7" color="4" fill="8" visible="yes" active="no"/>
-<layer number="8" name="Route8" color="1" fill="2" visible="yes" active="no"/>
-<layer number="9" name="Route9" color="4" fill="2" visible="yes" active="no"/>
-<layer number="10" name="Route10" color="1" fill="7" visible="yes" active="no"/>
-<layer number="11" name="Route11" color="4" fill="7" visible="yes" active="no"/>
-<layer number="12" name="Route12" color="1" fill="5" visible="yes" active="no"/>
-<layer number="13" name="Route13" color="4" fill="5" visible="yes" active="no"/>
-<layer number="14" name="Route14" color="1" fill="6" visible="yes" active="no"/>
-<layer number="15" name="Route15" color="4" fill="6" visible="yes" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
+<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
+<layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
+<layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
+<layer number="6" name="Route6" color="1" fill="8" visible="no" active="no"/>
+<layer number="7" name="Route7" color="4" fill="8" visible="no" active="no"/>
+<layer number="8" name="Route8" color="1" fill="2" visible="no" active="no"/>
+<layer number="9" name="Route9" color="4" fill="2" visible="no" active="no"/>
+<layer number="10" name="Route10" color="1" fill="7" visible="no" active="no"/>
+<layer number="11" name="Route11" color="4" fill="7" visible="no" active="no"/>
+<layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
+<layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
+<layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
+<layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -44,8 +44,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -53,19 +53,19 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="yes" active="no"/>
-<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="yes" active="no"/>
-<layer number="56" name="wert" color="7" fill="1" visible="yes" active="no"/>
-<layer number="57" name="tCAD" color="7" fill="1" visible="yes" active="no"/>
-<layer number="59" name="tCarbon" color="7" fill="1" visible="yes" active="no"/>
-<layer number="60" name="bCarbon" color="7" fill="1" visible="yes" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
+<layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
+<layer number="59" name="tCarbon" color="7" fill="1" visible="no" active="no"/>
+<layer number="60" name="bCarbon" color="7" fill="1" visible="no" active="no"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
@@ -2581,7 +2581,7 @@ Source: http://www.vishay.com/docs/20008/dcrcw.pdf</description>
 <rectangle x1="-0.15" y1="-0.15" x2="0.15" y2="0.15" layer="21"/>
 </package>
 <package name="VTA52">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR52&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-15.24" y1="0" x2="-13.97" y2="0" width="0.6096" layer="51"/>
@@ -2600,7 +2600,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="12.5675" y1="-0.3048" x2="13.97" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA53">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR53&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-12.065" y1="0" x2="-10.795" y2="0" width="0.6096" layer="51"/>
@@ -2619,7 +2619,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="9.8425" y1="-0.3048" x2="10.795" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA54">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR54&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-12.065" y1="0" x2="-10.795" y2="0" width="0.6096" layer="51"/>
@@ -2638,7 +2638,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="9.8425" y1="-0.3048" x2="10.795" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA55">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR55&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-8.255" y1="0" x2="-6.985" y2="0" width="0.6096" layer="51"/>
@@ -2657,7 +2657,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="6.35" y1="-0.3048" x2="6.985" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA56">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR56&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-6.35" y1="0" x2="-5.08" y2="0" width="0.6096" layer="51"/>
@@ -2676,7 +2676,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="4.445" y1="-0.3048" x2="5.08" y2="0.3048" layer="21"/>
 </package>
 <package name="VMTA55">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RNC55&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-5.08" y1="0" x2="-4.26" y2="0" width="0.6096" layer="51"/>
@@ -2693,7 +2693,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="3.2825" y1="-0.3048" x2="4.235" y2="0.3048" layer="21"/>
 </package>
 <package name="VMTB60">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RNC60&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-6.35" y1="0" x2="-5.585" y2="0" width="0.6096" layer="51"/>
@@ -12818,7 +12818,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="13.335" y1="-6.985" x2="13.335" y2="6.35" width="1.4224" layer="39"/>
 <wire x1="13.335" y1="6.35" x2="-13.335" y2="6.35" width="1.4224" layer="39"/>
 <wire x1="-13.335" y1="6.35" x2="-13.335" y2="-6.985" width="1.4224" layer="39"/>
-<text x="-6.35" y="-0.635" size="1.27" layer="25">MODUĹ 9 AXIS</text>
+<text x="-6.35" y="-0.635" size="1.27" layer="25">MODUŁ 9 AXIS</text>
 </package>
 <package name="BUZZER-9.5MM">
 <circle x="0" y="0" radius="4.8" width="0.1524" layer="21"/>
@@ -16156,7 +16156,7 @@ Source: http://www.vishay.com/docs/20008/dcrcw.pdf</description>
 <rectangle x1="-0.15" y1="-0.15" x2="0.15" y2="0.15" layer="21"/>
 </package>
 <package name="VTA52">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR52&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-15.24" y1="0" x2="-13.97" y2="0" width="0.6096" layer="51"/>
@@ -16175,7 +16175,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="12.5675" y1="-0.3048" x2="13.97" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA53">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR53&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-12.065" y1="0" x2="-10.795" y2="0" width="0.6096" layer="51"/>
@@ -16194,7 +16194,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="9.8425" y1="-0.3048" x2="10.795" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA54">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR54&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-12.065" y1="0" x2="-10.795" y2="0" width="0.6096" layer="51"/>
@@ -16213,7 +16213,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="9.8425" y1="-0.3048" x2="10.795" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA55">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR55&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-8.255" y1="0" x2="-6.985" y2="0" width="0.6096" layer="51"/>
@@ -16232,7 +16232,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="6.35" y1="-0.3048" x2="6.985" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA56">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR56&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-6.35" y1="0" x2="-5.08" y2="0" width="0.6096" layer="51"/>
@@ -16251,7 +16251,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="4.445" y1="-0.3048" x2="5.08" y2="0.3048" layer="21"/>
 </package>
 <package name="VMTA55">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RNC55&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-5.08" y1="0" x2="-4.26" y2="0" width="0.6096" layer="51"/>
@@ -16268,7 +16268,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="3.2825" y1="-0.3048" x2="4.235" y2="0.3048" layer="21"/>
 </package>
 <package name="VMTB60">
-<description>&lt;b&gt;Bulk MetalÂ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metal�? Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RNC60&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-6.35" y1="0" x2="-5.585" y2="0" width="0.6096" layer="51"/>
@@ -16407,7 +16407,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="1.1" y1="-1.6" x2="1.4" y2="1.6" layer="51" rot="R180"/>
 </package>
 <package name="PRL1632">
-<description>&lt;b&gt;PRL1632 are realized as 1W for 3.2 ďż˝? 1.6mm(1206)&lt;/b&gt;&lt;p&gt;
+<description>&lt;b&gt;PRL1632 are realized as 1W for 3.2 �? 1.6mm(1206)&lt;/b&gt;&lt;p&gt;
 Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <wire x1="0.7275" y1="-1.5228" x2="-0.7277" y2="-1.5228" width="0.1524" layer="51"/>
 <wire x1="0.7275" y1="1.5228" x2="-0.7152" y2="1.5228" width="0.1524" layer="51"/>
@@ -18794,7 +18794,7 @@ IR transmitter Siemens</description>
 <text x="1.27" y="-1.651" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 </package>
 <package name="P-LCC-2">
-<description>&lt;b&gt;TOPLEDÂ High-optical Power LED (HOP)&lt;/b&gt;&lt;p&gt;
+<description>&lt;b&gt;TOPLED�? High-optical Power LED (HOP)&lt;/b&gt;&lt;p&gt;
 Source: http://www.osram.convergy.de/ ... ls_t675.pdf</description>
 <wire x1="-1.4" y1="-1.05" x2="-1.4" y2="-1.6" width="0.2032" layer="51"/>
 <wire x1="-1.4" y1="-1.6" x2="-1.1" y2="-1.6" width="0.2032" layer="51"/>
@@ -18827,7 +18827,7 @@ Source: http://www.osram.convergy.de/ ... ls_t675.pdf</description>
 <rectangle x1="-1.4" y1="-2.35" x2="1.4" y2="-0.65" layer="29"/>
 </package>
 <package name="OSRAM-MINI-TOP-LED">
-<description>&lt;b&gt;BLUE LINETM Hyper Mini TOPLEDÂ Hyper-Bright LED&lt;/b&gt;&lt;p&gt;
+<description>&lt;b&gt;BLUE LINETM Hyper Mini TOPLED�? Hyper-Bright LED&lt;/b&gt;&lt;p&gt;
 Source: http://www.osram.convergy.de/ ... LB M676.pdf</description>
 <wire x1="-0.6" y1="0.9" x2="-0.6" y2="-0.7" width="0.1016" layer="51"/>
 <wire x1="-0.45" y1="-0.9" x2="-0.4" y2="-0.9" width="0.1016" layer="51"/>
@@ -18854,7 +18854,7 @@ Source: http://www.osram.convergy.de/ ... LB M676.pdf</description>
 <rectangle x1="-0.45" y1="-1.35" x2="0.45" y2="-0.65" layer="31"/>
 </package>
 <package name="OSRAM-SIDELED">
-<description>&lt;b&gt;Super SIDELEDÂ High-Current LED&lt;/b&gt;&lt;p&gt;
+<description>&lt;b&gt;Super SIDELED�? High-Current LED&lt;/b&gt;&lt;p&gt;
 LG A672, LP A672 &lt;br&gt;
 Source: http://www.osram.convergy.de/ ... LG_LP_A672.pdf (2004.05.13)</description>
 <wire x1="-1.85" y1="-2.05" x2="-1.85" y2="-0.75" width="0.1016" layer="51"/>
@@ -18904,7 +18904,7 @@ Source: http://www.osram.convergy.de/ ... LA_LO_LS_LY L896.pdf</description>
 <rectangle x1="-0.15" y1="-0.85" x2="0.15" y2="-0.6" layer="51"/>
 </package>
 <package name="P-LCC-2-TOPLED-RG">
-<description>&lt;b&gt;Hyper TOPLEDÂ RG Hyper-Bright LED&lt;/b&gt;&lt;p&gt;
+<description>&lt;b&gt;Hyper TOPLED�? RG Hyper-Bright LED&lt;/b&gt;&lt;p&gt;
 Source: http://www.osram.convergy.de/ ... LA_LO_LS_LY T776.pdf</description>
 <wire x1="-1.4" y1="-1.05" x2="-1.4" y2="-1.6" width="0.2032" layer="51"/>
 <wire x1="-1.4" y1="-1.6" x2="-1.1" y2="-1.6" width="0.2032" layer="51"/>
@@ -18938,7 +18938,7 @@ Source: http://www.osram.convergy.de/ ... LA_LO_LS_LY T776.pdf</description>
 <hole x="0" y="0" drill="2.8"/>
 </package>
 <package name="MICRO-SIDELED">
-<description>&lt;b&gt;Hyper Micro SIDELEDÂ&lt;/b&gt;&lt;p&gt;
+<description>&lt;b&gt;Hyper Micro SIDELED�?&lt;/b&gt;&lt;p&gt;
 Source: http://www.osram.convergy.de/ ... LA_LO_LS_LY Y876.pdf</description>
 <wire x1="0.65" y1="1.1" x2="-0.1" y2="1.1" width="0.1016" layer="51"/>
 <wire x1="-0.1" y1="1.1" x2="-0.35" y2="1" width="0.1016" layer="51"/>
@@ -18961,7 +18961,7 @@ Source: http://www.osram.convergy.de/ ... LA_LO_LS_LY Y876.pdf</description>
 <rectangle x1="-0.125" y1="-1.75" x2="0.125" y2="-1.125" layer="51"/>
 </package>
 <package name="P-LCC-4">
-<description>&lt;b&gt;Power TOPLEDÂ&lt;/b&gt;&lt;p&gt;
+<description>&lt;b&gt;Power TOPLED�?&lt;/b&gt;&lt;p&gt;
 Source: http://www.osram.convergy.de/ ... LA_LO_LA_LY E67B.pdf</description>
 <wire x1="-1.4" y1="-1.05" x2="-1.4" y2="-1.6" width="0.2032" layer="51"/>
 <wire x1="-1.4" y1="-1.6" x2="-1" y2="-1.6" width="0.2032" layer="51"/>
@@ -19040,7 +19040,7 @@ Source: http://www.osram.convergy.de/ ... lb_r99a.pdf</description>
 <rectangle x1="-0.675" y1="-1.05" x2="0.675" y2="-0.45" layer="51"/>
 </package>
 <package name="MINI-TOPLED-SANTANA">
-<description>&lt;b&gt;Mini TOPLED SantanaÂ&lt;/b&gt;&lt;p&gt;
+<description>&lt;b&gt;Mini TOPLED Santana�?&lt;/b&gt;&lt;p&gt;
 Source: http://www.osram.convergy.de/ ... LG M470.pdf</description>
 <wire x1="0.7" y1="-1" x2="0.35" y2="-1" width="0.1016" layer="21"/>
 <wire x1="0.35" y1="-1" x2="-0.7" y2="-1" width="0.1016" layer="21"/>
@@ -19200,7 +19200,7 @@ Source: http://www.osram.convergy.de/ ... LO_LS_LY L89K.pdf</description>
 <rectangle x1="-0.225" y1="-0.975" x2="0.225" y2="-0.3" layer="31" rot="R180"/>
 </package>
 <package name="LUMILED+">
-<description>&lt;b&gt;Lumileds Lighting. LUXEONÂ&lt;/b&gt; with cool pad&lt;p&gt;
+<description>&lt;b&gt;Lumileds Lighting. LUXEON�?&lt;/b&gt; with cool pad&lt;p&gt;
 Source: K2.pdf</description>
 <wire x1="-3.575" y1="2.3375" x2="-2.3375" y2="3.575" width="0.2032" layer="21"/>
 <wire x1="-2.3375" y1="3.575" x2="2.3375" y2="3.575" width="0.2032" layer="21"/>
@@ -19252,7 +19252,7 @@ Source: K2.pdf</description>
 </polygon>
 </package>
 <package name="LUMILED">
-<description>&lt;b&gt;Lumileds Lighting. LUXEONÂ&lt;/b&gt; without cool pad&lt;p&gt;
+<description>&lt;b&gt;Lumileds Lighting. LUXEON�?&lt;/b&gt; without cool pad&lt;p&gt;
 Source: K2.pdf</description>
 <wire x1="-3.575" y1="2.3375" x2="-2.3375" y2="3.575" width="0.2032" layer="21"/>
 <wire x1="-2.3375" y1="3.575" x2="2.3375" y2="3.575" width="0.2032" layer="21"/>
@@ -19473,7 +19473,7 @@ LY A675&lt;br&gt;
 LS A676, LA A676, LO A676, LY A676, LW A676&lt;br&gt;
 LS A679, LY A679, LG A679&lt;br&gt;
 
--  &lt;u&gt;Hyper Micro SIDELEDÂ&lt;/u&gt;&lt;br&gt;
+-  &lt;u&gt;Hyper Micro SIDELED�?&lt;/u&gt;&lt;br&gt;
 LS Y876, LA Y876, LO Y876, LY Y876&lt;br&gt;
 LT Y87S&lt;br&gt;
 
@@ -19502,17 +19502,17 @@ LS T776, LA T776, LO T776, LY T776, LB T776&lt;br&gt;
 LHGB T686&lt;br&gt;
 LT T68C, LB T68C&lt;br&gt;
 
-- &lt;u&gt;Hyper Mini TOPLEDÂ&lt;/u&gt;&lt;br&gt;
+- &lt;u&gt;Hyper Mini TOPLED�?&lt;/u&gt;&lt;br&gt;
 LB M676&lt;br&gt;
 
-- &lt;u&gt;Mini TOPLED SantanaÂ&lt;/u&gt;&lt;br&gt;
+- &lt;u&gt;Mini TOPLED Santana�?&lt;/u&gt;&lt;br&gt;
 LG M470&lt;br&gt;
 LS M47K, LO M47K, LY M47K
 &lt;p&gt;
 Source: http://www.osram.convergy.de&lt;p&gt;
 
 &lt;u&gt;LUXEON:&lt;/u&gt;&lt;br&gt;
-- &lt;u&gt;LUMILEDÂ&lt;/u&gt;&lt;br&gt;
+- &lt;u&gt;LUMILED�?&lt;/u&gt;&lt;br&gt;
 LXK2-PW12-R00, LXK2-PW12-S00, LXK2-PW14-U00, LXK2-PW14-V00&lt;br&gt;
 LXK2-PM12-R00, LXK2-PM12-S00, LXK2-PM14-U00&lt;br&gt;
 LXK2-PE12-Q00, LXK2-PE12-R00, LXK2-PE12-S00, LXK2-PE14-T00, LXK2-PE14-U00&lt;br&gt;
@@ -21209,6 +21209,12 @@ Standard 3-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="AGND4" library="supply2" deviceset="GND" device=""/>
 <part name="C_VSSA1" library="rcl" deviceset="CPOL-EU" device="SMCA" value="tant-a-4,7u"/>
 <part name="C3" library="rcl" deviceset="CPOL-EU" device="SMCA" value="tant-a-4,7u"/>
+<part name="LED4" library="led" deviceset="LED" device="SML1206" value="green"/>
+<part name="R20" library="resistor" deviceset="R-EU_" device="R0805" value="10K"/>
+<part name="+3V14" library="supply1" deviceset="+3V3" device=""/>
+<part name="R27" library="resistor" deviceset="R-EU_" device="R0805" value="10K"/>
+<part name="LED6" library="led" deviceset="LED" device="SML1206" value="yellow"/>
+<part name="+3V29" library="supply1" deviceset="+3V3" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -21220,10 +21226,10 @@ x0 - main flash memory
 01 - bootloader
 11 - SRAM</text>
 <text x="-116.84" y="2.54" size="1.778" layer="97">DO ENKODEROW</text>
-<text x="469.9" y="-20.32" size="1.27" layer="91">teĹ bootloader</text>
+<text x="469.9" y="-20.32" size="1.27" layer="91">te�? bootloader</text>
 <text x="396.24" y="-48.26" size="1.27" layer="91" rot="R180">Boot1</text>
 <text x="7.62" y="22.86" size="1.27" layer="91">VSSA</text>
-<text x="-124.46" y="172.72" size="1.778" layer="91">poďż˝?ďż˝?czyďż˝? masy</text>
+<text x="-124.46" y="172.72" size="1.778" layer="91">po�?�?czy�? masy</text>
 <text x="2.54" y="7.62" size="1.778" layer="91">Vdd1</text>
 <text x="-10.16" y="7.62" size="1.778" layer="91">vdd2</text>
 <text x="-10.16" y="45.72" size="1.778" layer="97">VCC VDD - 3,3V
@@ -21259,17 +21265,17 @@ RX-&gt;TX</text>
 <instance part="GND8" gate="1" x="86.36" y="238.76" rot="R270"/>
 <instance part="+3V4" gate="G$1" x="106.68" y="99.06"/>
 <instance part="SUPPLY3" gate="G$1" x="137.16" y="231.14" rot="R270"/>
-<instance part="R12" gate="G$1" x="-127" y="68.58" rot="R90"/>
-<instance part="+3V11" gate="G$1" x="-127" y="78.74"/>
-<instance part="LED1" gate="G$1" x="-127" y="58.42"/>
-<instance part="AGND11" gate="GND" x="-127" y="48.26"/>
+<instance part="R12" gate="G$1" x="-200.66" y="71.12" rot="R90"/>
+<instance part="+3V11" gate="G$1" x="-200.66" y="81.28"/>
+<instance part="LED1" gate="G$1" x="-200.66" y="60.96"/>
+<instance part="AGND11" gate="GND" x="-200.66" y="50.8"/>
 <instance part="SUPPLY4" gate="G$1" x="142.24" y="269.24" rot="R270"/>
 <instance part="+3V12" gate="G$1" x="147.32" y="254" rot="R270"/>
 <instance part="AGND12" gate="GND" x="147.32" y="246.38" rot="R90"/>
 <instance part="C12" gate="G$1" x="137.16" y="251.46"/>
-<instance part="LED2" gate="G$1" x="-111.76" y="55.88"/>
-<instance part="R13" gate="G$1" x="-111.76" y="68.58" rot="R90"/>
-<instance part="+3V13" gate="G$1" x="-111.76" y="78.74"/>
+<instance part="LED2" gate="G$1" x="-185.42" y="58.42"/>
+<instance part="R13" gate="G$1" x="-185.42" y="71.12" rot="R90"/>
+<instance part="+3V13" gate="G$1" x="-185.42" y="81.28"/>
 <instance part="SUPPLY5" gate="G$1" x="-121.92" y="132.08"/>
 <instance part="BOOT1" gate="G$1" x="-63.5" y="55.88"/>
 <instance part="R11" gate="G$1" x="-68.58" y="68.58" rot="R270"/>
@@ -21342,9 +21348,9 @@ RX-&gt;TX</text>
 <instance part="+3V18" gate="G$1" x="220.98" y="38.1"/>
 <instance part="RST_BTN" gate="G$1" x="238.76" y="15.24" rot="R270"/>
 <instance part="AGND25" gate="GND" x="238.76" y="7.62"/>
-<instance part="R10" gate="G$1" x="-91.44" y="68.58" rot="R90"/>
-<instance part="LED3" gate="G$1" x="-91.44" y="55.88"/>
-<instance part="+3V19" gate="G$1" x="-91.44" y="78.74"/>
+<instance part="R10" gate="G$1" x="-165.1" y="71.12" rot="R90"/>
+<instance part="LED3" gate="G$1" x="-165.1" y="58.42"/>
+<instance part="+3V19" gate="G$1" x="-165.1" y="81.28"/>
 <instance part="+3V20" gate="G$1" x="-68.58" y="76.2"/>
 <instance part="ZAS" gate="G$1" x="-139.7" y="121.92" rot="R180"/>
 <instance part="FUSE" gate="G$1" x="-127" y="121.92" rot="R180"/>
@@ -21416,6 +21422,12 @@ RX-&gt;TX</text>
 <attribute name="NAME" x="-123.317" y="-9.6774" size="1.778" layer="95"/>
 <attribute name="VALUE" x="-123.317" y="-14.7574" size="1.778" layer="96"/>
 </instance>
+<instance part="LED4" gate="G$1" x="-142.24" y="58.42"/>
+<instance part="R20" gate="G$1" x="-142.24" y="71.12" rot="R90"/>
+<instance part="+3V14" gate="G$1" x="-142.24" y="81.28"/>
+<instance part="R27" gate="G$1" x="-101.6" y="71.12" rot="R90"/>
+<instance part="LED6" gate="G$1" x="-101.6" y="58.42"/>
+<instance part="+3V29" gate="G$1" x="-101.6" y="81.28"/>
 </instances>
 <busses>
 </busses>
@@ -21530,7 +21542,7 @@ RX-&gt;TX</text>
 <segment>
 <pinref part="LED1" gate="G$1" pin="C"/>
 <pinref part="AGND11" gate="GND" pin="GND"/>
-<wire x1="-127" y1="53.34" x2="-127" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="-200.66" y1="55.88" x2="-200.66" y2="53.34" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="IC2" gate="G$1" pin="GND"/>
@@ -21853,6 +21865,7 @@ RX-&gt;TX</text>
 <segment>
 <pinref part="U$6" gate="G$1" pin="PC4"/>
 <wire x1="124.46" y1="0" x2="127" y2="0" width="0.1524" layer="91"/>
+<label x="127" y="0" size="1.016" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="GNDA" class="0">
@@ -21935,7 +21948,7 @@ RX-&gt;TX</text>
 <segment>
 <pinref part="R12" gate="G$1" pin="2"/>
 <pinref part="+3V11" gate="G$1" pin="+3V3"/>
-<wire x1="-127" y1="76.2" x2="-127" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="-200.66" y1="78.74" x2="-200.66" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="IC2" gate="G$1" pin="STBY"/>
@@ -21951,7 +21964,7 @@ RX-&gt;TX</text>
 <segment>
 <pinref part="R13" gate="G$1" pin="2"/>
 <pinref part="+3V13" gate="G$1" pin="+3V3"/>
-<wire x1="-111.76" y1="76.2" x2="-111.76" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="-185.42" y1="78.74" x2="-185.42" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$4" gate="G$1" pin="OUT"/>
@@ -21991,7 +22004,7 @@ RX-&gt;TX</text>
 <segment>
 <pinref part="+3V19" gate="G$1" pin="+3V3"/>
 <pinref part="R10" gate="G$1" pin="2"/>
-<wire x1="-91.44" y1="76.2" x2="-91.44" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="-165.1" y1="78.74" x2="-165.1" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="R11" gate="G$1" pin="1"/>
@@ -22077,6 +22090,16 @@ RX-&gt;TX</text>
 <wire x1="68.58" y1="-35.56" x2="68.58" y2="-38.1" width="0.1524" layer="91"/>
 <pinref part="+3V5" gate="G$1" pin="+3V3"/>
 </segment>
+<segment>
+<pinref part="R20" gate="G$1" pin="2"/>
+<pinref part="+3V14" gate="G$1" pin="+3V3"/>
+<wire x1="-142.24" y1="78.74" x2="-142.24" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="+3V29" gate="G$1" pin="+3V3"/>
+<pinref part="R27" gate="G$1" pin="2"/>
+<wire x1="-101.6" y1="78.74" x2="-101.6" y2="76.2" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="+7V" class="0">
 <segment>
@@ -22123,14 +22146,14 @@ RX-&gt;TX</text>
 <segment>
 <pinref part="R12" gate="G$1" pin="1"/>
 <pinref part="LED1" gate="G$1" pin="A"/>
-<wire x1="-127" y1="63.5" x2="-127" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="-200.66" y1="66.04" x2="-200.66" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$21" class="0">
 <segment>
 <pinref part="LED2" gate="G$1" pin="A"/>
 <pinref part="R13" gate="G$1" pin="1"/>
-<wire x1="-111.76" y1="63.5" x2="-111.76" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="-185.42" y1="66.04" x2="-185.42" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SWDIO" class="0">
@@ -22215,9 +22238,9 @@ RX-&gt;TX</text>
 <net name="LED1" class="0">
 <segment>
 <pinref part="LED2" gate="G$1" pin="C"/>
-<wire x1="-111.76" y1="50.8" x2="-111.76" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="-111.76" y1="48.26" x2="-104.14" y2="48.26" width="0.1524" layer="91"/>
-<label x="-104.14" y="48.26" size="1.27" layer="95" xref="yes"/>
+<wire x1="-185.42" y1="53.34" x2="-185.42" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="-185.42" y1="50.8" x2="-177.8" y2="50.8" width="0.1524" layer="91"/>
+<label x="-177.8" y="50.8" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
 <wire x1="454.66" y1="27.94" x2="459.74" y2="27.94" width="0.1524" layer="91"/>
@@ -22232,9 +22255,9 @@ RX-&gt;TX</text>
 <net name="LED2" class="0">
 <segment>
 <pinref part="LED3" gate="G$1" pin="C"/>
-<wire x1="-91.44" y1="50.8" x2="-91.44" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="-91.44" y1="48.26" x2="-83.82" y2="48.26" width="0.1524" layer="91"/>
-<label x="-83.82" y="48.26" size="1.27" layer="95" xref="yes"/>
+<wire x1="-165.1" y1="53.34" x2="-165.1" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="-165.1" y1="50.8" x2="-157.48" y2="50.8" width="0.1524" layer="91"/>
+<label x="-157.48" y="50.8" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
 <wire x1="454.66" y1="25.4" x2="459.74" y2="25.4" width="0.1524" layer="91"/>
@@ -22610,7 +22633,7 @@ RX-&gt;TX</text>
 <segment>
 <pinref part="R10" gate="G$1" pin="1"/>
 <pinref part="LED3" gate="G$1" pin="A"/>
-<wire x1="-91.44" y1="63.5" x2="-91.44" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="-165.1" y1="66.04" x2="-165.1" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="BTN" class="0">
@@ -22941,6 +22964,52 @@ RX-&gt;TX</text>
 <pinref part="BUZ1" gate="G$1" pin="-"/>
 <wire x1="66.04" y1="127" x2="88.9" y2="127" width="0.1524" layer="91"/>
 <wire x1="88.9" y1="127" x2="88.9" y2="111.76" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="LED5" class="0">
+<segment>
+<pinref part="LED6" gate="G$1" pin="C"/>
+<wire x1="-101.6" y1="53.34" x2="-101.6" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="-101.6" y1="50.8" x2="-93.98" y2="50.8" width="0.1524" layer="91"/>
+<label x="-93.98" y="50.8" size="1.27" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$6" gate="G$1" pin="PA0_AKUP"/>
+<wire x1="101.6" y1="-35.56" x2="101.6" y2="-38.1" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="LED3" class="0">
+<segment>
+<pinref part="U$6" gate="G$1" pin="PB5"/>
+<wire x1="50.8" y1="0" x2="48.26" y2="0" width="0.1524" layer="91"/>
+<label x="48.26" y="0" size="1.016" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="LED4" gate="G$1" pin="C"/>
+<wire x1="-142.24" y1="53.34" x2="-142.24" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="-142.24" y1="50.8" x2="-134.62" y2="50.8" width="0.1524" layer="91"/>
+<label x="-134.62" y="50.8" size="1.27" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="N$22" class="0">
+<segment>
+<pinref part="LED4" gate="G$1" pin="A"/>
+<pinref part="R20" gate="G$1" pin="1"/>
+<wire x1="-142.24" y1="66.04" x2="-142.24" y2="60.96" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$31" class="0">
+<segment>
+<pinref part="R27" gate="G$1" pin="1"/>
+<pinref part="LED6" gate="G$1" pin="A"/>
+<wire x1="-101.6" y1="66.04" x2="-101.6" y2="60.96" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="LED6" class="0">
+<segment>
+<pinref part="U$6" gate="G$1" pin="PB11"/>
+<wire x1="124.46" y1="15.24" x2="127" y2="15.24" width="0.1524" layer="91"/>
+<label x="127" y="15.24" size="1.016" layer="95" xref="yes"/>
 </segment>
 </net>
 </nets>
