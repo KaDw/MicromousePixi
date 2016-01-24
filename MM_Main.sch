@@ -21094,11 +21094,11 @@ Standard 3-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="R13" library="resistor" deviceset="R-EU_" device="R0805" value="10K"/>
 <part name="+3V13" library="supply1" deviceset="+3V3" device=""/>
 <part name="SUPPLY5" library="supply2" deviceset="+7V" device=""/>
-<part name="BOOT1" library="GeekAmmo" deviceset="TACTILE-SWITCH" device="-7914G" value="TACTILE-SWITCH-7914G"/>
+<part name="BT1" library="GeekAmmo" deviceset="TACTILE-SWITCH" device="-7914G" value="TACTILE-SWITCH-7914G"/>
 <part name="R11" library="resistor" deviceset="R-EU_" device="R0805" value="10K"/>
 <part name="C15" library="rcl" deviceset="CPOL-EU" device="SMCD" value="tant-d-220u"/>
 <part name="GND11" library="supply1" deviceset="GNDA" device=""/>
-<part name="U$4" library="_microMouse" deviceset="MCP1825" device=""/>
+<part name="IC5" library="_microMouse" deviceset="MCP1825" device=""/>
 <part name="IC4" library="v-reg" deviceset="LD117A?*" device="DT" technology="50TR"/>
 <part name="C21" library="rcl" deviceset="CPOL-EU" device="SMCA" value="tant-a-4,7u"/>
 <part name="C22" library="rcl" deviceset="CPOL-EU" device="SMCA" value="tant-a-10u"/>
@@ -21195,7 +21195,7 @@ Standard 3-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="U$6" library="_microMouse" deviceset="STM32F4X5" device=""/>
 <part name="AGND1" library="supply2" deviceset="GND" device=""/>
 <part name="JP1" library="SparkFun-Connectors" deviceset="M03" device="POLAR"/>
-<part name="BOOT0" library="GeekAmmo" deviceset="TACTILE-SWITCH" device="-7914G" value="TACTILE-SWITCH-7914G"/>
+<part name="BT0" library="GeekAmmo" deviceset="TACTILE-SWITCH" device="-7914G" value="TACTILE-SWITCH-7914G"/>
 <part name="R15" library="rcl" deviceset="R-EU_" device="R0805"/>
 <part name="D5" library="_microMouse" deviceset="SFH4545" device="-C" value="SFH4545-C"/>
 <part name="R22" library="rcl" deviceset="R-EU_" device="R0805"/>
@@ -21277,11 +21277,11 @@ RX-&gt;TX</text>
 <instance part="R13" gate="G$1" x="-185.42" y="71.12" rot="R90"/>
 <instance part="+3V13" gate="G$1" x="-185.42" y="81.28"/>
 <instance part="SUPPLY5" gate="G$1" x="-121.92" y="132.08"/>
-<instance part="BOOT1" gate="G$1" x="-63.5" y="55.88"/>
+<instance part="BT1" gate="G$1" x="-63.5" y="55.88"/>
 <instance part="R11" gate="G$1" x="-68.58" y="68.58" rot="R270"/>
 <instance part="C15" gate="G$1" x="-121.92" y="119.38"/>
 <instance part="GND11" gate="1" x="-121.92" y="111.76"/>
-<instance part="U$4" gate="G$1" x="-83.82" y="-17.78"/>
+<instance part="IC5" gate="G$1" x="-83.82" y="-17.78"/>
 <instance part="IC4" gate="G$1" x="-132.08" y="-5.08" smashed="yes">
 <attribute name="NAME" x="-139.7" y="0.762" size="1.778" layer="95"/>
 <attribute name="VALUE" x="-139.7" y="-2.032" size="1.778" layer="96"/>
@@ -21402,7 +21402,7 @@ RX-&gt;TX</text>
 <instance part="U$6" gate="G$1" x="86.36" y="0"/>
 <instance part="AGND1" gate="GND" x="96.52" y="-50.8"/>
 <instance part="JP1" gate="G$1" x="-149.86" y="137.16" rot="R270"/>
-<instance part="BOOT0" gate="G$1" x="205.74" y="30.48" rot="R90"/>
+<instance part="BT0" gate="G$1" x="205.74" y="30.48" rot="R90"/>
 <instance part="R15" gate="G$1" x="86.36" y="154.94" rot="R90"/>
 <instance part="D5" gate="G$1" x="86.36" y="144.78"/>
 <instance part="R22" gate="G$1" x="106.68" y="154.94" rot="R90"/>
@@ -21553,7 +21553,7 @@ RX-&gt;TX</text>
 <junction x="137.16" y="246.38"/>
 </segment>
 <segment>
-<pinref part="U$4" gate="G$1" pin="GND"/>
+<pinref part="IC5" gate="G$1" pin="GND"/>
 <wire x1="-96.52" y1="-17.78" x2="-111.76" y2="-17.78" width="0.1524" layer="91"/>
 <wire x1="-111.76" y1="-17.78" x2="-111.76" y2="-15.24" width="0.1524" layer="91"/>
 <junction x="-111.76" y="-17.78"/>
@@ -21967,7 +21967,7 @@ RX-&gt;TX</text>
 <wire x1="-185.42" y1="78.74" x2="-185.42" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="U$4" gate="G$1" pin="OUT"/>
+<pinref part="IC5" gate="G$1" pin="OUT"/>
 <pinref part="R16" gate="G$1" pin="2"/>
 <wire x1="-68.58" y1="-12.7" x2="-60.96" y2="-12.7" width="0.1524" layer="91"/>
 <pinref part="C13" gate="G$1" pin="+"/>
@@ -21994,7 +21994,7 @@ RX-&gt;TX</text>
 <pinref part="+3V17" gate="G$1" pin="+3V3"/>
 <wire x1="193.04" y1="35.56" x2="193.04" y2="33.02" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="35.56" x2="193.04" y2="35.56" width="0.1524" layer="91"/>
-<pinref part="BOOT0" gate="G$1" pin="3"/>
+<pinref part="BT0" gate="G$1" pin="3"/>
 </segment>
 <segment>
 <pinref part="+3V18" gate="G$1" pin="+3V3"/>
@@ -22230,7 +22230,7 @@ RX-&gt;TX</text>
 </net>
 <net name="N$29" class="0">
 <segment>
-<pinref part="BOOT1" gate="G$1" pin="1"/>
+<pinref part="BT1" gate="G$1" pin="1"/>
 <pinref part="R11" gate="G$1" pin="2"/>
 <wire x1="-68.58" y1="55.88" x2="-68.58" y2="63.5" width="0.1524" layer="91"/>
 </segment>
@@ -22311,7 +22311,7 @@ RX-&gt;TX</text>
 </net>
 <net name="N$1" class="0">
 <segment>
-<pinref part="U$4" gate="G$1" pin="PWRGD"/>
+<pinref part="IC5" gate="G$1" pin="PWRGD"/>
 <pinref part="R16" gate="G$1" pin="1"/>
 <wire x1="-68.58" y1="-22.86" x2="-60.96" y2="-22.86" width="0.1524" layer="91"/>
 </segment>
@@ -22515,9 +22515,9 @@ RX-&gt;TX</text>
 </net>
 <net name="+5V" class="0">
 <segment>
-<pinref part="U$4" gate="G$1" pin="SHDN"/>
+<pinref part="IC5" gate="G$1" pin="SHDN"/>
 <wire x1="-96.52" y1="-22.86" x2="-99.06" y2="-22.86" width="0.1524" layer="91"/>
-<pinref part="U$4" gate="G$1" pin="IN"/>
+<pinref part="IC5" gate="G$1" pin="IN"/>
 <wire x1="-96.52" y1="-12.7" x2="-99.06" y2="-12.7" width="0.1524" layer="91"/>
 <wire x1="-99.06" y1="-12.7" x2="-104.14" y2="-12.7" width="0.1524" layer="91"/>
 <wire x1="-99.06" y1="-22.86" x2="-99.06" y2="-12.7" width="0.1524" layer="91"/>
@@ -22626,7 +22626,7 @@ RX-&gt;TX</text>
 <junction x="190.5" y="20.32"/>
 <wire x1="205.74" y1="20.32" x2="190.5" y2="20.32" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="25.4" x2="205.74" y2="20.32" width="0.1524" layer="91"/>
-<pinref part="BOOT0" gate="G$1" pin="1"/>
+<pinref part="BT0" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$8" class="0">
@@ -22638,7 +22638,7 @@ RX-&gt;TX</text>
 </net>
 <net name="BTN" class="0">
 <segment>
-<pinref part="BOOT1" gate="G$1" pin="3"/>
+<pinref part="BT1" gate="G$1" pin="3"/>
 <wire x1="-58.42" y1="55.88" x2="-55.88" y2="55.88" width="0.1524" layer="91"/>
 <label x="-53.34" y="55.88" size="1.27" layer="95" xref="yes"/>
 <pinref part="R25" gate="G$1" pin="2"/>
