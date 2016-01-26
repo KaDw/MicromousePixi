@@ -21219,7 +21219,7 @@ Standard 3-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="R27" library="resistor" deviceset="R-EU_" device="R0805" value="10K"/>
 <part name="LED6" library="led" deviceset="LED" device="SML1206" value="yellow"/>
 <part name="+3V29" library="supply1" deviceset="+3V3" device=""/>
-<part name="R26" library="resistor" deviceset="R-EU_" device="R0805" value="10K"/>
+<part name="R26" library="rcl" deviceset="R-EU_" device="R0805"/>
 </parts>
 <sheets>
 <sheet>
@@ -21433,10 +21433,10 @@ RX-&gt;TX</text>
 <instance part="LED4" gate="G$1" x="-142.24" y="58.42"/>
 <instance part="R20" gate="G$1" x="-142.24" y="71.12" rot="R90"/>
 <instance part="+3V14" gate="G$1" x="-142.24" y="81.28"/>
-<instance part="R27" gate="G$1" x="-101.6" y="71.12" rot="R90"/>
-<instance part="LED6" gate="G$1" x="-101.6" y="58.42"/>
-<instance part="+3V29" gate="G$1" x="-101.6" y="81.28"/>
-<instance part="R26" gate="G$1" x="-165.1" y="33.02" rot="R180"/>
+<instance part="R27" gate="G$1" x="-119.38" y="71.12" rot="R90"/>
+<instance part="LED6" gate="G$1" x="-119.38" y="58.42"/>
+<instance part="+3V29" gate="G$1" x="-119.38" y="81.28"/>
+<instance part="R26" gate="G$1" x="-165.1" y="30.48" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -22102,7 +22102,7 @@ RX-&gt;TX</text>
 <segment>
 <pinref part="+3V29" gate="G$1" pin="+3V3"/>
 <pinref part="R27" gate="G$1" pin="2"/>
-<wire x1="-101.6" y1="78.74" x2="-101.6" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="-119.38" y1="78.74" x2="-119.38" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="+3V3"/>
@@ -22171,8 +22171,9 @@ RX-&gt;TX</text>
 <label x="459.74" y="-10.16" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
-<wire x1="73.66" y1="38.1" x2="73.66" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="38.1" x2="73.66" y2="43.18" width="0.1524" layer="91"/>
 <pinref part="U$6" gate="G$1" pin="PA13"/>
+<label x="73.66" y="43.18" size="1.27" layer="95" rot="R90" xref="yes"/>
 </segment>
 <segment>
 <wire x1="-144.78" y1="30.48" x2="-142.24" y2="30.48" width="0.1524" layer="91"/>
@@ -22216,8 +22217,8 @@ RX-&gt;TX</text>
 <pinref part="U$6" gate="G$1" pin="PA10"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="G$1" pin="6"/>
-<wire x1="-160.02" y1="30.48" x2="-172.72" y2="30.48" width="0.1524" layer="91"/>
+<pinref part="R26" gate="G$1" pin="2"/>
+<wire x1="-170.18" y1="30.48" x2="-172.72" y2="30.48" width="0.1524" layer="91"/>
 <label x="-172.72" y="30.48" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
@@ -22232,9 +22233,9 @@ RX-&gt;TX</text>
 <pinref part="U$6" gate="G$1" pin="PA9"/>
 </segment>
 <segment>
-<pinref part="R26" gate="G$1" pin="2"/>
-<wire x1="-170.18" y1="33.02" x2="-172.72" y2="33.02" width="0.1524" layer="91"/>
 <label x="-172.72" y="33.02" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="SV1" gate="G$1" pin="8"/>
+<wire x1="-172.72" y1="33.02" x2="-160.02" y2="33.02" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$29" class="0">
@@ -22378,6 +22379,7 @@ RX-&gt;TX</text>
 <segment>
 <wire x1="101.6" y1="38.1" x2="101.6" y2="40.64" width="0.1524" layer="91"/>
 <pinref part="U$6" gate="G$1" pin="PB14"/>
+<label x="101.6" y="40.64" size="1.27" layer="95" rot="R90" xref="yes"/>
 </segment>
 </net>
 <net name="MR_PWM" class="0">
@@ -22393,6 +22395,7 @@ RX-&gt;TX</text>
 <segment>
 <wire x1="99.06" y1="38.1" x2="99.06" y2="40.64" width="0.1524" layer="91"/>
 <pinref part="U$6" gate="G$1" pin="PB15"/>
+<label x="99.06" y="40.64" size="1.27" layer="95" rot="R90" xref="yes"/>
 </segment>
 </net>
 <net name="MR_IN2" class="0">
@@ -22456,6 +22459,7 @@ RX-&gt;TX</text>
 <segment>
 <wire x1="96.52" y1="38.1" x2="96.52" y2="40.64" width="0.1524" layer="91"/>
 <pinref part="U$6" gate="G$1" pin="PC6"/>
+<label x="96.52" y="40.64" size="1.27" layer="95" rot="R90" xref="yes"/>
 </segment>
 </net>
 <net name="ENCL_A" class="0">
@@ -22625,6 +22629,7 @@ RX-&gt;TX</text>
 <wire x1="50.8" y1="7.62" x2="78.74" y2="7.62" width="0.1524" layer="91"/>
 <wire x1="78.74" y1="7.62" x2="78.74" y2="-7.62" width="0.1524" layer="91"/>
 <wire x1="78.74" y1="-7.62" x2="50.8" y2="-7.62" width="0.1524" layer="91"/>
+<label x="50.8" y="7.62" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="N$23" class="0">
@@ -22978,13 +22983,14 @@ RX-&gt;TX</text>
 <net name="LED5" class="0">
 <segment>
 <pinref part="LED6" gate="G$1" pin="C"/>
-<wire x1="-101.6" y1="53.34" x2="-101.6" y2="50.8" width="0.1524" layer="91"/>
-<wire x1="-101.6" y1="50.8" x2="-93.98" y2="50.8" width="0.1524" layer="91"/>
-<label x="-93.98" y="50.8" size="1.27" layer="95" xref="yes"/>
+<wire x1="-119.38" y1="53.34" x2="-119.38" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="-119.38" y1="50.8" x2="-111.76" y2="50.8" width="0.1524" layer="91"/>
+<label x="-111.76" y="50.8" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
 <pinref part="U$6" gate="G$1" pin="PA0_AKUP"/>
 <wire x1="101.6" y1="-35.56" x2="101.6" y2="-38.1" width="0.1524" layer="91"/>
+<label x="101.6" y="-38.1" size="1.27" layer="95" rot="R270" xref="yes"/>
 </segment>
 </net>
 <net name="LED3" class="0">
@@ -23011,7 +23017,7 @@ RX-&gt;TX</text>
 <segment>
 <pinref part="R27" gate="G$1" pin="1"/>
 <pinref part="LED6" gate="G$1" pin="A"/>
-<wire x1="-101.6" y1="66.04" x2="-101.6" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="-119.38" y1="66.04" x2="-119.38" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="LED6" class="0">
@@ -23030,7 +23036,7 @@ RX-&gt;TX</text>
 </net>
 <net name="N$26" class="0">
 <segment>
-<pinref part="SV1" gate="G$1" pin="8"/>
+<pinref part="SV1" gate="G$1" pin="6"/>
 <pinref part="R26" gate="G$1" pin="1"/>
 </segment>
 </net>
