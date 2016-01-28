@@ -25,16 +25,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="220.44681"
-     inkscape:cy="78.118686"
+     inkscape:zoom="3.959798"
+     inkscape:cx="203.49631"
+     inkscape:cy="87.974417"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:window-width="1366"
      inkscape:window-height="706"
      inkscape:window-x="-8"
-     inkscape:window-y="411"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      showguides="true" />
   <metadata
@@ -274,5 +274,12 @@
        height="15.744181"
        x="227.14285"
        y="979.7691" />
+    <rect
+       style="opacity:1;fill:#ae6a6a;fill-opacity:0.66666667;stroke:none;stroke-width:17.71653557;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4168"
+       width="60.236221"
+       height="10.629921"
+       x="176.07143"
+       y="963.43365" />
   </g>
 </svg>

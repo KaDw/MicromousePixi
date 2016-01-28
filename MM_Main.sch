@@ -12563,7 +12563,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <rectangle x1="2.381" y1="-3.9365" x2="2.889" y2="-2.222" layer="51"/>
 </package>
 <package name="MOTOR_MOUNT">
-<wire x1="0" y1="-43.99" x2="0" y2="64.17" width="0.1" layer="21" style="longdash"/>
+<wire x1="0" y1="-43.99" x2="0" y2="64.17" width="0.1" layer="51" style="longdash"/>
 <wire x1="1.5" y1="-6.83" x2="27.5" y2="-6.83" width="0.1" layer="21"/>
 <wire x1="27.5" y1="-6.83" x2="27.5" y2="-2.33" width="0.1" layer="21"/>
 <wire x1="27.5" y1="-2.33" x2="27.5" y2="0.67" width="0.1" layer="21"/>
@@ -12590,8 +12590,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-27.5" y1="-2.33" x2="-27.5" y2="-6.83" width="0.1" layer="21"/>
 <wire x1="-27.5" y1="-6.83" x2="-1.5" y2="-6.83" width="0.1" layer="21"/>
 <wire x1="-1.5" y1="-6.83" x2="-1.5" y2="5.17" width="0.1" layer="21"/>
-<wire x1="-36.99" y1="-2.33" x2="-27.5" y2="-2.33" width="0.1" layer="21"/>
-<wire x1="-27.5" y1="0.67" x2="-36.99" y2="0.67" width="0.1" layer="21"/>
+<wire x1="-36.99" y1="-2.33" x2="-27.5" y2="-2.33" width="0.1" layer="51"/>
+<wire x1="-27.5" y1="0.67" x2="-36.99" y2="0.67" width="0.1" layer="51"/>
 <wire x1="-37" y1="-2.33" x2="-37" y2="-0.83" width="0.1" layer="21"/>
 <wire x1="-37" y1="-0.83" x2="-37" y2="0.67" width="0.1" layer="21"/>
 <wire x1="-27.9" y1="6.67" x2="-27.9" y2="-8.23" width="0.1" layer="21"/>
@@ -12614,20 +12614,20 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="37" y1="-20.83" x2="37" y2="-16.83" width="0.1" layer="20"/>
 <wire x1="28" y1="-16.83" x2="28" y2="15.17" width="0.1" layer="21"/>
 <wire x1="-28" y1="15.17" x2="-28" y2="-16.83" width="0.1" layer="21"/>
-<wire x1="-37" y1="17.17" x2="-29" y2="17.17" width="0.4064" layer="21"/>
-<wire x1="-29" y1="17.17" x2="-29" y2="-18.83" width="0.4064" layer="21"/>
-<wire x1="-29" y1="-18.83" x2="-37" y2="-18.83" width="0.4064" layer="21"/>
-<wire x1="-37" y1="-18.83" x2="-37" y2="-0.83" width="0.4064" layer="21"/>
-<wire x1="-37" y1="-0.83" x2="-37" y2="17.17" width="0.4064" layer="21"/>
-<wire x1="36.99" y1="0.67" x2="27.5" y2="0.67" width="0.1" layer="21"/>
-<wire x1="27.5" y1="-2.33" x2="36.99" y2="-2.33" width="0.1" layer="21"/>
+<wire x1="-37" y1="17.17" x2="-29" y2="17.17" width="0.4064" layer="51"/>
+<wire x1="-29" y1="17.17" x2="-29" y2="-18.83" width="0.4064" layer="51"/>
+<wire x1="-29" y1="-18.83" x2="-37" y2="-18.83" width="0.4064" layer="51"/>
+<wire x1="-37" y1="-18.83" x2="-37" y2="-0.83" width="0.4064" layer="51"/>
+<wire x1="-37" y1="-0.83" x2="-37" y2="17.17" width="0.4064" layer="51"/>
+<wire x1="36.99" y1="0.67" x2="27.5" y2="0.67" width="0.1" layer="51"/>
+<wire x1="27.5" y1="-2.33" x2="36.99" y2="-2.33" width="0.1" layer="51"/>
 <wire x1="37" y1="0.67" x2="37" y2="-0.83" width="0.1" layer="21"/>
 <wire x1="37" y1="-0.83" x2="37" y2="-2.33" width="0.1" layer="21"/>
-<wire x1="37" y1="-18.83" x2="29" y2="-18.83" width="0.4064" layer="21"/>
-<wire x1="29" y1="-18.83" x2="29" y2="17.17" width="0.4064" layer="21"/>
-<wire x1="29" y1="17.17" x2="37" y2="17.17" width="0.4064" layer="21"/>
-<wire x1="37" y1="17.17" x2="37" y2="-0.83" width="0.4064" layer="21"/>
-<wire x1="37" y1="-0.83" x2="37" y2="-18.83" width="0.4064" layer="21"/>
+<wire x1="37" y1="-18.83" x2="29" y2="-18.83" width="0.4064" layer="51"/>
+<wire x1="29" y1="-18.83" x2="29" y2="17.17" width="0.4064" layer="51"/>
+<wire x1="29" y1="17.17" x2="37" y2="17.17" width="0.4064" layer="51"/>
+<wire x1="37" y1="17.17" x2="37" y2="-0.83" width="0.4064" layer="51"/>
+<wire x1="37" y1="-0.83" x2="37" y2="-18.83" width="0.4064" layer="51"/>
 <wire x1="-37" y1="15.17" x2="-28" y2="15.17" width="0.1" layer="20"/>
 <wire x1="-28" y1="15.17" x2="-28" y2="-16.83" width="0.1" layer="20"/>
 <wire x1="-28" y1="-16.83" x2="-37" y2="-16.83" width="0.1" layer="20"/>
@@ -12638,7 +12638,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <hole x="14.85" y="-9.83" drill="2.286"/>
 <hole x="-14.85" y="-9.83" drill="2.286"/>
 <hole x="-14.85" y="8.17" drill="2.286"/>
-<wire x1="-37" y1="-0.83" x2="37" y2="-0.83" width="0.127" layer="21" style="longdash"/>
+<wire x1="-37" y1="-0.83" x2="37" y2="-0.83" width="0.127" layer="51" style="longdash"/>
 <pad name="L_CHA" x="-20.375" y="-10.1" drill="0.95" diameter="2"/>
 <pad name="L_CHB" x="-20.375" y="-12.64" drill="0.95" diameter="2"/>
 <pad name="L_GND" x="-20.375" y="8.44" drill="0.95" diameter="2"/>
