@@ -6,9 +6,9 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="3" unitdist="mil" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.5" altunitdist="mil" altunit="mil"/>
+<grid distance="10" unitdist="mil" unit="mil" style="lines" multiple="1" display="yes" altdistance="0.5" altunitdist="mil" altunit="mil"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
@@ -28,16 +28,16 @@
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="yes"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
-<layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
-<layer number="30" name="bStop" color="7" fill="6" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
 <layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
 <layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
@@ -2011,8 +2011,11 @@ design rules under a new name.</description>
 <wire x1="21.4699" y1="94.4339" x2="22.1963" y2="94.4339" width="0.254" layer="1"/>
 <wire x1="22.1963" y1="94.4339" x2="22.479" y2="94.7166" width="0.254" layer="1"/>
 <wire x1="22.479" y1="94.7166" x2="22.479" y2="95.4024" width="0.254" layer="1"/>
-<wire x1="22.479" y1="95.4024" x2="20.193" y2="97.6884" width="0.254" layer="1"/>
 <wire x1="20.193" y1="97.6884" x2="20.193" y2="97.9433" width="0.254" layer="1"/>
+<wire x1="22.479" y1="95.4024" x2="21.3614" y2="96.52" width="0.254" layer="1"/>
+<wire x1="21.3614" y1="96.52" x2="20.574" y2="96.52" width="0.254" layer="1"/>
+<wire x1="20.574" y1="96.52" x2="20.193" y2="96.901" width="0.254" layer="1"/>
+<wire x1="20.193" y1="96.901" x2="20.193" y2="97.9433" width="0.254" layer="1"/>
 </signal>
 <signal name="N$26">
 <contactref element="IC3" pad="VREGD"/>
@@ -2082,9 +2085,9 @@ design rules under a new name.</description>
 <contactref element="R3" pad="1"/>
 <contactref element="IC3" pad="INT1"/>
 <wire x1="17.6699" y1="93.9339" x2="16.9371" y2="93.9339" width="0.254" layer="1"/>
-<wire x1="16.9371" y1="93.9339" x2="16.6878" y2="94.1832" width="0.254" layer="1"/>
-<wire x1="16.6878" y1="94.1832" x2="16.6878" y2="96.3812" width="0.254" layer="1"/>
 <wire x1="16.6878" y1="96.3812" x2="16.3068" y2="96.7622" width="0.254" layer="1"/>
+<wire x1="16.9371" y1="93.9339" x2="16.3068" y2="94.5642" width="0.254" layer="1"/>
+<wire x1="16.3068" y1="94.5642" x2="16.3068" y2="96.7622" width="0.254" layer="1"/>
 </signal>
 <signal name="N$4">
 <contactref element="ZAS" pad="2"/>
