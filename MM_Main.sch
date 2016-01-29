@@ -12592,8 +12592,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-1.5" y1="-6.83" x2="-1.5" y2="5.17" width="0.1" layer="21"/>
 <wire x1="-36.99" y1="-2.33" x2="-27.5" y2="-2.33" width="0.1" layer="51"/>
 <wire x1="-27.5" y1="0.67" x2="-36.99" y2="0.67" width="0.1" layer="51"/>
-<wire x1="-37" y1="-2.33" x2="-37" y2="-0.83" width="0.1" layer="21"/>
-<wire x1="-37" y1="-0.83" x2="-37" y2="0.67" width="0.1" layer="21"/>
+<wire x1="-37" y1="-2.33" x2="-37" y2="-0.83" width="0.1" layer="51"/>
+<wire x1="-37" y1="-0.83" x2="-37" y2="0.67" width="0.1" layer="51"/>
 <wire x1="-27.9" y1="6.67" x2="-27.9" y2="-8.23" width="0.1" layer="21"/>
 <wire x1="-27.9" y1="-8.23" x2="-19.1" y2="-8.23" width="0.1" layer="21"/>
 <wire x1="-10.6" y1="-8.23" x2="-10.6" y2="6.67" width="0.1" layer="21"/>
@@ -12612,8 +12612,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-37" y1="15.17" x2="-37" y2="19.17" width="0.1" layer="20"/>
 <wire x1="37" y1="19.17" x2="37" y2="15.17" width="0.1" layer="20"/>
 <wire x1="37" y1="-20.83" x2="37" y2="-16.83" width="0.1" layer="20"/>
-<wire x1="28" y1="-16.83" x2="28" y2="15.17" width="0.1" layer="21"/>
-<wire x1="-28" y1="15.17" x2="-28" y2="-16.83" width="0.1" layer="21"/>
 <wire x1="-37" y1="17.17" x2="-29" y2="17.17" width="0.4064" layer="51"/>
 <wire x1="-29" y1="17.17" x2="-29" y2="-18.83" width="0.4064" layer="51"/>
 <wire x1="-29" y1="-18.83" x2="-37" y2="-18.83" width="0.4064" layer="51"/>
@@ -12621,8 +12619,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-37" y1="-0.83" x2="-37" y2="17.17" width="0.4064" layer="51"/>
 <wire x1="36.99" y1="0.67" x2="27.5" y2="0.67" width="0.1" layer="51"/>
 <wire x1="27.5" y1="-2.33" x2="36.99" y2="-2.33" width="0.1" layer="51"/>
-<wire x1="37" y1="0.67" x2="37" y2="-0.83" width="0.1" layer="21"/>
-<wire x1="37" y1="-0.83" x2="37" y2="-2.33" width="0.1" layer="21"/>
+<wire x1="37" y1="0.67" x2="37" y2="-0.83" width="0.1" layer="51"/>
+<wire x1="37" y1="-0.83" x2="37" y2="-2.33" width="0.1" layer="51"/>
 <wire x1="37" y1="-18.83" x2="29" y2="-18.83" width="0.4064" layer="51"/>
 <wire x1="29" y1="-18.83" x2="29" y2="17.17" width="0.4064" layer="51"/>
 <wire x1="29" y1="17.17" x2="37" y2="17.17" width="0.4064" layer="51"/>
@@ -12647,14 +12645,14 @@ In this library the device names are the same as the pin names of the symbols, t
 <pad name="R_CHA" x="20.375" y="8.44" drill="0.95" diameter="2"/>
 <pad name="R_GND" x="20.375" y="-10.1" drill="0.95" diameter="2"/>
 <pad name="R_VCC" x="20.375" y="-12.64" drill="0.95" diameter="2"/>
-<text x="-21.59" y="11.43" size="1.27" layer="21" font="vector" rot="R180">L_VCC</text>
-<text x="-21.59" y="8.89" size="1.27" layer="21" font="vector" rot="R180">L_GND</text>
-<text x="-21.59" y="-9.525" size="1.27" layer="21" font="vector" rot="R180">L_CHA</text>
-<text x="-21.59" y="-12.065" size="1.27" layer="21" font="vector" rot="R180">L_CHB</text>
-<text x="27.94" y="-12.065" size="1.27" layer="21" font="vector" rot="R180">R_VCC</text>
-<text x="27.94" y="-9.525" size="1.27" layer="21" font="vector" rot="R180">R_GND</text>
-<text x="27.94" y="8.89" size="1.27" layer="21" font="vector" rot="R180">R_CHA</text>
-<text x="27.94" y="11.43" size="1.27" layer="21" font="vector" rot="R180">R_CHB</text>
+<text x="-21.59" y="11.43" size="1.27" layer="25" font="vector" rot="R180">L_VCC</text>
+<text x="-21.59" y="8.89" size="1.27" layer="25" font="vector" rot="R180">L_GND</text>
+<text x="-21.59" y="-9.525" size="1.27" layer="25" font="vector" rot="R180">L_CHA</text>
+<text x="-21.59" y="-12.065" size="1.27" layer="25" font="vector" rot="R180">L_CHB</text>
+<text x="27.94" y="-12.065" size="1.27" layer="25" font="vector" rot="R180">R_VCC</text>
+<text x="27.94" y="-9.525" size="1.27" layer="25" font="vector" rot="R180">R_GND</text>
+<text x="27.94" y="8.89" size="1.27" layer="25" font="vector" rot="R180">R_CHA</text>
+<text x="27.94" y="11.43" size="1.27" layer="25" font="vector" rot="R180">R_CHB</text>
 <circle x="-14.85" y="8.17" radius="1.4" width="0.6" layer="16"/>
 <circle x="-14.85" y="-9.83" radius="1.4" width="0.6" layer="16"/>
 <circle x="14.85" y="-9.83" radius="1.4" width="0.6" layer="16"/>
@@ -12665,10 +12663,10 @@ In this library the device names are the same as the pin names of the symbols, t
 <pad name="L_MOTOR_B" x="-2" y="-2.1" drill="0.95" diameter="2"/>
 <pad name="R_MOTOR_A" x="2" y="-2.1" drill="0.95" diameter="2"/>
 <pad name="R_MOTOR_B" x="2" y="0.44" drill="0.95" diameter="2"/>
-<text x="-10" y="0.17" size="0.8128" layer="21" font="vector">L_MOTOR_A</text>
-<text x="-10" y="-2.83" size="0.8128" layer="21" font="vector">L_MOTOR_B</text>
-<text x="3.635" y="0.17" size="0.8128" layer="21" font="vector">R_MOTOR_B</text>
-<text x="3.635" y="-2.83" size="0.8128" layer="21" font="vector">R_MOTOR_A</text>
+<text x="-10" y="0.17" size="0.8128" layer="25" font="vector">L_MOTOR_A</text>
+<text x="-10" y="-2.83" size="0.8128" layer="25" font="vector">L_MOTOR_B</text>
+<text x="3.635" y="0.17" size="0.8128" layer="25" font="vector">R_MOTOR_B</text>
+<text x="3.635" y="-2.83" size="0.8128" layer="25" font="vector">R_MOTOR_A</text>
 </package>
 <package name="LABIRYNT">
 <wire x1="83.1" y1="84.1" x2="-84.9" y2="84.1" width="0.254" layer="48"/>
@@ -12780,16 +12778,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="64.1" y1="106.1" x2="58.1" y2="100.1" width="0.254" layer="48" style="longdash"/>
 <wire x1="64.1" y1="106.1" x2="70.1" y2="100.1" width="0.254" layer="48" style="longdash"/>
 <dimension x1="-65.9" y1="106.1" x2="-65.9" y2="124.1" x3="-60.9" y3="115.1" textsize="1.9304" layer="48"/>
-</package>
-<package name="DUALSKY_220MAH_D">
-<wire x1="-19.5" y1="-9" x2="19.5" y2="9" width="0.127" layer="21"/>
-<wire x1="-19.5" y1="-9" x2="19.5" y2="-9" width="0.127" layer="21"/>
-<wire x1="19.5" y1="-9" x2="19.5" y2="9" width="0.127" layer="21"/>
-<wire x1="19.5" y1="9" x2="-19.5" y2="9" width="0.127" layer="21"/>
-<wire x1="-19.5" y1="9" x2="-19.5" y2="-9" width="0.127" layer="21"/>
-<text x="-16.5" y="4" size="1.27" layer="51">Li-Pol Dualsky 220mAh</text>
-<text x="-16.5" y="1" size="1.27" layer="51">16g</text>
-<text x="4.5" y="-3" size="1.27" layer="51">defaulf version</text>
 </package>
 <package name="9AXIS_SENSOR_MODULE">
 <wire x1="-13.97" y1="-7.62" x2="13.97" y2="-7.62" width="0.127" layer="21"/>
@@ -12989,16 +12977,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <text x="-4.572" y="-5.842" size="0.508" layer="21">1</text>
 <text x="-5.334" y="-4.826" size="0.508" layer="21" rot="R90">64</text>
 </package>
-<package name="DUALSKY_220MAH_H">
-<wire x1="19.5" y1="6.5" x2="-19.5" y2="-6.5" width="0.127" layer="21"/>
-<wire x1="-19.5" y1="-6.5" x2="19.5" y2="-6.5" width="0.127" layer="21"/>
-<wire x1="19.5" y1="-6.5" x2="19.5" y2="6.5" width="0.127" layer="21"/>
-<wire x1="19.5" y1="6.5" x2="-19.5" y2="6.5" width="0.127" layer="21"/>
-<wire x1="-19.5" y1="6.5" x2="-19.5" y2="-6.5" width="0.127" layer="21"/>
-<text x="-15.5" y="1.5" size="1.27" layer="51">Li-Pol Dualsky 220mAh</text>
-<text x="3.5" y="-2.5" size="1.27" layer="51">Horizontal </text>
-<text x="3.5" y="-4.5" size="1.27" layer="51">16g</text>
-</package>
 </packages>
 <symbols>
 <symbol name="TB6612FNG">
@@ -13141,13 +13119,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-7.62" y1="7.62" x2="7.62" y2="7.62" width="0.254" layer="94" style="longdash"/>
 <wire x1="7.62" y1="7.62" x2="7.62" y2="-7.62" width="0.254" layer="94" style="longdash"/>
 <wire x1="7.62" y1="-7.62" x2="-7.62" y2="-7.62" width="0.254" layer="94" style="longdash"/>
-</symbol>
-<symbol name="LI-POL">
-<wire x1="-12.7" y1="7.62" x2="-12.7" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="-7.62" x2="12.7" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="12.7" y1="-7.62" x2="12.7" y2="7.62" width="0.254" layer="94"/>
-<wire x1="12.7" y1="7.62" x2="-12.7" y2="7.62" width="0.254" layer="94"/>
-<text x="-5.08" y="0" size="1.778" layer="94">Battery</text>
 </symbol>
 <symbol name="9AXIS_SENSOR_MODULE">
 <description>9-axis module with FXOS8700cq accelerator and magnetometer with FXAS21002 gyroscope</description>
@@ -13429,23 +13400,6 @@ MOS dual H-bridge motor driver, 1.2A current 3.2A peak
 </gates>
 <devices>
 <device name="" package="LABIRYNT">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="LI-POL">
-<gates>
-<gate name="G$1" symbol="LI-POL" x="2.54" y="0"/>
-</gates>
-<devices>
-<device name="-DUALKSY_220MAH_D" package="DUALSKY_220MAH_D">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="-DUALSKY_220MAH_H" package="DUALSKY_220MAH_H">
 <technologies>
 <technology name=""/>
 </technologies>
@@ -21157,7 +21111,6 @@ Standard 3-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="+3V20" library="supply1" deviceset="+3V3" device=""/>
 <part name="ZAS" library="special" deviceset="SW_DIP-1" device=""/>
 <part name="FUSE" library="resistor" deviceset="R-EU_" device="M2012"/>
-<part name="U$2" library="_microMouse" deviceset="LI-POL" device="-DUALKSY_220MAH_D" value="LI-POL-DUALKSY_220MAH_D"/>
 <part name="U$1" library="_microMouse" deviceset="9AXIS_MODULE" device=""/>
 <part name="+3V1" library="supply1" deviceset="+3V3" device=""/>
 <part name="AGND3" library="supply2" deviceset="GND" device=""/>
@@ -21364,7 +21317,6 @@ RX-&gt;TX</text>
 <instance part="+3V20" gate="G$1" x="-68.58" y="76.2"/>
 <instance part="ZAS" gate="G$1" x="-139.7" y="121.92" rot="R180"/>
 <instance part="FUSE" gate="G$1" x="-127" y="121.92" rot="R180"/>
-<instance part="U$2" gate="G$1" x="-71.12" y="121.92"/>
 <instance part="U$1" gate="G$1" x="358.14" y="76.2"/>
 <instance part="+3V1" gate="G$1" x="-12.7" y="40.64"/>
 <instance part="AGND3" gate="GND" x="-12.7" y="17.78"/>
