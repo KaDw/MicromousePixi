@@ -6159,11 +6159,12 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <part name="JP3" library="pinhead" deviceset="PINHD-1X1" device=""/>
 <part name="JP4" library="_microMouse" deviceset="PINHD_1X2_ROUND" device=""/>
 <part name="JP5" library="_microMouse" deviceset="PINHD_1X2_ROUND" device=""/>
-<part name="JP6" library="_microMouse" deviceset="PINHD_1X2_ROUND" device=""/>
-<part name="JP7" library="_microMouse" deviceset="PINHD_1X2_ROUND" device=""/>
 <part name="JP8" library="pinhead" deviceset="PINHD-1X1" device=""/>
 <part name="GND3" library="supply1" deviceset="GND" device=""/>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
+<part name="JP6" library="_microMouse" deviceset="PINHD_1X2_ROUND" device=""/>
+<part name="JP7" library="_microMouse" deviceset="PINHD_1X2_ROUND" device=""/>
+<part name="GND5" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6190,11 +6191,12 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <instance part="JP3" gate="G$1" x="-55.88" y="-7.62" rot="R180"/>
 <instance part="JP4" gate="G$1" x="-60.96" y="19.05"/>
 <instance part="JP5" gate="G$1" x="-60.96" y="3.81"/>
-<instance part="JP6" gate="G$1" x="-68.58" y="3.81"/>
-<instance part="JP7" gate="G$1" x="-68.58" y="19.05"/>
 <instance part="JP8" gate="G$1" x="-55.88" y="-12.7" rot="R180"/>
 <instance part="GND3" gate="1" x="-45.72" y="-12.7" rot="R90"/>
 <instance part="GND4" gate="1" x="-60.96" y="15.24"/>
+<instance part="JP6" gate="G$1" x="-68.58" y="3.81"/>
+<instance part="JP7" gate="G$1" x="-68.58" y="19.05"/>
+<instance part="GND5" gate="1" x="-68.58" y="15.24"/>
 </instances>
 <busses>
 </busses>
@@ -6241,6 +6243,10 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <segment>
 <pinref part="JP4" gate="G$1" pin="2"/>
 <pinref part="GND4" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="JP7" gate="G$1" pin="2"/>
+<pinref part="GND5" gate="1" pin="GND"/>
 </segment>
 </net>
 <net name="CHA" class="0">
