@@ -12608,10 +12608,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-19.1" y1="8.17" x2="-19.1" y2="6.67" width="0.1" layer="21"/>
 <wire x1="-19.1" y1="8.17" x2="-10.6" y2="8.17" width="0.1" layer="21"/>
 <wire x1="-19.1" y1="8.17" x2="-10.6" y2="8.17" width="0.1" layer="21" curve="-180"/>
-<wire x1="-37" y1="-16.83" x2="-37" y2="-20.83" width="0.1" layer="20"/>
-<wire x1="-37" y1="15.17" x2="-37" y2="19.17" width="0.1" layer="20"/>
-<wire x1="37" y1="19.17" x2="37" y2="15.17" width="0.1" layer="20"/>
-<wire x1="37" y1="-20.83" x2="37" y2="-16.83" width="0.1" layer="20"/>
 <wire x1="-37" y1="17.17" x2="-29" y2="17.17" width="0.4064" layer="51"/>
 <wire x1="-29" y1="17.17" x2="-29" y2="-18.83" width="0.4064" layer="51"/>
 <wire x1="-29" y1="-18.83" x2="-37" y2="-18.83" width="0.4064" layer="51"/>
@@ -12626,12 +12622,12 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="29" y1="17.17" x2="37" y2="17.17" width="0.4064" layer="51"/>
 <wire x1="37" y1="17.17" x2="37" y2="-0.83" width="0.4064" layer="51"/>
 <wire x1="37" y1="-0.83" x2="37" y2="-18.83" width="0.4064" layer="51"/>
-<wire x1="-37" y1="15.17" x2="-28" y2="15.17" width="0.1" layer="20"/>
-<wire x1="-28" y1="15.17" x2="-28" y2="-16.83" width="0.1" layer="20"/>
-<wire x1="-28" y1="-16.83" x2="-37" y2="-16.83" width="0.1" layer="20"/>
-<wire x1="37" y1="15.17" x2="28" y2="15.17" width="0.1" layer="20"/>
-<wire x1="28" y1="15.17" x2="28" y2="-16.83" width="0.1" layer="20"/>
-<wire x1="28" y1="-16.83" x2="37" y2="-16.83" width="0.1" layer="20"/>
+<wire x1="-37" y1="15.17" x2="-28" y2="15.17" width="0.1" layer="46"/>
+<wire x1="-28" y1="15.17" x2="-28" y2="-16.83" width="0.1" layer="46"/>
+<wire x1="-28" y1="-16.83" x2="-37" y2="-16.83" width="0.1" layer="46"/>
+<wire x1="37" y1="15.17" x2="28" y2="15.17" width="0.1" layer="46"/>
+<wire x1="28" y1="15.17" x2="28" y2="-16.83" width="0.1" layer="46"/>
+<wire x1="28" y1="-16.83" x2="37" y2="-16.83" width="0.1" layer="46"/>
 <hole x="14.85" y="8.17" drill="2.286"/>
 <hole x="14.85" y="-9.83" drill="2.286"/>
 <hole x="-14.85" y="-9.83" drill="2.286"/>

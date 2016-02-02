@@ -96,9 +96,9 @@
 <layer number="122" name="_bplace" color="14" fill="1" visible="yes" active="yes"/>
 <layer number="123" name="tTestmark" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="124" name="bTestmark" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="125" name="_tNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="126" name="_bNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="127" name="_tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="125" name="_tNames" color="14" fill="1" visible="yes" active="yes"/>
+<layer number="126" name="_bNames" color="5" fill="1" visible="yes" active="yes"/>
+<layer number="127" name="_tValues" color="14" fill="1" visible="yes" active="yes"/>
 <layer number="128" name="_bValues" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="129" name="Mask" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="131" name="tAdjust" color="7" fill="1" visible="yes" active="yes"/>
@@ -170,6 +170,11 @@
 <text x="14.3256" y="14.478" size="1.27" layer="22" rot="MR270">GND</text>
 <text x="32.6898" y="6.3246" size="1.27" layer="22" rot="MR0">A</text>
 <text x="35.1282" y="6.1722" size="1.27" layer="22" rot="MR0">B</text>
+<text x="16.06659375" y="28.924809375" size="1.27" layer="126" rot="MR270">C1</text>
+<text x="15.9878" y="24.238990625" size="1.27" layer="126" rot="MR180">C2</text>
+<text x="19.4413875" y="25.195809375" size="1.016" layer="125" ratio="10" rot="R90">IC1</text>
+<text x="33.655" y="12.3952" size="1.27" layer="126" rot="MR90">R1</text>
+<text x="32.9692" y="18.0848" size="1.27" layer="126" rot="MR270">R2</text>
 </plain>
 <libraries>
 <library name="rcl">
