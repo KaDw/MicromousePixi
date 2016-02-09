@@ -21202,6 +21202,12 @@ RS - Right Side
 LF - Left Front
 RF - Right Front
 </text>
+<text x="93.98" y="-48.26" size="1.778" layer="91">L</text>
+<text x="91.44" y="-48.26" size="1.778" layer="91">R</text>
+<text x="88.9" y="-45.72" size="1.778" layer="91" rot="R270">RF</text>
+<text x="86.36" y="-45.72" size="1.778" layer="91" rot="R270">RS</text>
+<text x="139.7" y="-17.78" size="1.778" layer="91">LS</text>
+<text x="109.22" y="-53.34" size="1.778" layer="91" rot="R90">LF</text>
 </plain>
 <instances>
 <instance part="Q6" gate="G$1" x="73.66" y="83.82"/>
