@@ -1,4 +1,4 @@
-Partlist exported from D:/Git/micromouse/MM_Main.sch at 10.02.2016 23:46:43
+Partlist exported from D:/Git/micromouse/MM_Main.sch at 11.02.2016 00:51:53
 
 Part    Value                Device               Package             Description                                                   MF MPN OC_FARNELL OC_NEWARK
 BT0     TACTILE-SWITCH-7914G TACTILE-SWITCH-7914G 7914G               Tactile Switch 4 Pins, SPST NO                                                           
@@ -13,8 +13,8 @@ C13     tant-a-10u           CPOL-EUSMCA          SMC_A               POLARIZED 
 C15     tant-d-220u          CPOL-EUSMCD          SMC_D               POLARIZED CAPACITOR, European symbol                                                     
 C21     tant-a-4,7u          CPOL-EUSMCA          SMC_A               POLARIZED CAPACITOR, European symbol                                                     
 C22     tant-a-10u           CPOL-EUSMCA          SMC_A               POLARIZED CAPACITOR, European symbol                                                     
-C_OSC1  27p                  C-EUC0805            C0805               CAPACITOR, European symbol                                                               
-C_OSC2  27p                  C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+C_OSC1  33p                  C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+C_OSC2  33p                  C-EUC0805            C0805               CAPACITOR, European symbol                                                               
 C_V1    100n                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
 C_V2    100n                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
 C_V3    100n                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
@@ -38,8 +38,8 @@ L2      LABITYNT             LABITYNT             LABIRYNT
 LED1    red                  LEDSML1206           SML1206             LED                                                                                      
 LED2    green                LEDSML1206           SML1206             LED                                                                                      
 LED3    yellow               LEDSML1206           SML1206             LED                                                                                      
-LED4    green                LEDSML1206           SML1206             LED                                                                                      
-LED6    yellow               LEDSML1206           SML1206             LED                                                                                      
+LED4    blue                 LEDSML1206           SML1206             LED                                                                                      
+LED6    blue                 LEDSML1206           SML1206             LED                                                                                      
 Q1      TEFT4300             TEFT4300             TEFT4300                                                                                                     
 Q2      TEFT4300             TEFT4300             TEFT4300                                                                                                     
 Q3      TEFT4300             TEFT4300             TEFT4300                                                                                                     
@@ -56,24 +56,24 @@ R6                           R-EU_R0805           R0805               RESISTOR, 
 R7                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R8                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R9                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
-R10     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
-R11     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
-R12     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
-R13     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R10     150R                 R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R11     10k                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R12     150R                 R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R13     150R                 R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R14     pcb                  R-EU_R0201           R0201               RESISTOR, European symbol                                                                
 R15                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R16     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R17                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R18                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R19                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
-R20     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R20     33R                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R21     10k...47k            R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R22                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R23                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R24                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
-R25                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R25     10k                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 R26                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
-R27     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R27     33R                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
 RST_BTN TACTILE-SWITCH-7914G TACTILE-SWITCH-7914G 7914G               Tactile Switch 4 Pins, SPST NO                                                           
 SV1                          MA04-2               MA04-2              PIN HEADER                                                           unknown    unknown  
 U$1     9AXIS_MODULE         9AXIS_MODULE         9AXIS_SENSOR_MODULE                                                                                          
