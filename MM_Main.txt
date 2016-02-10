@@ -1,0 +1,84 @@
+Partlist exported from D:/Git/micromouse/MM_Main.sch at 10.02.2016 23:46:43
+
+Part    Value                Device               Package             Description                                                   MF MPN OC_FARNELL OC_NEWARK
+BT0     TACTILE-SWITCH-7914G TACTILE-SWITCH-7914G 7914G               Tactile Switch 4 Pins, SPST NO                                                           
+BT1     TACTILE-SWITCH-7914G TACTILE-SWITCH-7914G 7914G               Tactile Switch 4 Pins, SPST NO                                                           
+BUZ1    BUZZER-9.5MM-3V?     BUZZER-9.5MM         BUZZER-9.5MM                                                                                                 
+C1      100n                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+C2      100n                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+C3      tant-a-4,7u          CPOL-EUSMCA          SMC_A               POLARIZED CAPACITOR, European symbol                                                     
+C6      tant-a-10u           CPOL-EUSMCA          SMC_A               POLARIZED CAPACITOR, European symbol                                                     
+C12     100n                 C-EUC0603            C0603               CAPACITOR, European symbol                                                               
+C13     tant-a-10u           CPOL-EUSMCA          SMC_A               POLARIZED CAPACITOR, European symbol                                                     
+C15     tant-d-220u          CPOL-EUSMCD          SMC_D               POLARIZED CAPACITOR, European symbol                                                     
+C21     tant-a-4,7u          CPOL-EUSMCA          SMC_A               POLARIZED CAPACITOR, European symbol                                                     
+C22     tant-a-10u           CPOL-EUSMCA          SMC_A               POLARIZED CAPACITOR, European symbol                                                     
+C_OSC1  27p                  C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+C_OSC2  27p                  C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+C_V1    100n                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+C_V2    100n                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+C_V3    100n                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+C_VSSA  100n                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+C_VSSA1 tant-a-4,7u          CPOL-EUSMCA          SMC_A               POLARIZED CAPACITOR, European symbol                                                     
+D1      SFH4545-C            SFH4545-C            SFH4545-C                                                                                                    
+D2      SFH4545-C            SFH4545-C            SFH4545-C                                                                                                    
+D3      SFH4545-C            SFH4545-C            SFH4545-C                                                                                                    
+D4      SFH4545-C            SFH4545-C            SFH4545-C                                                                                                    
+D5      SFH4545-C            SFH4545-C            SFH4545-C                                                                                                    
+D6      SFH4545-C            SFH4545-C            SFH4545-C                                                                                                    
+FUSE                         R-EU_M2012           M2012               RESISTOR, European symbol                                                                
+FUSE1                        R-EU_M2012           M2012               RESISTOR, European symbol                                                                
+IC1     ULN2003AD            ULN2003AD            SO16                DRIVER ARRAY                                                                             
+IC2     TB6612FNG            TB6612FNG            SSOP24              TB6612FNG                                                                                
+IC4     LD117ADT50TR         LD117ADT50TR         DPACK               Low drop fixed and adjustable positive voltage regulators 1 A                            
+IC5     MCP1825              MCP1825              SOT223-5                                                                                                     
+JP1                          M03POLAR             MOLEX-1X3           Header 3                                                                                 
+L1      LABITYNT             LABITYNT             LABIRYNT                                                                                                     
+L2      LABITYNT             LABITYNT             LABIRYNT                                                                                                     
+LED1    red                  LEDSML1206           SML1206             LED                                                                                      
+LED2    green                LEDSML1206           SML1206             LED                                                                                      
+LED3    yellow               LEDSML1206           SML1206             LED                                                                                      
+LED4    green                LEDSML1206           SML1206             LED                                                                                      
+LED6    yellow               LEDSML1206           SML1206             LED                                                                                      
+Q1      TEFT4300             TEFT4300             TEFT4300                                                                                                     
+Q2      TEFT4300             TEFT4300             TEFT4300                                                                                                     
+Q3      TEFT4300             TEFT4300             TEFT4300                                                                                                     
+Q4      TEFT4300             TEFT4300             TEFT4300                                                                                                     
+Q5      TEFT4300             TEFT4300             TEFT4300                                                                                                     
+Q6      TEFT4300             TEFT4300             TEFT4300                                                                                                     
+Q7      8MHz                 CRYSTALCTS406        CTS406              CRYSTAL                                                              unknown    unknown  
+R1                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R2                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R3                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R4                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R5                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R6                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R7                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R8                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R9                           R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R10     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R11     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R12     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R13     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R14     pcb                  R-EU_R0201           R0201               RESISTOR, European symbol                                                                
+R15                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R16     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R17                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R18                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R19                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R20     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R21     10k...47k            R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R22                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R23                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R24                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R25                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R26                          R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+R27     10K                  R-EU_R0805           R0805               RESISTOR, European symbol                                                                
+RST_BTN TACTILE-SWITCH-7914G TACTILE-SWITCH-7914G 7914G               Tactile Switch 4 Pins, SPST NO                                                           
+SV1                          MA04-2               MA04-2              PIN HEADER                                                           unknown    unknown  
+U$1     9AXIS_MODULE         9AXIS_MODULE         9AXIS_SENSOR_MODULE                                                                                          
+U$5     MOTOR_MOUNT          MOTOR_MOUNT          MOTOR_MOUNT                                                                                                  
+U$6     STM32F4X5            STM32F4X5            STM32F4-LQFP64                                                                                               
+VCAP_1  2,2u                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+VCAP_2  2,2u                 C-EUC0805            C0805               CAPACITOR, European symbol                                                               
+ZAS                          SW_DIP-1             EDG-01              DIP SWITCH                                                                               
