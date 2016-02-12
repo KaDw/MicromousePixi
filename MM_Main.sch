@@ -21251,7 +21251,6 @@ Source: http://www2.produktinfo.conrad.com/datenblaetter/700000-724999/705152-da
 <part name="LED6" library="led" deviceset="LED" device="SML1206" value="blue"/>
 <part name="+3V29" library="supply1" deviceset="+3V3" device=""/>
 <part name="R26" library="rcl" deviceset="R-EU_" device="R0805"/>
-<part name="U$2" library="_microMouse" deviceset="CRYSTAL_5X3.2MM" device=""/>
 <part name="Q8" library="_microMouse" deviceset="CRYSTAL_5X3.2MM" device="" value="8MHz"/>
 <part name="S1" library="switch" deviceset="TL32PO" device=""/>
 <part name="S2" library="switch-tact" deviceset="DTS-3" device=""/>
@@ -22670,11 +22669,10 @@ RF - Right Front
 <wire x1="50.8" y1="-7.62" x2="48.26" y2="-7.62" width="0.1524" layer="91"/>
 <label x="48.26" y="-7.62" size="1.016" layer="95" rot="R180" xref="yes"/>
 <pinref part="U$6" gate="G$1" pin="BOOT0"/>
-<pinref part="U$6" gate="G$1" pin="PD2"/>
-<wire x1="50.8" y1="7.62" x2="78.74" y2="7.62" width="0.1524" layer="91"/>
-<wire x1="78.74" y1="7.62" x2="78.74" y2="-7.62" width="0.1524" layer="91"/>
 <wire x1="78.74" y1="-7.62" x2="50.8" y2="-7.62" width="0.1524" layer="91"/>
-<label x="50.8" y="7.62" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="U$6" gate="G$1" pin="PA15"/>
+<wire x1="78.74" y1="-7.62" x2="78.74" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="78.74" y1="17.78" x2="50.8" y2="17.78" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$23" class="0">
