@@ -187,12 +187,6 @@
 <text x="25.7175" y="-20.6375" size="0.8128" layer="21">TX-IO</text>
 <text x="25.55875" y="-23.1775" size="0.8128" layer="21">GND</text>
 <text x="25.4889" y="-25.1587" size="0.8128" layer="21">+3V3</text>
-<text x="6.6675" y="26.51125" size="2.54" layer="25">PL</text>
-<wire x1="5.55625" y1="32.7025" x2="5.55625" y2="30.7975" width="0.3048" layer="25"/>
-<wire x1="5.55625" y1="30.7975" x2="10.31875" y2="30.7975" width="0.3048" layer="25"/>
-<wire x1="10.31875" y1="30.7975" x2="10.31875" y2="32.7025" width="0.3048" layer="25"/>
-<rectangle x1="5.3975" y1="32.7025" x2="10.4775" y2="34.6075" layer="25"/>
-<wire x1="5.55625" y1="30.7975" x2="5.55625" y2="28.8925" width="0.3048" layer="25"/>
 <text x="26.3525" y="14.9225" size="2.54" layer="26" rot="MR270">K. Trzcinski</text>
 <text x="-21.11375" y="14.9225" size="2.54" layer="26" rot="MR270">K. Dworakowski</text>
 <wire x1="25.87625" y1="9.36625" x2="26.19375" y2="9.68375" width="0.254" layer="26"/>
@@ -9228,12 +9222,12 @@ design rules under a new name.</description>
 <wire x1="-22.074375" y1="12.620625" x2="-21.802290625" y2="12.86569375" width="0.6096" layer="1"/>
 <wire x1="-21.802290625" y1="12.86569375" x2="-21.193125" y2="13.414375" width="0.6096" layer="1"/>
 <polygon width="0.254" layer="16" isolate="0.3048" thermals="no">
-<vertex x="-4.1275" y="-2.2225"/>
-<vertex x="-5.08" y="-3.175"/>
-<vertex x="-5.08" y="-14.76375"/>
-<vertex x="-4.1275" y="-15.71625"/>
+<vertex x="-2.0955" y="-3.2385"/>
+<vertex x="-3.048" y="-4.191"/>
+<vertex x="-3.048" y="-15.77975"/>
+<vertex x="5.7785" y="-15.71625"/>
 <vertex x="13.0175" y="-15.71625"/>
-<vertex x="12.85875" y="-2.2225"/>
+<vertex x="12.85875" y="-3.4925"/>
 </polygon>
 <via x="3.4925" y="-7.62" extent="1-16" drill="0.4" shape="square"/>
 <via x="4.1275" y="-8.5725" extent="1-16" drill="0.4" shape="square"/>
@@ -9936,11 +9930,10 @@ design rules under a new name.</description>
 <polygon width="0.254" layer="16" isolate="0.3048">
 <vertex x="-21.59" y="-21.74875" curve="90"/>
 <vertex x="-17.62125" y="-25.7175"/>
-<vertex x="-6.50875" y="-25.7175" curve="90"/>
-<vertex x="-1.74625" y="-20.955"/>
-<vertex x="-1.74625" y="-15.39875" curve="90"/>
-<vertex x="-5.3975" y="-11.7475"/>
-<vertex x="-17.30375" y="-11.7475"/>
+<vertex x="-8.54075" y="-25.7175" curve="90"/>
+<vertex x="-4.28625" y="-20.955"/>
+<vertex x="-4.28625" y="-15.39875" curve="90"/>
+<vertex x="-8.6995" y="-11.4935"/>
 <vertex x="-18.57375" y="-11.7475" curve="90"/>
 <vertex x="-21.9075" y="-15.08125"/>
 </polygon>
@@ -10530,12 +10523,6 @@ design rules under a new name.</description>
 <approved hash="5,1,55dbfb3408c66182"/>
 <approved hash="5,1,f705a8d8a0d71641"/>
 <approved hash="5,1,2c7a74ff338bdee4"/>
-<approved hash="5,16,5232a61ab9ce51b8"/>
-<approved hash="5,16,228e3df4584860c3"/>
-<approved hash="5,16,509049e6f6f67d8d"/>
-<approved hash="5,16,df00823dfff946d3"/>
-<approved hash="5,16,1249f4404d200012"/>
-<approved hash="5,16,1dfe618b73cfe345"/>
 </errors>
 </board>
 </drawing>
