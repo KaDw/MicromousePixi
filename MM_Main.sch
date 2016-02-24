@@ -20293,7 +20293,7 @@ RF - Right Front
 <busses>
 </busses>
 <nets>
-<net name="ADC_RF" class="0">
+<net name="ADC_L" class="0">
 <segment>
 <pinref part="Q3" gate="G$1" pin="E"/>
 <pinref part="R4" gate="G$1" pin="2"/>
@@ -20333,7 +20333,7 @@ RF - Right Front
 <pinref part="U$6" gate="G$1" pin="PC2"/>
 </segment>
 </net>
-<net name="ADC_L" class="0">
+<net name="ADC_RF" class="0">
 <segment>
 <pinref part="Q5" gate="G$1" pin="E"/>
 <pinref part="R2" gate="G$1" pin="2"/>
@@ -20353,7 +20353,7 @@ RF - Right Front
 <pinref part="U$6" gate="G$1" pin="PC1"/>
 </segment>
 </net>
-<net name="ADC_LF" class="0">
+<net name="ADC_RS" class="0">
 <segment>
 <pinref part="Q6" gate="G$1" pin="E"/>
 <pinref part="R1" gate="G$1" pin="2"/>
@@ -20634,7 +20634,7 @@ RF - Right Front
 <label x="375.92" y="73.66" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$16" class="0">
+<net name="SENSOR_RF" class="0">
 <segment>
 <pinref part="D5" gate="G$1" pin="C"/>
 <pinref part="IC1" gate="A" pin="O6"/>
@@ -21735,7 +21735,7 @@ RF - Right Front
 <label x="-25.4" y="7.62" size="1.016" layer="95" rot="R90" xref="yes"/>
 </segment>
 </net>
-<net name="N$2" class="0">
+<net name="SENSOR_LF" class="0">
 <segment>
 <pinref part="D2" gate="G$1" pin="C"/>
 <wire x1="86.36" y1="134.62" x2="86.36" y2="139.7" width="0.1524" layer="91"/>
@@ -21761,7 +21761,7 @@ RF - Right Front
 <pinref part="D3" gate="G$1" pin="A"/>
 </segment>
 </net>
-<net name="ADC_PA2" class="0">
+<net name="ADC_LF" class="0">
 <segment>
 <pinref part="Q2" gate="G$1" pin="E"/>
 <pinref part="R23" gate="G$1" pin="2"/>
@@ -21776,7 +21776,7 @@ RF - Right Front
 <label x="106.68" y="-38.1" size="1.27" layer="95" rot="R270" xref="yes"/>
 </segment>
 </net>
-<net name="ADC_PA3" class="0">
+<net name="ADC_LS" class="0">
 <segment>
 <pinref part="Q1" gate="G$1" pin="E"/>
 <pinref part="R24" gate="G$1" pin="2"/>
@@ -21791,7 +21791,7 @@ RF - Right Front
 <label x="127" y="-17.78" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$13" class="0">
+<net name="SENSOR_LS" class="0">
 <segment>
 <pinref part="D1" gate="G$1" pin="C"/>
 <pinref part="IC1" gate="A" pin="O1"/>
@@ -21799,7 +21799,7 @@ RF - Right Front
 <wire x1="96.52" y1="137.16" x2="66.04" y2="137.16" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$14" class="0">
+<net name="SENSOR_RS" class="0">
 <segment>
 <pinref part="D6" gate="G$1" pin="C"/>
 <pinref part="IC1" gate="A" pin="O7"/>
@@ -21807,7 +21807,7 @@ RF - Right Front
 <wire x1="76.2" y1="121.92" x2="66.04" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$15" class="0">
+<net name="SENSOR_R" class="0">
 <segment>
 <pinref part="D4" gate="G$1" pin="C"/>
 <wire x1="116.84" y1="139.7" x2="116.84" y2="129.54" width="0.1524" layer="91"/>
@@ -21815,7 +21815,7 @@ RF - Right Front
 <wire x1="66.04" y1="129.54" x2="116.84" y2="129.54" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$33" class="0">
+<net name="SENSOR_L" class="0">
 <segment>
 <pinref part="IC1" gate="A" pin="O3"/>
 <pinref part="D3" gate="G$1" pin="C"/>
