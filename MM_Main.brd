@@ -5158,6 +5158,15 @@
 <rectangle x1="-11.9543" y1="36.05255" x2="-10.3493" y2="36.06005" layer="25" rot="R90"/>
 <rectangle x1="-11.77055" y1="38.0363" x2="-10.53305" y2="38.0438" layer="25" rot="R90"/>
 <text x="0" y="-0.0375" size="0.015" layer="200" font="vector">C:/Users/Karol/Desktop/pixi.bmp</text>
+<text x="6.6675" y="27.52725" size="2.54" layer="25">PL</text>
+<wire x1="5.55625" y1="33.7185" x2="5.55625" y2="31.8135" width="0.3048" layer="25"/>
+<wire x1="5.55625" y1="31.8135" x2="10.31875" y2="31.8135" width="0.3048" layer="25"/>
+<wire x1="10.31875" y1="31.8135" x2="10.31875" y2="33.7185" width="0.3048" layer="25"/>
+<rectangle x1="5.3975" y1="33.7185" x2="10.4775" y2="35.6235" layer="25"/>
+<wire x1="5.55625" y1="31.8135" x2="5.55625" y2="29.9085" width="0.3048" layer="25"/>
+<hole x="0" y="-33.3982" drill="2.2"/>
+<hole x="-3.3" y="-33.3982" drill="2.2"/>
+<hole x="3.3" y="-33.3982" drill="2.2"/>
 </plain>
 <libraries>
 <library name="_microMouse">
