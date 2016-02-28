@@ -5174,8 +5174,8 @@
 <package name="BUZZER-9.5MM">
 <circle x="0" y="0" radius="4.8" width="0.1524" layer="21"/>
 <circle x="0" y="0" radius="0.5" width="0.1524" layer="21"/>
-<pad name="+" x="-2.4812" y="0" drill="0.6" diameter="1.27"/>
-<pad name="-" x="2.499" y="0" drill="0.6" diameter="1.27"/>
+<pad name="+" x="-2.4812" y="0" drill="0.9"/>
+<pad name="-" x="2.499" y="0" drill="0.9"/>
 <text x="-2.54" y="6.35" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-3.8862" y="-3.81" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 </package>
