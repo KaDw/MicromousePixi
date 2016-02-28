@@ -74,8 +74,8 @@
 #define INT_A_GPIO_Port GPIOB
 #define ADC1_VBAT_Pin GPIO_PIN_1
 #define ADC1_VBAT_GPIO_Port GPIOB
-#define BTN_Pin GPIO_PIN_2
-#define BTN_GPIO_Port GPIOB
+#define BTN1_Pin GPIO_PIN_2
+#define BTN1_GPIO_Port GPIOB
 #define ML_PWM_Pin GPIO_PIN_14
 #define ML_PWM_GPIO_Port GPIOB
 #define MR_PWM_Pin GPIO_PIN_15
@@ -92,6 +92,8 @@
 #define BT_TX_GPIO_Port GPIOA
 #define BT_TXA10_Pin GPIO_PIN_10
 #define BT_TXA10_GPIO_Port GPIOA
+#define BTN0_Pin GPIO_PIN_15
+#define BTN0_GPIO_Port GPIOA
 #define CS_G_Pin GPIO_PIN_3
 #define CS_G_GPIO_Port GPIOB
 #define CS_A_Pin GPIO_PIN_4

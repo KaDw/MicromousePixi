@@ -21270,7 +21270,7 @@ RF - Right Front
 </segment>
 <segment>
 <wire x1="88.9" y1="38.1" x2="88.9" y2="40.64" width="0.1524" layer="91"/>
-<label x="88.9" y="40.64" size="1.016" layer="95" rot="R90" xref="yes"/>
+<label x="88.9" y="40.64" size="1.27" layer="95" rot="R90" xref="yes"/>
 <pinref part="U$6" gate="G$1" pin="PC9"/>
 </segment>
 </net>
@@ -21286,7 +21286,7 @@ RF - Right Front
 </segment>
 <segment>
 <wire x1="91.44" y1="38.1" x2="91.44" y2="40.64" width="0.1524" layer="91"/>
-<label x="91.44" y="40.64" size="1.016" layer="95" rot="R90" xref="yes"/>
+<label x="91.44" y="40.64" size="1.27" layer="95" rot="R90" xref="yes"/>
 <pinref part="U$6" gate="G$1" pin="PC8"/>
 </segment>
 </net>
@@ -21302,7 +21302,7 @@ RF - Right Front
 </segment>
 <segment>
 <wire x1="93.98" y1="38.1" x2="93.98" y2="40.64" width="0.1524" layer="91"/>
-<label x="93.98" y="40.64" size="1.016" layer="95" rot="R90" xref="yes"/>
+<label x="93.98" y="40.64" size="1.27" layer="95" rot="R90" xref="yes"/>
 <pinref part="U$6" gate="G$1" pin="PC7"/>
 </segment>
 </net>
