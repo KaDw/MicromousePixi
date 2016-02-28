@@ -50,7 +50,7 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+#define BUFFERSIZE 16
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -73,6 +73,8 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* USER CODE BEGIN 0 */
 
+uint8_t aTxBuffer[] = "****SPI - Two Boards communication based on DMA **** SPI Message ******** SPI Message ******** SPI Message ****";
+uint8_t aRxBuffer[BUFFERSIZE];
 /* USER CODE END 0 */
 
 int main(void)
@@ -108,7 +110,8 @@ int main(void)
   while (1)
   {
   /* USER CODE END WHILE */
-
+		HAL_SPI_TransmitReceive_DMA(&hspi3, (uint8_t*)aTxBuffer, (uint8_t *)aRxBuffer, BUFFERSIZE);
+	HAL_Delay(2000);
   /* USER CODE BEGIN 3 */
 
   }
