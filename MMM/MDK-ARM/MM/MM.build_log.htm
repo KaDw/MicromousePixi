@@ -1,0 +1,77 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.18.0.0
+Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Karol Trzciñski, student, LIC=NHY12-9R70Q-ZBBEA-1PZ83-HLE2R-QXCXY
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.18
+Toolchain Path:  E:\Program Files\Keil5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 1 (build 61)
+Assembler:       Armasm.exe V5.06 update 1 (build 61)
+Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
+Library Manager: ArmAr.exe V5.06 update 1 (build 61)
+Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
+CPU DLL:         SARMCM3.DLL V5.18
+Dialog DLL:      DCM.DLL V1.13.6.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
+Dialog DLL:      TCM.DLL V1.14.8.0
+ 
+<h2>Project:</h2>
+E:\GoogleDrive\micromouse\MMM\MDK-ARM\MM.uvprojx
+Project File Date:  04/03/2016
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 1 (build 61)', folder: 'E:\Program Files\Keil5\ARM\ARMCC\Bin'
+Build target 'MM'
+compiling main.c...
+../Src/main.c(116): warning:  #188-D: enumerated type mixed with another type
+  	gpio_pin_cfg(
+R_PWM_GPIO_Port, 
+R_PWM_Pin, gpio_mode_output_PP_LS);
+../Src/main.c(117): warning:  #188-D: enumerated type mixed with another type
+  	gpio_pin_cfg(
+L_PWM_GPIO_Port, 
+L_PWM_Pin, gpio_mode_output_PP_LS);
+../Src/main.c(118): warning:  #188-D: enumerated type mixed with another type
+  	gpio_pin_cfg(
+ED2_GPIO_Port, 
+ED2_Pin, gpio_mode_output_PP_LS);
+../Src/main.c(119): warning:  #188-D: enumerated type mixed with another type
+  	gpio_pin_cfg(
+ED3_GPIO_Port, 
+ED3_Pin, gpio_mode_output_PP_LS);
+../Src/main.c(120): warning:  #188-D: enumerated type mixed with another type
+  	gpio_pin_cfg(
+ED4_GPIO_Port, 
+ED4_Pin, gpio_mode_output_PP_LS);
+../Src/main.c(334): warning:  #177-D: function "MX_GPIO_Init" was declared but never referenced
+  void MX_GPIO_Init(void)
+../Src/main.c: 6 warnings, 0 errors
+linking...
+Program Size: Code=10988 RO-data=440 RW-data=16 ZI-data=920  
+"MM\MM.axf" - 0 Error(s), 6 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.4.5.0.pack
+                ARM::CMSIS:CORE:4.3.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 4.3.0
+
+<h2>Collection of Component include folders:</h2>
+  E:\GoogleDrive\micromouse\MMM\MDK-ARM\RTE
+  E:\Program Files\Keil5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
+  E:\Program Files\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:4.3.0
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>

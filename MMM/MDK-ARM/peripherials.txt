@@ -1,0 +1,7 @@
+Tim1 buzzer (dur)
+Tim2 CH1 buzzer (out), (frequency)
+Tim3 Enc left
+Tim4 Enc right
+Tim12 Motor left and right
+
+Ledy sa pod TIM (2), (3), (4), 5, 10, 11
