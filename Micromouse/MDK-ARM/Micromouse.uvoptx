@@ -82,37 +82,37 @@
         <Book>
           <Number>0</Number>
           <Title>User Manual (MCBSTM32F400)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\Keil\MCBSTM32F400\Documentation\mcbstm32f200.chm</Path>
+          <Path>E:\Program Files\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\Keil\MCBSTM32F400\Documentation\mcbstm32f200.chm</Path>
         </Book>
         <Book>
           <Number>1</Number>
           <Title>Schematics (MCBSTM32F400)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\Keil\MCBSTM32F400\Documentation\mcbstm32f400-schematics.pdf</Path>
+          <Path>E:\Program Files\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\Keil\MCBSTM32F400\Documentation\mcbstm32f400-schematics.pdf</Path>
         </Book>
         <Book>
           <Number>2</Number>
           <Title>Getting Started (STM32F4-Discovery)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\DM00037368.pdf</Path>
+          <Path>E:\Program Files\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\DM00037368.pdf</Path>
         </Book>
         <Book>
           <Number>3</Number>
           <Title>User Manual (STM32F4-Discovery)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\DM00039084.pdf</Path>
+          <Path>E:\Program Files\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\DM00039084.pdf</Path>
         </Book>
         <Book>
           <Number>4</Number>
           <Title>Bill of Materials (STM32F4-Discovery)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_bom.zip</Path>
+          <Path>E:\Program Files\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_bom.zip</Path>
         </Book>
         <Book>
           <Number>5</Number>
           <Title>Gerber Files (STM32F4-Discovery)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_gerber.zip</Path>
+          <Path>E:\Program Files\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_gerber.zip</Path>
         </Book>
         <Book>
           <Number>6</Number>
           <Title>Schematics (STM32F4-Discovery)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_sch.zip</Path>
+          <Path>E:\Program Files\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_sch.zip</Path>
         </Book>
         <Book>
           <Number>7</Number>
@@ -189,35 +189,48 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ST-LINKIII-KEIL_SWO</Key>
-          <Name>-U-O142 -O2254 -S0 -C0 -A0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F405RG$CMSIS\Flash\STM32F4xx_1024.FLM)</Name>
+          <Name>-U38006A063052323250321957 -O2254 -S0 -C0 -A0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F405RG$CMSIS\Flash\STM32F4xx_1024.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>95</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134223588</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>../Src/main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Micromouse\../Src/main.c\95</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>77</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>../Src/main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Rx_buf</ItemText>
-        </Ww>
-        <Ww>
-          <count>1</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>Tx_buf</ItemText>
-        </Ww>
-        <Ww>
-          <count>2</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>LFSensor</ItemText>
-        </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>RSensor</ItemText>
-        </Ww>
-        <Ww>
-          <count>4</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>adc</ItemText>
+          <ItemText>vel</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
@@ -255,6 +268,24 @@
       <Lin2Executable></Lin2Executable>
       <Lin2ConfigFile></Lin2ConfigFile>
       <bLin2Auto>0</bLin2Auto>
+      <SystemViewers>
+        <Entry>
+          <Name>System Viewer\GPIOC</Name>
+          <WinId>35905</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\TIM12</Name>
+          <WinId>35904</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\TIM3</Name>
+          <WinId>35903</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\TIM4</Name>
+          <WinId>35902</WinId>
+        </Entry>
+      </SystemViewers>
       <DebugDescription>
         <Enable>1</Enable>
         <EnableLog>0</EnableLog>
@@ -641,8 +672,56 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\fxas21002c.c</PathWithFileName>
+      <PathWithFileName>..\Src\fxas21002c.c</PathWithFileName>
       <FilenameWithoutPath>fxas21002c.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>31</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Src\UI.c</PathWithFileName>
+      <FilenameWithoutPath>UI.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>32</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Src\motor.c</PathWithFileName>
+      <FilenameWithoutPath>motor.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>33</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Src\tinylib.c</PathWithFileName>
+      <FilenameWithoutPath>tinylib.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>34</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Src\gpio_r.c</PathWithFileName>
+      <FilenameWithoutPath>gpio_r.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -656,7 +735,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>4</GroupNumber>
-      <FileNumber>31</FileNumber>
+      <FileNumber>35</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

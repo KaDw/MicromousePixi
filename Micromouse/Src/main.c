@@ -40,20 +40,16 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#include "gpio_r.h"
 #include "sensor.h"
 #include "fxas21002c.h"
+#include "motor.h"
+#include "UI.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-#ifdef __GNUC__
-/* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
-   set to 'Yes') calls __io_putchar() */
-#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-#else
-#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-#endif /* __GNUC__ */
 
 
 /* Private variables ---------------------------------------------------------*/
@@ -69,10 +65,6 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-void MotorStart();
-void MotorStop();
-void TurnRight();
-void TurnLeft();
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -83,7 +75,6 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -106,37 +97,49 @@ int main(void)
   MX_TIM6_Init();
 
   /* USER CODE BEGIN 2 */
-//	HAL_TIM_Base_Start(&htim3);
-//	HAL_TIM_Base_Start(&htim4);
 
-/* CHANNEL_ALL enables CHANNEL1 and CHANNEL2 */
+/* CHANNEL_ALL enables CHANNEL1 and CHANNEL2 
 	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
-	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
+	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);*/
+	MotorInit();
 
 	
 	
 	//HAL_TIM_Base_Start_IT(&htim6); 
  
- //led off
- HAL_GPIO_WritePin(GPIOB, LED1_Pin, 1);
- HAL_GPIO_WritePin(GPIOB, LED2_Pin, 1);
- HAL_GPIO_WritePin(GPIOB, LED3_Pin, 1);
- HAL_GPIO_WritePin(GPIOA, LED4_Pin, 1);
+  UI_LedOff();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 		//HAL_ADC_Start(&hadc1);
 		
+	//MotorSetPWMRaw(-200, -400);
+	
+	
+	UI_Init();
+	UI_Send("wiadomosc");
+	HAL_UART_Transmit(&huart1, "SIEMA", 5, 999);
+	//MotorStart();
+	//Go(50, 50, 300, 0);
+	//Go(-50, -50, 400, 0);
+	HAL_Delay(1000);
+	MotorSetPWMRaw(0, 0);
+	
   while (1)
   {
 		//adc = __HAL_TIM_DIRECTION_STATUS(&htim3); // get direction
 		//test = __HAL_TIM_GET_COUNTER(&htim3);
-		printf("Elo  %d\r\n", TIM3->CNT);
-		printf("Elo2 %d\r\n", TIM4->CNT);
+		printf_("left  %d\n", getEncL());
+		printf_("right %d\n", getEncR());
 		
+		HAL_Delay(100);
+		MotorSetPWMRaw(0, 0);
   /* USER CODE END WHILE */
-
+		/*Go(15, 15, 25, NULL);
+		HAL_Delay(10000);
+		Go(15, 15, 25, NULL);
+		HAL_Delay(10000);*/
   /* USER CODE BEGIN 3 */
 
   }
@@ -193,70 +196,27 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 		
 		case 'W':
 		case 'F':
-			MotorStart();
+			MotorSetPWMRaw(600, 600);
 		break;
 		
 		case 'S':
-			MotorStop();
+			MotorSetPWMRaw(-400, -400);
 		break;
 		
 		case 'D':
 		case 'R': 
-			TurnRight();
+			MotorSetPWMRaw(600, 300);
 		break;
 			
 		case 'A':
 		case 'L':
-			TurnLeft();
+			MotorSetPWMRaw(300, 600);
 		break;
 		}
 			
 
 }
 
-
-void MotorStart(){
-	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_2);
-	HAL_GPIO_WritePin(GPIOC, MR_IN1_Pin, 0);
-	HAL_GPIO_WritePin(GPIOC, MR_IN2_Pin, 1);
-	
-	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
-	HAL_GPIO_WritePin(GPIOC, ML_IN1_Pin, 1);
-	HAL_GPIO_WritePin(GPIOC, ML_IN2_Pin, 0);
-	
-}
-
-void MotorStop(){
-	HAL_TIM_PWM_Stop(&htim12, TIM_CHANNEL_2);
-	HAL_GPIO_WritePin(GPIOC, MR_IN1_Pin, 0);
-	HAL_GPIO_WritePin(GPIOC, MR_IN2_Pin, 0);
-	
-	HAL_TIM_PWM_Stop(&htim12, TIM_CHANNEL_1);
-	HAL_GPIO_WritePin(GPIOC, ML_IN1_Pin, 0);
-	HAL_GPIO_WritePin(GPIOC, ML_IN2_Pin, 0);
-	
-}
-
-void TurnRight(){
-	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_2);
-	HAL_GPIO_WritePin(GPIOC, MR_IN1_Pin, 1);
-	HAL_GPIO_WritePin(GPIOC, MR_IN2_Pin, 0);
-}
-
-void TurnLeft(){
-	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
-	HAL_GPIO_WritePin(GPIOC, ML_IN1_Pin, 0);
-	HAL_GPIO_WritePin(GPIOC, ML_IN2_Pin, 1);
-}
-
-PUTCHAR_PROTOTYPE
-{
-  /* Place your implementation of fputc here */
-  /* e.g. write a character to the USART1 and Loop until the end of transmission */
-  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
-
-  return ch;
-}
 /* USER CODE END 4 */
 
 #ifdef USE_FULL_ASSERT
@@ -274,7 +234,11 @@ void assert_failed(uint8_t* file, uint32_t line)
   /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
-
+	while(1)
+	{
+		printf_("Blad! %s linia:&d\n", file, line);
+		HAL_Delay(1000);
+	}
 }
 
 #endif

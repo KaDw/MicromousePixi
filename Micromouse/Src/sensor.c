@@ -41,6 +41,8 @@ void Calibrate(){
 
 uint8_t Finger_start(){ // calibrate after finger start
 while(LSensor > 5000 && LFSensor > 5000)
+	{}
+		
 	return 1;
 }
 //void readSensor()

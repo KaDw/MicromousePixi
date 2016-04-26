@@ -19,7 +19,7 @@ uint8_t SpiRead(uint8_t address, uint8_t size){
 	uint8_t a = 0xff;
 	/* Read mode mask: 0b1000000*/
 	address |= 0x80;
-	HAL_GPIO_WritePin(GPIOA, CS_A_Pin, 0); // CS LOW
+	HAL_GPIO_WritePin(GPIOA, CS_A_Pin, GPIO_PIN_RESET); // CS LOW
 	/* Setup time for SPI_CS_B signal 250ns*/
 		
 	HAL_SPI_TransmitReceive_IT(&hspi3, &address, SpiRxBuffer, 1);
@@ -33,7 +33,7 @@ uint8_t SpiRead(uint8_t address, uint8_t size){
 		while ((SPI3->SR & SPI_FLAG_BSY)); // shouldnt be here
 	}
 	while ((SPI3->SR & SPI_FLAG_BSY)); // check BUSY flag
-	HAL_GPIO_WritePin(GPIOA, CS_A_Pin, 1); // CS HIGH
+	HAL_GPIO_WritePin(GPIOA, CS_A_Pin, GPIO_PIN_SET); // CS HIGH
 	return *SpiRxBuffer;
 }
 
@@ -41,7 +41,7 @@ uint8_t SpiRead(uint8_t address, uint8_t size){
 void SpiWrite(uint8_t address, uint8_t value){
 	/* Write: MSB is 0*/
 
-	HAL_GPIO_WritePin(GPIOA, CS_A_Pin, 0); // CS LOW
+	HAL_GPIO_WritePin(GPIOA, CS_A_Pin, GPIO_PIN_RESET); // CS LOW
 	/* Setup time for SPI_CS_B signal 250ns*/
 	// MSB is 0 + address
 	HAL_SPI_TransmitReceive_IT(&hspi3, &address, SpiRxBuffer, 1);
@@ -53,7 +53,7 @@ void SpiWrite(uint8_t address, uint8_t value){
 	while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
   while ((SPI3->SR & SPI_FLAG_BSY)); // check BUSY flag
 
-	HAL_GPIO_WritePin(GPIOA, CS_A_Pin, 1); // CS HIGH 
+	HAL_GPIO_WritePin(GPIOA, CS_A_Pin, GPIO_PIN_SET); // CS HIGH 
 }
 
 

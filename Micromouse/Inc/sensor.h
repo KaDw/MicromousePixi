@@ -17,6 +17,6 @@ extern uint32_t cal_LSensor;
 extern uint32_t cal_RSensor;
 
 void ADC_read_channel(uint32_t channel, uint32_t *buf);
-void ADC_read_ambient();
+void ADC_read_ambient(void);
 
 #endif

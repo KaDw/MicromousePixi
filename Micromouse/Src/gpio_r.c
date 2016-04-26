@@ -107,7 +107,7 @@ void gpio_pin_cfg(GPIO_TypeDef * const __restrict__ port, GpioPin_t pin, GpioMod
  if (mode & 0x100u) port->OTYPER |= pin;
  else port->OTYPER &= (uint32_t)~pin;
  //pin = __builtin_ctz(pin)*2;
- pin = ctz(pin) * 2;
+ pin = (GpioPin_t)(ctz(pin) * 2);
  uint32_t reset_mask = ~(0x03u << pin);
  uint32_t reg_val;
  reg_val = port->MODER;

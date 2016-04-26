@@ -8,21 +8,22 @@
 #define __MOTOR_H__
 
 #include "stm32f4xx_hal.h"
+#include "tinylib.h"
 
 
-const float PI									= 3.14159265359;
-const int MOTOR_MAX_VEL					= 1000;
-const int MOTOR_DRIVER_D_CNT 		= 100;
-const int MOTOR_EPSILON 				= 10; // enc tick
-const int MOTOR_SLOW_TICK		= 150;
-const int MOTOR_SLOW_VEL		= 150;
-const int TICKS_PER_REVOLUTION	= 420;
-const int HALF_WHEELBASE				= 100/2; // mm
-const int WHEEL_DIAMETER 				= 45; // mm
+#define MOTOR_MAX_VEL					1000
+#define MOTOR_DRIVER_D_CNT 		100
+#define MOTOR_EPSILON 				10 /* enc tick*/
+#define MOTOR_SLOW_TICK				150
+#define MOTOR_SLOW_VEL				150
+#define TICKS_PER_REVOLUTION	1760
+#define HALF_WHEELBASE				(100/2) /* mm*/
+#define WHEEL_DIAMETER 				45 /* mm*/
 
-const float KP = 1.0;
-const float KD = 0.0;
-const float KI = 0.0;
+#define KP  1.0
+#define KD  0.0
+#define KI  0.0
+
 
 
 #define MOTOR_GPIO GPIOC
@@ -30,6 +31,17 @@ const float KI = 0.0;
 #define ML_IN2_Pin
 #define MR_IN1_Pin 
 #define MR_IN2_Pin*/
+
+#define MOTOR_HTIM  htim12
+#define MOTOR_CH_L	TIM_CHANNEL_1
+#define MOTOR_CH_R	TIM_CHANNEL_2
+
+#define MOTOR_HTIM_ENC_L htim3
+#define MOTOR_HTIM_ENC_R htim4
+
+extern TIM_HandleTypeDef MOTOR_HTIM, MOTOR_HTIM_ENC_L, MOTOR_HTIM_ENC_R;
+
+
 
 typedef enum
 {
@@ -41,7 +53,7 @@ typedef enum
 } MotorStat;
 
 
-
+typedef struct Motors_t Motors_t;
 ///
 /// Its basic motor module struct.
 /// Contains each variable needed to calculate new, better, motor PWM duty
@@ -49,14 +61,14 @@ typedef enum
 ///			and this function are able to abort movement and current movement procedure.
 ///			This function are colled as a last motor driver, so it knows predicted motor power.
 ///
-typedef struct
+struct Motors_t
 {
 	int vel;
 	uint16_t ePosL, ePosR;
 	int velL, velR;
 	MotorStat status;
 	int(*driver)(Motors_t*);
-} Motors_t;
+};
 
 
 
@@ -108,7 +120,7 @@ int mmToTicks(int mm);
 /// @before none
 /// @after none
 ///
-void MotorInit();
+void MotorInit(void);
 
 ///
 ///	returns tics from right wheel encoder
@@ -117,7 +129,7 @@ void MotorInit();
 /// @before MotorInit()
 /// @after
 ///
-int getEncL();
+int getEncL(void);
 
 
 ///
@@ -127,7 +139,16 @@ int getEncL();
 /// @before MotorInit()
 /// @after
 ///
-int getEncR();
+int getEncR(void);
+
+
+///
+/// Set motor PWM from -MOTOR_MAX_VEL to +MOTOR_MAX_VEL
+/// @see MotorFloat(), MotorStop()
+/// @before MotorInit()
+/// @after
+///
+void MotorSetPWMRaw(int left, int right);
 
 
 ///

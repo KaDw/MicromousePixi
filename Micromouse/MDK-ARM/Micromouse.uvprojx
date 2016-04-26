@@ -133,11 +133,11 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4107</DriverSelection>
+            <DriverSelection>4103</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -310,7 +310,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>2</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -322,7 +322,7 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
             <v6LangP>1</v6LangP>
@@ -533,7 +533,27 @@
             <File>
               <FileName>fxas21002c.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\fxas21002c.c</FilePath>
+              <FilePath>..\Src\fxas21002c.c</FilePath>
+            </File>
+            <File>
+              <FileName>UI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\UI.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>tinylib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\tinylib.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_r.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\gpio_r.c</FilePath>
             </File>
           </Files>
         </Group>

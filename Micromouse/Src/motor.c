@@ -16,8 +16,17 @@ int mmToTicks(int mm)
 void MotorInit()
 {
 	//todo: turn on timers
-	__HAL_TIM_SetAutoreload(htim, MOTOR_MAX_VEL);
-	__HAL_TIM_SetAutoreload(htim, MOTOR_MAX_VEL);
+	__HAL_TIM_SetAutoreload(&MOTOR_HTIM, MOTOR_MAX_VEL);
+	//power 0%
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, 0);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, 0);
+	
+	//MOTOR_HTIM_ENC_L.Instance->
+	
+	HAL_TIM_PWM_Start(&MOTOR_HTIM, MOTOR_CH_L);
+	HAL_TIM_PWM_Start(&MOTOR_HTIM, MOTOR_CH_R);
+	HAL_TIM_Encoder_Start(&MOTOR_HTIM_ENC_L, TIM_CHANNEL_ALL);
+	HAL_TIM_Encoder_Start(&MOTOR_HTIM_ENC_R, TIM_CHANNEL_ALL);
 }
 
 
@@ -25,7 +34,7 @@ void MotorInit()
 int getEncL()
 {
 	//return hTim3->Instance->CNT;
-	return __HAL_TIM_GetCounter(hTim3);
+	return __HAL_TIM_GetCounter(&htim3);
 }
 
 
@@ -33,35 +42,46 @@ int getEncL()
 int getEncR()
 {
 	//return hTim4->Instance->CNT;
-	return __HAL_TIM_GetCounter(hTim4);
+	return __HAL_TIM_GetCounter(&htim4);
 }
 
 
 
+void MotorSetPWMRaw(int left, int right)
+{
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, left>=0 ? 	GPIO_PIN_SET		: GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, left>=0 ? 	GPIO_PIN_RESET 	: GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, right>=0 ? 	GPIO_PIN_RESET 	: GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, right>=0 ? 	GPIO_PIN_SET		: GPIO_PIN_RESET);
+
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, left);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, right);
+}
+
+
 void MotorSetPWM(Motors_t* m)
 {
-	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, m->velL>=0 ? 1 : 0);
-	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, m->velL>=0 ? 0 : 1);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, m->velR>=0 ? 1 : 0);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, m->velR>=0 ? 0 : 1);
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, m->velL>=0 ? GPIO_PIN_SET		: GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, m->velL>=0 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, m->velR>=0 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, m->velR>=0 ? GPIO_PIN_SET		: GPIO_PIN_RESET);
 
-	//todo: set PWM
-	__HAL_TIM_SetCompare(htim, ch, m->velL);
-	__HAL_TIM_SetCompare(htim, ch, m->velR);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, m->velL);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, m->velR);
 }
 
 
 
 void MotorStop(Motors_t* m)
 {
-	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, 0);
-	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, 0);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, 0);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, 0);
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, GPIO_PIN_RESET);
 	
 	//todo: set PWM 100% when IN=00
-	__HAL_TIM_SetCompare(htim, ch, MOTOR_MAX_VEL);
-	__HAL_TIM_SetCompare(htim, ch, MOTOR_MAX_VEL);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, MOTOR_MAX_VEL);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, MOTOR_MAX_VEL);
 	
 	if(m != 0) {
 		m->status = MOTOR_STOPPED;
@@ -74,14 +94,14 @@ void MotorStop(Motors_t* m)
 void MotorFloat(Motors_t* m)
 {
 	//todo: chrck value
-	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, 1);
-	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, 1);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, 1);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, 1);
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, GPIO_PIN_SET);
 	
 	//todo: set PWM 0%
-	__HAL_TIM_SetCompare(htim, ch, 0);
-	__HAL_TIM_SetCompare(htim, ch, 0);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, 0);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, 0);
 	
 	if(m != 0){
 		m->status = MOTOR_FLOATING;
@@ -159,7 +179,6 @@ void MotorDriverP2(Motors_t* m)
 	static int startL, startR;
 	static int lastEndL, lastEndR;
 	int trackL, trackR;
-	int velFast, velSlow;
 	int error;
 	
 	
@@ -199,7 +218,7 @@ void MotorDriverP2(Motors_t* m)
 		
 		// velR is proportional smaller plus error coefficient
 		if(abs(trackR)>10) //                    wholeTrackR * % of complete left track  - current trackR  
-			m->velL = m->vel*trackL/abs(trackR) + 
+			m->velL = m->vel*trackL/abs(trackR) + MOTOR_SLOW_VEL;
 		else
 			m->velL = MOTOR_SLOW_VEL*sgn(trackL);
 	}
@@ -237,7 +256,7 @@ int MotorUpdate(Motors_t* m)
 	}
 	
 	// check condition to end
-	if(!MotorEnd(m))
+	if(MotorEnd(m))
 	{
 		// check and set status
 		if(m->status!=MOTOR_STOPPED && m->status!=MOTOR_FLOATING)
@@ -256,7 +275,7 @@ int MotorUpdate(Motors_t* m)
 	// call! additional driver and eventually break function
 	// in this plce current velocity can be modified as well
 	if(m->driver!=0 && m->driver(m))
-		return;
+		return 0;
 	
 	// normalise
 	m->velL = MotorTruncVel(m->velL);
@@ -274,9 +293,11 @@ void GoA(Motors_t* m, int left, int right, int vel, int(*driver)(Motors_t*))
 {
 	vel=MotorTruncVel(abs(vel));
 	
-	*m = Motors_t{.vel=vel, .driver=driver, .status=MOTOR_RUNNING_STOP};
-	m.ePosL = mmToTicks(left) + getEncL();
-	m.ePosR = mmToTicks(right) + getEncR();
+	m->vel = vel;
+	m->driver = driver;
+	m->status = MOTOR_RUNNING_STOP;
+	m->ePosL = mmToTicks(left) + getEncL();
+	m->ePosR = mmToTicks(right) + getEncR();
 }
 
 
@@ -285,7 +306,7 @@ void Go(int left, int right, int vel, int(*driver)(Motors_t*))
 {
 	Motors_t m;
 	GoA(&m, left, right, vel, driver);	
-	while(MotorUpdate(m))
+	while(MotorUpdate(&m))
 	{
 	}
 }
