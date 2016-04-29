@@ -8,7 +8,7 @@ micromouse\tim.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 micromouse\tim.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 micromouse\tim.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h
 micromouse\tim.o: ../Drivers/CMSIS/Include/core_cm4.h
-micromouse\tim.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+micromouse\tim.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 micromouse\tim.o: ../Drivers/CMSIS/Include/core_cmInstr.h
 micromouse\tim.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 micromouse\tim.o: ../Drivers/CMSIS/Include/core_cmFunc.h
@@ -16,7 +16,7 @@ micromouse\tim.o: ../Drivers/CMSIS/Include/core_cmSimd.h
 micromouse\tim.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 micromouse\tim.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 micromouse\tim.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-micromouse\tim.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+micromouse\tim.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 micromouse\tim.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 micromouse\tim.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 micromouse\tim.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h

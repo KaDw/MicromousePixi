@@ -7,32 +7,35 @@
 #include "gpio.h"
 #include "sensor.h"
 
-uint32_t LFSensor;
-uint32_t RFSensor;
-uint32_t LSensor;
-uint32_t RSensor;
 
-uint32_t cal_LFSensor;
-uint32_t cal_RFSensor;
-uint32_t cal_LSensor;
-uint32_t cal_RSensor;
+uint32_t cal[4];
+uint32_t sens[4];
 
-void ADC_read_channel(uint32_t channel, uint32_t *buf){
-	ADC_ChannelConfTypeDef sConfig;
-	sConfig.Offset = 0;
-	sConfig.Channel = channel;
-  sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_84CYCLES;
-  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+/* 	
+	@note WARNING 
+		@arg1 DONT USE ADC_CHANNEL_XX, USE CHx INSTEAD
+		*/
+
+void ADC_read_ambient(){
+	ADC1->SQR1 = ADC_SQR1_L_0|ADC_SQR1_L_1; // 4 conversions (0x03, count from 0)
+	// TODO fix this hex
+	//(CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15);
+	ADC1->SQR3 = 0x0006B162; // channels to convert: 2, 11, 12, 13
+	HAL_ADC_Start_DMA(&hadc1, cal, 4);
+}
+
+void ADC_read_channel(uint8_t CHx, uint32_t *buf){
+	ADC1->SQR1 &= ~ADC_SQR1_L; // 1 conversion
+	ADC1->SQR3 = CHx; // channel to be converted
 	HAL_ADC_Start_DMA(&hadc1, buf, 1);
 }
 
-void ADC_read_ambient(){
-	ADC_read_channel(ADC_CHANNEL_2, &cal_LFSensor); 
-	ADC_read_channel(ADC_CHANNEL_11, &cal_RFSensor); 
-	ADC_read_channel(ADC_CHANNEL_12, &cal_RSensor); 
-	ADC_read_channel(ADC_CHANNEL_13, &cal_LSensor); 
+void ADC_read_2channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf){
+	ADC1->SQR1 = ADC_SQR1_L_0;
+	ADC1->SQR3 = (CHx1)|(CHx2<<5);
+	HAL_ADC_Start_DMA(&hadc1, buf, 2);
 }
+
 
 // To be continued    vvvvv
 void Calibrate(){
@@ -40,7 +43,7 @@ void Calibrate(){
 }
 
 uint8_t Finger_start(){ // calibrate after finger start
-while(LSensor > 5000 && LFSensor > 5000)
+while(sens[0] > 2000 && sens[2] > 2000) // LF and L sensor
 	{}
 		
 	return 1;

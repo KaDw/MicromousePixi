@@ -39,7 +39,7 @@
 #include "sensor.h"
 #include "UI.h"
 
-uint8_t count = 1;
+volatile uint8_t count = 3;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -101,7 +101,7 @@ void EXTI2_IRQHandler(void)
 		HAL_Delay(100);
 	}
   /* USER CODE END EXTI2_IRQn 0 */
-  //HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
   /* USER CODE BEGIN EXTI2_IRQn 1 */
 
   /* USER CODE END EXTI2_IRQn 1 */
@@ -161,40 +161,64 @@ void SPI3_IRQHandler(void)
 void TIM6_DAC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
-
-	switch(count){
+		switch(count){
 		case 1:
 			ADC_read_ambient(); // read ambient light
-			//HAL_GPIO_WritePin(GPIOC, D_LF_Pin, 1); // LF_ON
+			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, 1); 
 			break;
-//		case 2:
-//			ADC_read_channel(ADC_CHANNEL_2, &LFSensor);
-//			LFSensor-=cal_LFSensor;
-//			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, 0); // LF_OFF
-//			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, 1); // RF_ON
-//			break;
-//		case 3:
-//			ADC_read_channel(ADC_CHANNEL_11, &RFSensor);
-//			RFSensor-=cal_RFSensor;
-//			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, 0); // RF_OFF
-//			HAL_GPIO_WritePin(GPIOC, D_L_Pin, 1); // side sensors on
-//			HAL_GPIO_WritePin(GPIOC, D_R_Pin, 1); 
-//			break;
-//		case 4:
-//			ADC_read_channel(ADC_CHANNEL_12, &LSensor);
-//			ADC_read_channel(ADC_CHANNEL_13, &RSensor);
-//			LSensor-=cal_LSensor;
-//			RSensor-=cal_RSensor;
-//			HAL_GPIO_WritePin(GPIOC, D_L_Pin, 0); // side sensors off
-//			HAL_GPIO_WritePin(GPIOC, D_R_Pin, 0);
-//			count = 0;
-//			break;
-//		count++;
+		case 2:
+			ADC_read_channel(CH2, &sens[0]); // LF read
+			sens[0]-=cal[0];
+			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, 0); 
+			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, 1); 
+			break;
+		case 3:
+			ADC_read_channel(CH11, &sens[1]); // RF read
+			sens[1]-=cal[1];
+			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, 0); 
+			HAL_GPIO_WritePin(GPIOA, D_L_Pin, 1); 
+			HAL_GPIO_WritePin(GPIOC, D_R_Pin, 1); 
+			break;
+		case 4:
+			ADC_read_2channel(CH13, CH12, &sens[2]); // L, R read
+			sens[2]-=cal[2];
+			sens[3]-=cal[3];
+			HAL_GPIO_WritePin(GPIOA, D_L_Pin, 0); 
+			HAL_GPIO_WritePin(GPIOC, D_R_Pin, 0);
+//			HAL_GPIO_WritePin(GPIOA, D_LS_Pin, 1); 
+//			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, 1);
+			count = 0;
+			break;
+		//case 5:
+			//ADC_read_2channel(CH3, CH10, ); // LS, RS read
+			//HAL_GPIO_WritePin(GPIOA, D_LS_Pin, 0); // side sensors off
+			//HAL_GPIO_WritePin(GPIOC, D_RS_Pin, 0);
+		//break;
+			
 	}
+			count++;
+//	if(count == 1){
+//		HAL_GPIO_WritePin(GPIOB, LED1_Pin, 1); // LF_ON
+//		cos = 
+//	}
+//	else if(count == 2){
+//		HAL_GPIO_WritePin(GPIOB, LED1_Pin, 0); // LF_OFF
+//		HAL_GPIO_WritePin(GPIOB, LED2_Pin, 1); // RF_ON
+//	}
+//	else if(count == 3){
+//		HAL_GPIO_WritePin(GPIOB, LED2_Pin, 0); // RF_OFF
+//		HAL_GPIO_WritePin(GPIOB, LED3_Pin, 1); // side sensors on
+//		HAL_GPIO_WritePin(GPIOA, LED4_Pin, 1); 
+//	}
+//	else if(count == 4){
+//		HAL_GPIO_WritePin(GPIOB, LED3_Pin, 0); // side sensors off
+//		HAL_GPIO_WritePin(GPIOA, LED4_Pin, 0);
+//		count = 0;
+//	}
+
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
-	
   /* USER CODE END TIM6_DAC_IRQn 1 */
 }
 

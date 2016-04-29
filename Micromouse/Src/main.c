@@ -54,8 +54,10 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* ADC */
+uint32_t adc;
 uint8_t Tx_buf = 0x0C;
 uint8_t Rx_buf = 0xFF; 
+
 /* GYRO */
 float angle1;
 /* USER CODE END PV */
@@ -68,7 +70,7 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
+uint16_t calSensor[4];
 /* USER CODE END 0 */
 
 int main(void)
@@ -81,7 +83,6 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
   /* Configure the system clock */
   SystemClock_Config();
 
@@ -97,15 +98,13 @@ int main(void)
   MX_TIM6_Init();
 
   /* USER CODE BEGIN 2 */
-
+	HAL_TIM_Base_Start_IT(&htim6);
 /* CHANNEL_ALL enables CHANNEL1 and CHANNEL2 
 	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);*/
 	MotorInit();
 
-	
-	
-	//HAL_TIM_Base_Start_IT(&htim6); 
+
  
   UI_LedOff();
   /* USER CODE END 2 */
@@ -118,28 +117,26 @@ int main(void)
 	
 	
 	UI_Init();
-	UI_Send("wiadomosc");
-	HAL_UART_Transmit(&huart1, "SIEMA", 5, 999);
+	//UI_Send("wiadomosc");
+	//HAL_UART_Transmit(&huart1, "SIEMA", 5, 999);
 	//MotorStart();
 	//Go(50, 50, 300, 0);
 	//Go(-50, -50, 400, 0);
 	HAL_Delay(1000);
 	MotorSetPWMRaw(0, 0);
 	
+	//ADC_read_channel(ADC_CHANNEL_TEMPSENSOR, &adc);
+	//HAL_Delay(100);
+	//ADC_read_channel(ADC_CHANNEL_2, &LSensor);
   while (1)
   {
 		//adc = __HAL_TIM_DIRECTION_STATUS(&htim3); // get direction
 		//test = __HAL_TIM_GET_COUNTER(&htim3);
-		printf_("left  %d\n", getEncL());
-		printf_("right %d\n", getEncR());
-		
+
+		printf_("LF   %d   RF   %d   L   %d   R   %d\n", sens[0], sens[1], sens[2], sens[3]);
 		HAL_Delay(100);
-		MotorSetPWMRaw(0, 0);
   /* USER CODE END WHILE */
-		/*Go(15, 15, 25, NULL);
-		HAL_Delay(10000);
-		Go(15, 15, 25, NULL);
-		HAL_Delay(10000);*/
+
   /* USER CODE BEGIN 3 */
 
   }
@@ -196,21 +193,21 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 		
 		case 'W':
 		case 'F':
-			MotorSetPWMRaw(600, 600);
+			//MotorSetPWMRaw(600, 600);
 		break;
 		
 		case 'S':
-			MotorSetPWMRaw(-400, -400);
+			//MotorSetPWMRaw(-400, -400);
 		break;
 		
 		case 'D':
 		case 'R': 
-			MotorSetPWMRaw(600, 300);
+			//MotorSetPWMRaw(600, 300);
 		break;
 			
 		case 'A':
 		case 'L':
-			MotorSetPWMRaw(300, 600);
+			//MotorSetPWMRaw(300, 600);
 		break;
 		}
 			
@@ -234,11 +231,7 @@ void assert_failed(uint8_t* file, uint32_t line)
   /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
-	while(1)
-	{
-		printf_("Blad! %s linia:&d\n", file, line);
-		HAL_Delay(1000);
-	}
+
 }
 
 #endif

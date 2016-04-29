@@ -8,9 +8,9 @@
 #define __MOTOR_H__
 
 #include "stm32f4xx_hal.h"
-#include "tinylib.h"
+//#include "tinylib.h"
 
-
+#define PI 3.14
 #define MOTOR_MAX_VEL					1000
 #define MOTOR_DRIVER_D_CNT 		100
 #define MOTOR_EPSILON 				10 /* enc tick*/

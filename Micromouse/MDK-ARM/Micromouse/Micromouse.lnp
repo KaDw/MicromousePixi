@@ -31,7 +31,6 @@
 "micromouse\fxas21002c.o"
 "micromouse\ui.o"
 "micromouse\motor.o"
-"micromouse\tinylib.o"
 "micromouse\gpio_r.o"
 "micromouse\system_stm32f4xx.o"
 --library_type=microlib --strict --scatter "Micromouse\Micromouse.sct"

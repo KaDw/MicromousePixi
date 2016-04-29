@@ -332,7 +332,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F405xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;                    ../Drivers/STM32F4xx_HAL_Driver/Inc;                    ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                    ../Drivers/CMSIS/Include;                    ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
+              <IncludePath>../Inc;                                ../Drivers/STM32F4xx_HAL_Driver/Inc;                                ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                                ../Drivers/CMSIS/Include;                                ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -544,11 +544,6 @@
               <FileName>motor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\motor.c</FilePath>
-            </File>
-            <File>
-              <FileName>tinylib.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\tinylib.c</FilePath>
             </File>
             <File>
               <FileName>gpio_r.c</FileName>
