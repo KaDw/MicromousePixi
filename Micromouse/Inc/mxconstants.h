@@ -72,8 +72,8 @@
 #define D_RS_GPIO_Port GPIOC
 #define INT_G_Pin GPIO_PIN_0
 #define INT_G_GPIO_Port GPIOB
-#define ADC1_VBAT_Pin GPIO_PIN_1
-#define ADC1_VBAT_GPIO_Port GPIOB
+#define ADC_VBAT_Pin GPIO_PIN_1
+#define ADC_VBAT_GPIO_Port GPIOB
 #define BTN_Pin GPIO_PIN_2
 #define BTN_GPIO_Port GPIOB
 #define ML_PWM_Pin GPIO_PIN_14

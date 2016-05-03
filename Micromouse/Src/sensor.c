@@ -8,29 +8,31 @@
 #include "sensor.h"
 
 
-uint32_t cal[4];
+uint32_t cal[5];
 uint32_t sens[4];
+uint32_t vbat;
 
 /* 	
 	@note WARNING 
 		@arg1 DONT USE ADC_CHANNEL_XX, USE CHx INSTEAD
 		*/
 
-void ADC_read_ambient(){
-	ADC1->SQR1 = ADC_SQR1_L_0|ADC_SQR1_L_1; // 4 conversions (0x03, count from 0)
+void ADCreadAmbient(){
+	ADC1->SQR1 = ADC_SQR1_L_2; // 5 conversions (0x04, count from 0)
 	// TODO fix this hex
-	//(CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15);
-	ADC1->SQR3 = 0x0006B162; // channels to convert: 2, 11, 12, 13
-	HAL_ADC_Start_DMA(&hadc1, cal, 4);
+	//(CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15)|(CH9<<20);
+	ADC1->SQR3 = (CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15)|(CH9<<20); // channels to convert: 2, 11, 12, 13
+	HAL_ADC_Start_DMA(&hadc1, cal, 5);
+	vbat = cal[4];
 }
 
-void ADC_read_channel(uint8_t CHx, uint32_t *buf){
+void ADCreadChannel(uint8_t CHx, uint32_t *buf){
 	ADC1->SQR1 &= ~ADC_SQR1_L; // 1 conversion
 	ADC1->SQR3 = CHx; // channel to be converted
 	HAL_ADC_Start_DMA(&hadc1, buf, 1);
 }
 
-void ADC_read_2channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf){
+void ADCread2Channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf){
 	ADC1->SQR1 = ADC_SQR1_L_0;
 	ADC1->SQR3 = (CHx1)|(CHx2<<5);
 	HAL_ADC_Start_DMA(&hadc1, buf, 2);
@@ -38,11 +40,11 @@ void ADC_read_2channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf){
 
 
 // To be continued    vvvvv
-void Calibrate(){
+void ADCcalibrate(){
 	
 }
 
-uint8_t Finger_start(){ // calibrate after finger start
+uint8_t FingerStart(){ // calibrate after finger start
 while(sens[0] > 2000 && sens[2] > 2000) // LF and L sensor
 	{}
 		

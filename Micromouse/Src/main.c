@@ -83,6 +83,7 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
+
   /* Configure the system clock */
   SystemClock_Config();
 
@@ -98,7 +99,8 @@ int main(void)
   MX_TIM6_Init();
 
   /* USER CODE BEGIN 2 */
-	HAL_TIM_Base_Start_IT(&htim6);
+	/* ENABLE TIM TO GET BATTERY STATUS */
+	//HAL_TIM_Base_Start_IT(&htim6);
 /* CHANNEL_ALL enables CHANNEL1 and CHANNEL2 
 	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);*/
@@ -111,30 +113,32 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-		//HAL_ADC_Start(&hadc1);
-		
-	//MotorSetPWMRaw(-200, -400);
 	
+
 	
 	UI_Init();
-	//UI_Send("wiadomosc");
-	//HAL_UART_Transmit(&huart1, "SIEMA", 5, 999);
-	//MotorStart();
-	//Go(50, 50, 300, 0);
-	//Go(-50, -50, 400, 0);
-	HAL_Delay(1000);
+
+	//HAL_Delay(1000);
 	MotorSetPWMRaw(0, 0);
-	
-	//ADC_read_channel(ADC_CHANNEL_TEMPSENSOR, &adc);
-	//HAL_Delay(100);
-	//ADC_read_channel(ADC_CHANNEL_2, &LSensor);
+	GyroInit();
+	GyroCalibrate();
+//	SpiRead(FXAS21002C_H_CTRL_REG1, 1);
+//	SpiWrite(FXAS21002C_H_CTRL_REG1, SpiRxBuffer[0]|(1<<5));
+//	SpiRead(FXAS21002C_H_CTRL_REG1, 1);
+//	GyroCalibrate();
+//	for(int i =0; i < 1000; i++){
+//		GyroReadData();
+//		HAL_Delay(10);
+//		printf("%f\r\n", raw.z);
+//	}
+float sum = 0;
   while (1)
   {
-		//adc = __HAL_TIM_DIRECTION_STATUS(&htim3); // get direction
-		//test = __HAL_TIM_GET_COUNTER(&htim3);
-
-		printf_("LF   %d   RF   %d   L   %d   R   %d\n", sens[0], sens[1], sens[2], sens[3]);
-		HAL_Delay(100);
+		//if(vbat < 1000)
+		GyroReadData();
+		sum += GyroGetAngle(0.01, raw.z, prev_z);
+		printf("%f\r\n", sum); 
+		HAL_Delay(10);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */

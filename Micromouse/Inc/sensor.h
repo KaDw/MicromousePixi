@@ -7,22 +7,23 @@
 
 
 // calibration
-extern uint32_t cal[4];
+extern uint32_t cal[5];
 // sensor data
 extern uint32_t sens[4];
-
+extern uint32_t vbat;
 
 typedef enum {
 	CH2 = 2,
 	CH3,
-	CH10 = 10,
+	CH9 = 9,
+	CH10,
 	CH11,
 	CH12,
 	CH13
 } CHx;
 
-void ADC_read_ambient(void);	
-void ADC_read_channel(uint8_t channel, uint32_t *buf);
-void ADC_read_2channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf);
+void ADCreadAmbient(void);	
+void ADCreadChannel(uint8_t channel, uint32_t *buf);
+void ADCread2Channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf);
 
 #endif

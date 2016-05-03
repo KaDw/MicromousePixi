@@ -94,12 +94,12 @@ void MX_ADC1_Init(void)
 
     /**Configures for the selected ADC injected channel its corresponding rank in the sequencer and its sample time 
     */
-  sConfigInjected.InjectedChannel = ADC_CHANNEL_2;
+  sConfigInjected.InjectedChannel = ADC_CHANNEL_9;
   sConfigInjected.InjectedRank = 1;
   sConfigInjected.InjectedNbrOfConversion = 1;
   sConfigInjected.InjectedSamplingTime = ADC_SAMPLETIME_3CYCLES;
   sConfigInjected.ExternalTrigInjecConvEdge = ADC_EXTERNALTRIGINJECCONVEDGE_NONE;
-  sConfigInjected.AutoInjectedConv = DISABLE;
+  sConfigInjected.AutoInjectedConv = ENABLE;
   sConfigInjected.InjectedDiscontinuousConvMode = DISABLE;
   sConfigInjected.InjectedOffset = 0;
   HAL_ADCEx_InjectedConfigChannel(&hadc1, &sConfigInjected);
@@ -137,10 +137,10 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = ADC1_VBAT_Pin;
+    GPIO_InitStruct.Pin = ADC_VBAT_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(ADC1_VBAT_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(ADC_VBAT_GPIO_Port, &GPIO_InitStruct);
 
     /* Peripheral DMA init*/
   
@@ -188,7 +188,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 
     HAL_GPIO_DeInit(GPIOA, ADC_LF_Pin|ADC_LS_Pin);
 
-    HAL_GPIO_DeInit(ADC1_VBAT_GPIO_Port, ADC1_VBAT_Pin);
+    HAL_GPIO_DeInit(ADC_VBAT_GPIO_Port, ADC_VBAT_Pin);
 
     /* Peripheral DMA DeInit*/
     HAL_DMA_DeInit(hadc->DMA_Handle);

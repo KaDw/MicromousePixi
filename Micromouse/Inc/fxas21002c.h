@@ -19,6 +19,16 @@ typedef struct
    int16_t z;
 } raw_data;
 
+
+extern float prev_z; 
+//extern int16_t x, y, z;
+//extern int16_t cal_x, cal_y, cal_z;
+extern raw_data raw;
+extern angular_data angle;//, x_pri, x_post, v_pri, v_post, alfa, beta;
+extern uint8_t SpiRxBuffer[6];
+
+
+/* Gyro registers */
 #define FXAS21002C_H_STATUS           0x00
 #define FXAS21002C_H_DR_STATUS        0x07
 #define FXAS21002C_H_F_STATUS         0x08
@@ -54,7 +64,6 @@ enum gyroODR {
 	GODR_1_56HZ
 };
 
-// Set initial input parameters
 enum gyroFSR {
   GFS_2000DPS,
   GFS_1000DPS,
@@ -68,21 +77,14 @@ enum gyroMODE {
 	MODE_ACTIVE
 };
 
-
-	 
-extern float post_z;
-//extern int16_t x, y, z;
-//extern int16_t cal_x, cal_y, cal_z;
-extern angular_data angle, x_pri, x_post, v_pri, v_post, alfa, beta;
-
-
-void GyroInit(void);
 uint8_t SpiRead(uint8_t address, uint8_t size);
 void SpiWrite(uint8_t address,uint8_t value);
+void GyroInit(void);
 void GyroReadData(void);
 void GyroCalibrate(void);
-void AlfaBetaFilter(void);
-float GetAngle(float dt, float a, float b);
+float GyroGetAngle(float dt, float a, float b);
+//void GyroSelfTest();
+//void AlfaBetaFilter(void);
 
 
 #endif
