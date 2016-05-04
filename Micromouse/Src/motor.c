@@ -49,10 +49,10 @@ int getEncR()
 
 void MotorSetPWMRaw(int left, int right)
 {
-	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, left>=0 ? 	GPIO_PIN_SET		: GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, left>=0 ? 	GPIO_PIN_SET		: GPIO_PIN_RESET); //
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, left>=0 ? 	GPIO_PIN_RESET 	: GPIO_PIN_SET);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, right>=0 ? 	GPIO_PIN_RESET 	: GPIO_PIN_SET);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, right>=0 ? 	GPIO_PIN_SET		: GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, right>=0 ? 	GPIO_PIN_SET 		: GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, right>=0 ? 	GPIO_PIN_RESET	: GPIO_PIN_SET);
 
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, left);
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, right);
@@ -63,8 +63,8 @@ void MotorSetPWM(Motors_t* m)
 {
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, m->velL>=0 ? GPIO_PIN_SET		: GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, m->velL>=0 ? GPIO_PIN_RESET : GPIO_PIN_SET);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, m->velR>=0 ? GPIO_PIN_RESET : GPIO_PIN_SET);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, m->velR>=0 ? GPIO_PIN_SET		: GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, m->velR>=0 ? GPIO_PIN_SET 	: GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, m->velR>=0 ? GPIO_PIN_RESET	: GPIO_PIN_SET);
 
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, m->velL);
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, m->velR);
@@ -91,7 +91,7 @@ void MotorStop(Motors_t* m)
 
 
 
-void MotorFloat(Motors_t* m)
+void MotorFloat(Motors_t* m) // standby
 {
 	//todo: chrck value
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, GPIO_PIN_SET);
