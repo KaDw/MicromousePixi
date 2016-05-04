@@ -6,6 +6,20 @@
 #include "motor.h"
 
 
+int abs(int x)
+{
+	if(x < 0)
+		return -x;
+	else
+		return x;
+}
+
+int sgn(int x)
+{
+	return (x>0)-(x<0);
+}
+
+
 int mmToTicks(int mm)
 {
 	return TICKS_PER_REVOLUTION*mm/(PI*WHEEL_DIAMETER);
@@ -16,12 +30,17 @@ int mmToTicks(int mm)
 void MotorInit()
 {
 	//todo: turn on timers
+	__HAL_TIM_PRESCALER(&MOTOR_HTIM, 200);
 	__HAL_TIM_SetAutoreload(&MOTOR_HTIM, MOTOR_MAX_VEL);
 	//power 0%
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, 0);
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, 0);
 	
 	//MOTOR_HTIM_ENC_L.Instance->
+	
+	// filtracja sygnalu
+	MOTOR_HTIM_ENC_L.Instance->SMCR |= TIM_SMCR_ETF_3;
+	MOTOR_HTIM_ENC_R.Instance->SMCR |= TIM_SMCR_ETF_3;
 	
 	HAL_TIM_PWM_Start(&MOTOR_HTIM, MOTOR_CH_L);
 	HAL_TIM_PWM_Start(&MOTOR_HTIM, MOTOR_CH_R);
@@ -49,10 +68,10 @@ int getEncR()
 
 void MotorSetPWMRaw(int left, int right)
 {
-	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, left>=0 ? 	GPIO_PIN_SET		: GPIO_PIN_RESET); //
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, left>=0 ? 	GPIO_PIN_SET		: GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, left>=0 ? 	GPIO_PIN_RESET 	: GPIO_PIN_SET);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, right>=0 ? 	GPIO_PIN_SET 		: GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, right>=0 ? 	GPIO_PIN_RESET	: GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, right<=0 ? 	GPIO_PIN_SET 		: GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, right<=0 ? 	GPIO_PIN_RESET	: GPIO_PIN_SET);
 
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, left);
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, right);
@@ -63,11 +82,11 @@ void MotorSetPWM(Motors_t* m)
 {
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, m->velL>=0 ? GPIO_PIN_SET		: GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, m->velL>=0 ? GPIO_PIN_RESET : GPIO_PIN_SET);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, m->velR>=0 ? GPIO_PIN_SET 	: GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, m->velR>=0 ? GPIO_PIN_RESET	: GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, m->velR<=0 ? GPIO_PIN_SET 	: GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, m->velR<=0 ? GPIO_PIN_RESET	: GPIO_PIN_SET);
 
-	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, m->velL);
-	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, m->velR);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, m->velL*0.4);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, m->velR*0.4);
 }
 
 
@@ -93,6 +112,9 @@ void MotorStop(Motors_t* m)
 
 void MotorFloat(Motors_t* m) // standby
 {
+	m->velL = MotorTruncVel(m->velL);
+	m->velR = MotorTruncVel(m->velR);
+	
 	//todo: chrck value
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, GPIO_PIN_SET);
@@ -145,14 +167,15 @@ void MotorDriverP(Motors_t* m)
 	// system of equations:
 	//   velL+velR = 2*vel
 	//   velL/velR = trackL/trackL
-	m->velR += KP * 2*m->vel*trackR / (abs(trackL)+abs(trackR)); // there is no div by 0
-	m->velL += KP * 2*m->vel - m->velR;
+	m->velR += MotorTruncVel( KP * 2*m->vel*trackR / (abs(trackL)+abs(trackR)) ); // there is no div by 0
+	m->velL += MotorTruncVel( KP * 2*m->vel - m->velR );
 	
 	
+	printf_("E: l:%d p:%d   V: l:%d  p:%d   Track: lewy:%d  prawy:%d\n", getEncL(), getEncR(), m->velL, m->velR, trackL, trackR);
 	//todo: check end condition of reference call
-	/*
+	
 	//sprawdz czy nic nie wychodzi poza zakres predkosci, ew. przelicz jeszcze raz
-	if(m->velR>MOTOR_MAX_VEL || m->velR<-MOTOR_MAX_VEL)
+	/*if(m->velR>MOTOR_MAX_VEL || m->velR<-MOTOR_MAX_VEL)
 	{
 		m->vel *= (float)MOTOR_MAX_VEL / (float)m->velR; // there is no div by 0
 		// ze wzgledu na zaokroglenia odejmnij jeszcze troche
@@ -168,8 +191,7 @@ void MotorDriverP(Motors_t* m)
 		m->vel -= 10;
 		
 		MotorDriverP(m);
-	}
-	*/
+	}*/
 }
 
 
@@ -282,7 +304,7 @@ int MotorUpdate(Motors_t* m)
 	m->velR = MotorTruncVel(m->velR);
 	
 	// set velocity
-	MotorSetPWM(m);
+	//MotorSetPWM(m);
 	
 	return 1;
 }

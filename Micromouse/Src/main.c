@@ -100,7 +100,7 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 	/* ENABLE TIM TO GET BATTERY STATUS */
-	//HAL_TIM_Base_Start_IT(&htim6);
+	HAL_TIM_Base_Start_IT(&htim6);
 /* CHANNEL_ALL enables CHANNEL1 and CHANNEL2 
 	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);*/
@@ -108,7 +108,7 @@ int main(void)
 
 
  
-  UI_LedOff();
+  UI_LedOffAll();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -130,15 +130,36 @@ int main(void)
 //		GyroReadData();
 //		HAL_Delay(10);
 //		printf("%f\r\n", raw.z);
+		
+		
 //	}
-float sum = 0;
   while (1)
   {
-		//if(vbat < 1000)
+		if(vbat > 1000)
+		{
+			UI_LedOn(UI_LED_GREEN);
+			UI_LedOff(UI_LED_YELLOW);
+		}
+		else
+		{
+			UI_LedOff(UI_LED_GREEN);
+			UI_LedOn(UI_LED_YELLOW);
+		}
+		HAL_Delay(100);
+		//Go(100, 100, 400, 0);
+		UI_Beep(1000, 100);
+		printf_("lewy:%d  prawy:%d\n", getEncL(), getEncR());
+		/*if(vbat < 1000)
+		{
+			UI_LedOff();
+			HAL_Delay(100);
+			UI_LedOn(UI_LED_YELLOW);
+		}
 		GyroReadData();
 		sum += GyroGetAngle(0.01, raw.z, prev_z);
 		printf("%f\r\n", sum); 
-		HAL_Delay(10);
+		HAL_Delay(10);*/
+		
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */

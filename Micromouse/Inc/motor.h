@@ -8,6 +8,7 @@
 #define __MOTOR_H__
 
 #include "stm32f4xx_hal.h"
+#include "UI.h"
 //#include "tinylib.h"
 
 #define PI 3.14
@@ -41,6 +42,8 @@
 
 extern TIM_HandleTypeDef MOTOR_HTIM, MOTOR_HTIM_ENC_L, MOTOR_HTIM_ENC_R;
 
+
+int abs(int);
 
 
 typedef enum
