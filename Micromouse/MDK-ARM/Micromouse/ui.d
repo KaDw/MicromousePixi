@@ -39,4 +39,5 @@ micromouse\ui.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\string.h
 micromouse\ui.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 micromouse\ui.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 micromouse\ui.o: ../Inc/gpio.h
+micromouse\ui.o: ../Inc/sensor.h
 micromouse\ui.o: ../Inc/usart.h

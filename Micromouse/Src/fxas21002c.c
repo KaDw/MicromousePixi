@@ -54,8 +54,8 @@ void SpiWrite(uint8_t address, uint8_t value){
 	while ((SPI3->SR & SPI_FLAG_BSY));
 	HAL_SPI_TransmitReceive_IT(&hspi3, &value, SpiRxBuffer, 1);
 	
-	while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
-  while ((SPI3->SR & SPI_FLAG_BSY)); // check BUSY flag
+	while (!(SPI3->SR & SPI_FLAG_TXE)){}; // check if transmit buffer has been shifted out
+  while ((SPI3->SR & SPI_FLAG_BSY)){}; // check BUSY flag
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_SET); // CS HIGH
 }
 
@@ -99,9 +99,12 @@ void GyroInit(void){
 void GyroReadData(void){
 		prev_z = raw.z;
 		SpiRead(FXAS21002C_H_OUT_X_MSB, 6);
-		raw.x = (int16_t)(SpiRxBuffer[0] << 8 | SpiRxBuffer[1]) >> 2;
+		/*raw.x = (int16_t)(SpiRxBuffer[0] << 8 | SpiRxBuffer[1]) >> 2;
 		raw.y = (int16_t)(SpiRxBuffer[2] << 8 | SpiRxBuffer[3]) >> 2;
-		raw.z = (int16_t)(SpiRxBuffer[4] << 8 | SpiRxBuffer[5]) >> 2;
+		raw.z = (int16_t)(SpiRxBuffer[4] << 8 | SpiRxBuffer[5]) >> 2;*/
+		raw.x = (int16_t)(SpiRxBuffer[0] << 8 | SpiRxBuffer[1]);
+		raw.y = (int16_t)(SpiRxBuffer[2] << 8 | SpiRxBuffer[3]);
+		raw.z = (int16_t)(SpiRxBuffer[4] << 8 | SpiRxBuffer[5]);
 		// zero te gyro and get angular velocity 15.625
 		//angle.z = ((float)(cal_z-raw.z));//*0.0078125); //31.25
 	//}

@@ -40,3 +40,4 @@ micromouse\stm32f4xx_it.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\strin
 micromouse\stm32f4xx_it.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 micromouse\stm32f4xx_it.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 micromouse\stm32f4xx_it.o: ../Inc/gpio.h
+micromouse\stm32f4xx_it.o: ../Inc/motor.h

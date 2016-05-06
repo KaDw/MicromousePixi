@@ -100,15 +100,10 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 	/* ENABLE TIM TO GET BATTERY STATUS */
-	HAL_TIM_Base_Start_IT(&htim6);
-/* CHANNEL_ALL enables CHANNEL1 and CHANNEL2 
-	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
-	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);*/
-	MotorInit();
+	//HAL_TIM_Base_Start_IT(&htim6);
 
 
  
-  UI_LedOffAll();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -117,8 +112,7 @@ int main(void)
 
 	
 	UI_Init();
-
-	//HAL_Delay(1000);
+	MotorInit();
 	MotorSetPWMRaw(0, 0);
 	GyroInit();
 	GyroCalibrate();
@@ -133,29 +127,22 @@ int main(void)
 		
 		
 //	}
+MotorSetPWMRaw(700, 0);
+for(int i = 0; i < 30; ++i)
+{
+	printf("%d %d\n", getEncL(), getEncR());
+}
+MotorSetPWMRaw(0, 0);
+//Go(500, 500, 400, 0);
+float sum = 0;
   while (1)
   {
-		if(vbat > 1000)
-		{
-			UI_LedOn(UI_LED_GREEN);
-			UI_LedOff(UI_LED_YELLOW);
-		}
-		else
-		{
-			UI_LedOff(UI_LED_GREEN);
-			UI_LedOn(UI_LED_YELLOW);
-		}
+		
 		HAL_Delay(100);
 		//Go(100, 100, 400, 0);
 		UI_Beep(1000, 100);
-		printf_("lewy:%d  prawy:%d\n", getEncL(), getEncR());
-		/*if(vbat < 1000)
-		{
-			UI_LedOff();
-			HAL_Delay(100);
-			UI_LedOn(UI_LED_YELLOW);
-		}
-		GyroReadData();
+		//printf_("lewy:%d  prawy:%d\n", getEncL(), getEncR());
+		/*GyroReadData();
 		sum += GyroGetAngle(0.01, raw.z, prev_z);
 		printf("%f\r\n", sum); 
 		HAL_Delay(10);*/
@@ -218,21 +205,21 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 		
 		case 'W':
 		case 'F':
-			//MotorSetPWMRaw(600, 600);
+			MotorSetPWMRaw(600, 600);
 		break;
 		
 		case 'S':
-			//MotorSetPWMRaw(-400, -400);
+			MotorSetPWMRaw(-400, -400);
 		break;
 		
 		case 'D':
 		case 'R': 
-			//MotorSetPWMRaw(600, 300);
+			MotorSetPWMRaw(600, 300);
 		break;
 			
 		case 'A':
 		case 'L':
-			//MotorSetPWMRaw(300, 600);
+			MotorSetPWMRaw(300, 600);
 		break;
 		}
 			

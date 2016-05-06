@@ -14,12 +14,12 @@
 #define PI 3.14
 #define MOTOR_MAX_VEL					1000
 #define MOTOR_DRIVER_D_CNT 		100
-#define MOTOR_EPSILON 				10 /* enc tick*/
-#define MOTOR_SLOW_TICK				150
-#define MOTOR_SLOW_VEL				150
+#define MOTOR_EPSILON 				15 /* enc tick 15~1mm*/
+#define MOTOR_SLOW_TICK				200
+#define MOTOR_SLOW_VEL				200
 #define TICKS_PER_REVOLUTION	1760
-#define HALF_WHEELBASE				(100/2) /* mm*/
-#define WHEEL_DIAMETER 				45 /* mm*/
+#define HALF_WHEELBASE				(66/2) /* mm*/
+#define WHEEL_DIAMETER 				37 /* mm*/
 
 #define KP  1.0
 #define KD  0.0
@@ -67,7 +67,8 @@ typedef struct Motors_t Motors_t;
 struct Motors_t
 {
 	int vel;
-	uint16_t ePosL, ePosR;
+	int16_t wTrackL, wTrackR; // wholeTrack R/L
+	int16_t ePosL, ePosR; // there are also 16 bit timers connected to encoders
 	int velL, velR;
 	MotorStat status;
 	int(*driver)(Motors_t*);

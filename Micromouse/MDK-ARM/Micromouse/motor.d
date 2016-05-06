@@ -39,3 +39,4 @@ micromouse\motor.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\string.h
 micromouse\motor.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 micromouse\motor.o: E:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 micromouse\motor.o: ../Inc/gpio.h
+micromouse\motor.o: ../Inc/sensor.h

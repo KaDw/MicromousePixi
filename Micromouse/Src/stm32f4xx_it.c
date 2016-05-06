@@ -38,6 +38,7 @@
 /* USER CODE BEGIN 0 */
 #include "sensor.h"
 #include "UI.h"
+#include "motor.h"
 
 volatile uint8_t count = 3;
 /* USER CODE END 0 */
@@ -95,6 +96,10 @@ void EXTI2_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI2_IRQn 0 */
 	NVIC_ClearPendingIRQ(EXTI2_IRQn);
+	EXTI->PR |= EXTI_PR_PR12; // pending register 12
+	
+	MotorSetPWMRaw(0, 0);
+	
 	while(1)
 	{
 		printf_("Jestem w guziku z lewej!\n");
@@ -122,16 +127,33 @@ void USART1_IRQHandler(void)
 }
 
 /**
-* @brief prawy guzik
+* @brief This function handles EXTI line[15:10] interrupts.
 */
 void EXTI15_10_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
- 
-	NVIC_ClearPendingIRQ(EXTI2_IRQn);
-	//zerowanie enkoderow
-	TIM3->CNT = 0;
-	TIM4->CNT = 0;
+
+	// PRAWY PRZYCISK
+	uint32_t bat;
+	uint32_t temp;
+	extern ADC_HandleTypeDef hadc1;
+	
+	NVIC_ClearPendingIRQ(EXTI15_10_IRQn);
+	EXTI->PR |= EXTI_PR_PR15; // pending register 15
+	
+	// bat
+	ADC1->SQR1 &= ~ADC_SQR1_L; // 1 conversion
+	ADC1->SQR3 = ADC_CH_BAT; // channel to be converted
+	HAL_ADC_Start(&hadc1);
+	bat = HAL_ADC_GetValue(&hadc1);
+	
+	//todo: tutaj zczytuje 2 razy to samo
+	//temp
+	ADC1->SQR3 = ADC_CH_BAT; // channel to be converted
+	HAL_ADC_Start(&hadc1);
+	temp = HAL_ADC_GetValue(&hadc1);
+	
+	printf_("bat:%d  temp:%d\n", bat, temp);
   /* USER CODE END EXTI15_10_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
@@ -200,6 +222,13 @@ void TIM6_DAC_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
   /* USER CODE END TIM6_DAC_IRQn 1 */
+}
+
+void TIM1_TRG_COM_TIM11_IRQHandler(void)
+{
+	NVIC_ClearPendingIRQ(TIM1_TRG_COM_TIM11_IRQn);
+	TIM11->SR = 0;
+	UI_BattControl();
 }
 
 /**

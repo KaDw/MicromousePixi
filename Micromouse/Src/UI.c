@@ -8,6 +8,7 @@ void UI_Init()
 	MX_USART1_UART_Init();
 	UI_InitBeep();
 	UI_InitLeds();
+	UI_InitBattControl();
 }
 
 
@@ -37,8 +38,9 @@ void UI_InitBeep()
 	TIM2->PSC = 65e3;//150; // current freq = 60kHz/150 = 400Hz
 	//TIM2->CR1 = TIM_CR1_ARPE; // ARR shadow register
 	TIM2->CCR2 = TIM2->ARR/2; // 50% duty
-	TIM2->CCMR1 = TIM_CCMR1_OC2M_1 | TIM_CCMR1_OC2M_0; // PWM Mode 1 // toggle
+	TIM2->CCMR1 = TIM_CCMR1_OC2M_1 | TIM_CCMR1_OC2M_0; // PWM Mode 1 // toggle // CC2S=0:output
 	TIM2->CCER = TIM_CCER_CC2E; // CC2E-output enable, CC1P - polarity
+	TIM2->EGR = TIM_EGR_UG; // Update generation
 	//TIM2->BDTR |= TIM_BDTR_MOE; // MOE-main output enable
 	
 	//TS=000 -> Master is TIM1
@@ -53,6 +55,23 @@ void UI_InitLeds()
 {
 	// config timers in One Pulse mode
 	UI_LedOffAll();
+}
+
+void UI_InitBattControl()
+{
+	__TIM11_CLK_ENABLE();
+	__DSB();// Data Synchronization Barrier
+	
+	// event generation register
+	TIM11->EGR = TIM_EGR_UG; //  Update generation
+	TIM11->DIER = TIM_DIER_UIE;
+	// control register
+	TIM11->PSC = 168e6/4e3; //mamy 4kHz zegar za prescalerem
+	TIM11->ARR = 4000;
+	
+	NVIC_EnableIRQ(TIM1_TRG_COM_TIM11_IRQn);
+	
+	TIM11->CR1 = TIM_CR1_CEN; //counter_enable
 }
 
 void UI_Beep(int time, int freq)
@@ -103,6 +122,28 @@ void UI_LedOff(int UI_LED_n)
 	{
 		GPIOA->BSRR = UI_LED_n;
 	}
+}
+
+void UI_BattControl()
+{
+	static uint32_t battValue = 0;
+	static uint32_t lastValue = 0;
+	
+	if(battValue == 0)
+		battValue = lastValue;
+	else
+		battValue = ((battValue << 2) + lastValue) / 5; // alpha-blending
+	
+	ADCreadChannel(CH9, &lastValue);
+	 //1080LSB/2.7V
+	if( 2200 < battValue && battValue < 2960 ) // 5.5V...7.4V
+	{
+		UI_Beep(500, 700);
+		UI_LedOffAll();
+		UI_LedOn(UI_LED_YELLOW);
+	}
+	
+	//printf_("Batt:%d\n", battValue);
 }
 
 void UI_Send(uint8_t* m)
