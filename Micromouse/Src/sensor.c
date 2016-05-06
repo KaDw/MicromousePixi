@@ -21,7 +21,7 @@ void ADCreadAmbient(){
 	ADC1->SQR1 = ADC_SQR1_L_2; // 5 conversions (0x04, count from 0)
 	// TODO fix this hex
 	//(CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15)|(CH9<<20);
-	ADC1->SQR3 = (CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15)|(CH9<<20); // channels to convert: 2, 11, 12, 13
+	ADC1->SQR3 = (CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15)|(CH9<<20); // channels to convert: 2, 11, 12, 13 and 9 for battery
 	HAL_ADC_Start_DMA(&hadc1, cal, 5);
 	vbat = cal[4];
 }

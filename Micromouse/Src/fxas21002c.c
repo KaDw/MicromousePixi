@@ -84,10 +84,9 @@ void GyroInit(void){
 		//SpiWrite(FXAS21002C_H_CTRL_REG1, 0x40); // Reset all registers to POR values
 		//SpiRead(FXAS21002C_H_CTRL_REG1, 1);
 		HAL_Delay(1);
-		SpiWrite(FXAS21002C_H_CTRL_REG0, (GFS_250DPS)); // set FSR, enable high pass filter
-		SpiWrite(FXAS21002C_H_CTRL_REG1, GODR_100HZ);
-		SpiRead(FXAS21002C_H_CTRL_REG1, 1);
-	
+		SpiWrite(FXAS21002C_H_CTRL_REG0, (GFS_250DPS)); // set FSR,
+		SpiWrite(FXAS21002C_H_CTRL_REG1, GODR_100HZ); // set ODR
+		SpiRead(FXAS21002C_H_CTRL_REG1, 1); 
 		SpiWrite(FXAS21002C_H_CTRL_REG1, (MODE_ACTIVE|SpiRxBuffer[0])); // Active Mode
 		HAL_Delay(100);
 
