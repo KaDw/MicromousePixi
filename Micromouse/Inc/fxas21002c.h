@@ -21,6 +21,7 @@ typedef struct
 
 
 extern float prev_z; 
+extern volatile uint16_t dt;
 //extern int16_t x, y, z;
 //extern int16_t cal_x, cal_y, cal_z;
 extern raw_data raw;
@@ -53,18 +54,20 @@ extern uint8_t SpiRxBuffer[6];
 #define FXAS21002C_H_CTRL_REG3        0x15
 
 
-enum gyroODR {
-	GODR_800HZ, 
-	GODR_400HZ,
-	GODR_200HZ,
-	GODR_100HZ,
-	GODR_50HZ,
-	GODR_12_5HZ, 
-	GODR_6_25HZ,
-	GODR_1_56HZ
-};
+enum gyroODR {    
+  // DR = CTRL_REG1[4:2]  
+  GODR_800HZ   = (0x00<<2),     
+  GODR_400HZ   = (0x01<<2),     
+  GODR_200HZ   = (0x02<<2),     
+  GODR_100HZ   = (0x03<<2),     
+  GODR_50HZ    = (0x04<<2),   
+  GODR_12_5HZ  = (0x05<<2),      
+  GODR_6_25HZ  = (0x06<<2),     
+  GODR_1_56HZ  = (0x07<<2),    
+};   
 
 enum gyroFSR {
+	// FR = CTRL_REG0[1:0]  
   GFS_2000DPS,
   GFS_1000DPS,
   GFS_500DPS,
@@ -72,6 +75,7 @@ enum gyroFSR {
 };
 
 enum gyroMODE {
+	// STANDBY/READY =CTRL_REG1[0] ; STANDBY/ACTIVE = CTRL_REG1[1]  
 	MODE_STANDBY,
 	MODE_READY,
 	MODE_ACTIVE
