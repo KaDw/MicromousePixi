@@ -13,6 +13,8 @@
 
 #define PI 3.14
 #define MOTOR_MAX_VEL					1000
+#define MOTOR_ACC							5
+#define MOTOR_DRIVER_FREQ			200
 #define MOTOR_DRIVER_D_CNT 		100
 #define MOTOR_EPSILON 				15 /* enc tick 15~1mm*/
 #define MOTOR_SLOW_TICK				200
@@ -21,11 +23,13 @@
 #define HALF_WHEELBASE				(66/2) /* mm*/
 #define WHEEL_DIAMETER 				37 /* mm*/
 
-#define KP  1.0
-#define KD  0.0
-#define KI  0.0
+#define KP  2.0
+#define KD  1.0
+#define KI  0.1
 
 
+typedef uint16_t 	pos_t;
+typedef int16_t		posDif_t;
 
 #define MOTOR_GPIO GPIOC
 /*#define ML_IN1_Pin 
@@ -56,6 +60,17 @@ typedef enum
 } MotorStat;
 
 
+typedef struct
+{
+	int V, lastV, PWM;
+	int T1, T2, T3;
+	pos_t S1, S2, S3, wS; // whole track
+	pos_t enc;
+	posDif_t err;
+	int errI, errP;
+} _Motor_t;
+
+
 typedef struct Motors_t Motors_t;
 ///
 /// Its basic motor module struct.
@@ -66,12 +81,10 @@ typedef struct Motors_t Motors_t;
 ///
 struct Motors_t
 {
-	int vel;
-	int16_t wTrackL, wTrackR; // wholeTrack R/L
-	int16_t ePosL, ePosR; // there are also 16 bit timers connected to encoders
-	int velL, velR;
+	int vel, t;
 	MotorStat status;
 	int(*driver)(Motors_t*);
+	_Motor_t mot[2];
 };
 
 
@@ -157,12 +170,11 @@ void MotorSetPWMRaw(int left, int right);
 
 ///
 /// Set motor PWM from -MOTOR_MAX_VEL to +MOTOR_MAX_VEL
-/// @param pointer to Motors_t struct
 /// @see MotorFloat(), MotorStop()
 /// @before MotorInit()
 /// @after
 ///
-void MotorSetPWM(Motors_t* m);
+void MotorSetPWM(void);
 
 
 ///
@@ -173,48 +185,44 @@ void MotorSetPWM(Motors_t* m);
 /// @before MotorInit()
 /// @after
 ///
-void MotorSetVel(Motors_t* m, uint8_t );
+void MotorSetVel(Motors_t* m, uint8_t);
 
 
 ///
 /// Block wheels and change state in Motors_t pointer
 /// @return void
-/// @param pointer to Motors_t struct or 0
 /// @see MotorFloat(), MotorSetVel()
 /// @before MotorInit()
 /// @after
 ///
-void MotorStop(Motors_t* m);
+void MotorStop(void);
 
 
 ///
 /// Allows wheels to freely turning and change state int Motors_t pointer
 /// @return void
-/// @param pointer to Motors_t struct or 0
 /// @see MotorStop(), MotorSetVel()
 /// @before MotorInit()
 /// @after
 ///
-void MotorFloat(Motors_t* m);
+void MotorFloat(void);
 
 
 ///
 /// This function regulate motor speed.
 /// When are you using asynchronous function, then you have to call this function manually and frequently
 /// @return 0 when reach target, 1 otherwise
-/// @param pointer to Motors_t struct with destination coordinates
 /// @see GoA, TurnA, Go, Turn, KP, KI, KD
 /// @before MotorUpdate, GoA or TurnA
 /// @after none
 ///
-int MotorUpdate(Motors_t* m);
+int MotorUpdate(void);
 
 
 ///
 /// Go, this function doesn't block program when working.
 /// MotorUpdate must be called frequetly with Motor pointer modified by this function
 /// @return void
-/// @param pointer to Motors_t struct which will be modified and manually yoused in MotorUpdate()
 /// @param left a left wheel distance in mm
 /// @param a right wheel distance in mm
 /// @param velocity - average
@@ -227,7 +235,7 @@ int MotorUpdate(Motors_t* m);
 /// @before MotorInit()
 /// @after none
 ///
-void GoA(Motors_t* m, int left, int right, int vel, int(*driver)(Motors_t*));
+void GoA(int left, int right, int vel, int(*driver)(Motors_t*));
 
 
 ///
@@ -253,7 +261,6 @@ void Go(int left, int right, int vel, int(*driver)(Motors_t*));
 /// Turn, this function doesn't block program when working
 /// MotorUpdate must be called frequetly with Motor pointer modified by this function
 /// @return void
-/// @param pointer to Motors_t struct which will be modified and manually yoused in MotorUpdate()
 /// @param angle in degree. When angle < 0 then turn left otherwise right
 /// @param radius of turn in mm. From center of robot to center of turn
 /// @param velocity - average
@@ -266,7 +273,7 @@ void Go(int left, int right, int vel, int(*driver)(Motors_t*));
 /// @before MotorInit()
 /// @after none
 ///
-void TurnA(Motors_t* m, int angle, int radius, int vel, int(*driver)(Motors_t*));
+void TurnA(int angle, int radius, int vel, int(*driver)(Motors_t*));
 
 
 ///
@@ -301,12 +308,11 @@ int MotorTruncVel(int vel);
 ///
 /// Check reaching to the target
 /// @return 1 when target is reached and 0 otherwise
-/// @param pointer to Motors_t struct with target coordinates
 /// @see MotorUpdate(), Go(), Turn()
 /// @before MotorInit, GoA or TurnA
 /// @after none
 ///
-int MotorEnd(Motors_t* m);
+int MotorEnd(void);
 
 
 ///

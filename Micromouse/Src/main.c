@@ -127,13 +127,13 @@ int main(void)
 		
 		
 //	}
-MotorSetPWMRaw(700, 0);
+/*MotorSetPWMRaw(700, 0);
 for(int i = 0; i < 30; ++i)
 {
 	printf("%d %d\n", getEncL(), getEncR());
-}
+}*/
 MotorSetPWMRaw(0, 0);
-//Go(500, 500, 400, 0);
+Go(50, 50, 40, 0);
 float sum = 0;
   while (1)
   {
