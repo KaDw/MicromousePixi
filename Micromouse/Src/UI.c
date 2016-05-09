@@ -66,7 +66,7 @@ void UI_InitBattControl()
 	TIM11->EGR = TIM_EGR_UG; //  Update generation
 	TIM11->DIER = TIM_DIER_UIE;
 	// control register
-	TIM11->PSC = 168e6/4e3; //mamy 4kHz zegar za prescalerem
+	TIM11->PSC = 42000; //168e6/4e3 = 42000 mamy 4kHz zegar za prescalerem
 	TIM11->ARR = 4000;
 	
 	NVIC_EnableIRQ(TIM1_TRG_COM_TIM11_IRQn);

@@ -97,6 +97,7 @@ int main(void)
   MX_TIM12_Init();
   MX_USART1_UART_Init();
   MX_TIM6_Init();
+  MX_TIM7_Init();
 
   /* USER CODE BEGIN 2 */
 	/* ENABLE TIM TO GET BATTERY STATUS */
@@ -142,10 +143,7 @@ float sum = 0;
 		//Go(100, 100, 400, 0);
 		UI_Beep(1000, 100);
 		//printf_("lewy:%d  prawy:%d\n", getEncL(), getEncR());
-		/*GyroReadData();
-		sum += GyroGetAngle(0.01, raw.z, prev_z);
-		printf("%f\r\n", sum); 
-		HAL_Delay(10);*/
+
 		
   /* USER CODE END WHILE */
 

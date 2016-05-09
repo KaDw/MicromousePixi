@@ -12,6 +12,7 @@ compute sampling time using timer
 // SPI buffers
 uint8_t abc;
 uint8_t SpiRxBuffer[6];
+volatile uint16_t dt;
 //int16_t x, y, z;
 raw_data raw;
 float angle_new;
@@ -28,12 +29,12 @@ uint8_t SpiRead(uint8_t address, uint8_t size){
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_RESET); // CS LOW
 	/* Setup time for SPI_CS_B signal 250ns*/
 		
-	HAL_SPI_TransmitReceive_IT(&hspi3, &address, SpiRxBuffer, 1);
+	HAL_SPI_TransmitReceive_DMA(&hspi3, &address, SpiRxBuffer, 1);
   while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
 	while ((SPI3->SR & SPI_FLAG_BSY));
 	// for multi-read mode
 	for(int i = 0; i < size; i++){
-		HAL_SPI_TransmitReceive_IT(&hspi3, &a, &SpiRxBuffer[i], 1);
+		HAL_SPI_TransmitReceive_DMA(&hspi3, &a, &SpiRxBuffer[i], 1);
 	
 	  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
 		while ((SPI3->SR & SPI_FLAG_BSY)); // shouldnt be here
@@ -49,10 +50,10 @@ void SpiWrite(uint8_t address, uint8_t value){
 	/* Setup time for SPI_CS_B signal 250ns*/
 	// MSB is 0 + address
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_RESET); // CS LOW
-	HAL_SPI_TransmitReceive_IT(&hspi3, &address, SpiRxBuffer, 1);
+	HAL_SPI_TransmitReceive_DMA(&hspi3, &address, SpiRxBuffer, 1);
   while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
 	while ((SPI3->SR & SPI_FLAG_BSY));
-	HAL_SPI_TransmitReceive_IT(&hspi3, &value, SpiRxBuffer, 1);
+	HAL_SPI_TransmitReceive_DMA(&hspi3, &value, SpiRxBuffer, 1);
 	
 	while (!(SPI3->SR & SPI_FLAG_TXE)){}; // check if transmit buffer has been shifted out
   while ((SPI3->SR & SPI_FLAG_BSY)){}; // check BUSY flag
@@ -84,10 +85,9 @@ void GyroInit(void){
 		//SpiWrite(FXAS21002C_H_CTRL_REG1, 0x40); // Reset all registers to POR values
 		//SpiRead(FXAS21002C_H_CTRL_REG1, 1);
 		HAL_Delay(1);
-		SpiWrite(FXAS21002C_H_CTRL_REG0, (GFS_250DPS)); // set FSR, enable high pass filter
-		SpiWrite(FXAS21002C_H_CTRL_REG1, GODR_100HZ);
-		SpiRead(FXAS21002C_H_CTRL_REG1, 1);
-	
+		SpiWrite(FXAS21002C_H_CTRL_REG0, (GFS_250DPS)); // set FSR,
+		SpiWrite(FXAS21002C_H_CTRL_REG1, GODR_100HZ); // set ODR
+		SpiRead(FXAS21002C_H_CTRL_REG1, 1); 
 		SpiWrite(FXAS21002C_H_CTRL_REG1, (MODE_ACTIVE|SpiRxBuffer[0])); // Active Mode
 		HAL_Delay(100);
 
