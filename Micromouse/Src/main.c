@@ -127,13 +127,15 @@ for(int i = 0; i < 30; ++i)
 }*/
 MotorSetPWMRaw(0, 0);
 Go(50, 50, 40, 0);
-float sum = 0;
+//MotorSetPWMRaw(200, 200);
+HAL_Delay(1000);
+MotorSetPWMRaw(0, 0);
   while (1)
   {
 		
 		HAL_Delay(100);
 		//Go(100, 100, 400, 0);
-		UI_Beep(1000, 100);
+		//UI_Beep(1000, 100);
 		//printf_("lewy:%d  prawy:%d\n", getEncL(), getEncR());
   /* USER CODE END WHILE */
 
