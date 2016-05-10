@@ -34,3 +34,8 @@ micromouse\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
 micromouse\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 micromouse\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 micromouse\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+micromouse\motor.o: ../Inc/UI.h
+micromouse\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+micromouse\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+micromouse\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+micromouse\motor.o: ../Inc/gpio.h
