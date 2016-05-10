@@ -5,8 +5,6 @@
 #include "stm32f4xx.h"
 
 
-#define ADC_CH_BAT CH9
-
 
 // calibration
 extern uint32_t cal[5];

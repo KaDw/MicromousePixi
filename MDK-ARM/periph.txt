@@ -1,8 +1,0 @@
-Tim1 - buzzer
-Tim2 - buzzer
-Tim3 - EncL
-Tim4 - EncR
-Tim6 - ADC trigger
-Tim11 - Battery
-Tim12 - Motor PWM
- 

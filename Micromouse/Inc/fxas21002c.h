@@ -22,6 +22,7 @@ typedef struct
 
 extern float prev_z; 
 extern volatile uint16_t dt;
+extern float angle1;
 //extern int16_t x, y, z;
 //extern int16_t cal_x, cal_y, cal_z;
 extern raw_data raw;
@@ -86,7 +87,8 @@ void SpiWrite(uint8_t address,uint8_t value);
 void GyroInit(void);
 void GyroReadData(void);
 void GyroCalibrate(void);
-float GyroGetAngle(float dt, float a, float b);
+float GyroGetAngle(float dt);
+float GetGyro(float dt);
 //void GyroSelfTest();
 //void AlfaBetaFilter(void);
 

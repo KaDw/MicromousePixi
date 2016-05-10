@@ -36,15 +36,12 @@
 #include "spi.h"
 
 #include "gpio.h"
-#include "dma.h"
 
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
 
 SPI_HandleTypeDef hspi3;
-DMA_HandleTypeDef hdma_spi3_rx;
-DMA_HandleTypeDef hdma_spi3_tx;
 
 /* SPI3 init function */
 void MX_SPI3_Init(void)
@@ -90,36 +87,6 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
     GPIO_InitStruct.Alternate = GPIO_AF6_SPI3;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-    /* Peripheral DMA init*/
-  
-    hdma_spi3_rx.Instance = DMA1_Stream0;
-    hdma_spi3_rx.Init.Channel = DMA_CHANNEL_0;
-    hdma_spi3_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
-    hdma_spi3_rx.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_spi3_rx.Init.MemInc = DMA_MINC_ENABLE;
-    hdma_spi3_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-    hdma_spi3_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-    hdma_spi3_rx.Init.Mode = DMA_CIRCULAR;
-    hdma_spi3_rx.Init.Priority = DMA_PRIORITY_HIGH;
-    hdma_spi3_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    HAL_DMA_Init(&hdma_spi3_rx);
-
-    __HAL_LINKDMA(hspi,hdmarx,hdma_spi3_rx);
-
-    hdma_spi3_tx.Instance = DMA1_Stream5;
-    hdma_spi3_tx.Init.Channel = DMA_CHANNEL_0;
-    hdma_spi3_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
-    hdma_spi3_tx.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_spi3_tx.Init.MemInc = DMA_MINC_DISABLE;
-    hdma_spi3_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-    hdma_spi3_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-    hdma_spi3_tx.Init.Mode = DMA_CIRCULAR;
-    hdma_spi3_tx.Init.Priority = DMA_PRIORITY_HIGH;
-    hdma_spi3_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    HAL_DMA_Init(&hdma_spi3_tx);
-
-    __HAL_LINKDMA(hspi,hdmatx,hdma_spi3_tx);
-
     /* Peripheral interrupt init */
     HAL_NVIC_SetPriority(SPI3_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(SPI3_IRQn);
@@ -146,10 +113,6 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
     PC12     ------> SPI3_MOSI 
     */
     HAL_GPIO_DeInit(GPIOC, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12);
-
-    /* Peripheral DMA DeInit*/
-    HAL_DMA_DeInit(hspi->hdmarx);
-    HAL_DMA_DeInit(hspi->hdmatx);
 
     /* Peripheral interrupt Deinit*/
     HAL_NVIC_DisableIRQ(SPI3_IRQn);

@@ -36,19 +36,14 @@
 #include "stm32f4xx_it.h"
 
 /* USER CODE BEGIN 0 */
-#include "tim.h"
 #include "sensor.h"
 #include "UI.h"
-#include "motor.h"
-#include "fxas21002c.h"
 
 volatile uint8_t count = 3;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc1;
-extern DMA_HandleTypeDef hdma_spi3_rx;
-extern DMA_HandleTypeDef hdma_spi3_tx;
 extern SPI_HandleTypeDef hspi3;
 extern TIM_HandleTypeDef htim6;
 extern DMA_HandleTypeDef hdma_usart1_rx;
@@ -85,13 +80,7 @@ void SysTick_Handler(void)
 */
 void EXTI0_IRQHandler(void)
 {
-  /* USER CODE BEGIN EXTI0_IRQn 0 */ // this may take too long
-		HAL_TIM_Base_Start(&htim7); // gyro timer
-		GyroReadData();
-		HAL_TIM_Base_Stop(&htim7);
-		dt = (TIM7->CNT)*0.000001; // get seconds
-		TIM1->CNT = 0;
-		GyroGetAngle(dt, prev_z, raw.z);
+  /* USER CODE BEGIN EXTI0_IRQn 0 */
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
   /* USER CODE BEGIN EXTI0_IRQn 1 */
@@ -106,10 +95,6 @@ void EXTI2_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI2_IRQn 0 */
 	NVIC_ClearPendingIRQ(EXTI2_IRQn);
-	EXTI->PR |= EXTI_PR_PR12; // pending register 12
-	
-	MotorSetPWMRaw(0, 0);
-	
 	while(1)
 	{
 		printf_("Jestem w guziku z lewej!\n");
@@ -120,34 +105,6 @@ void EXTI2_IRQHandler(void)
   /* USER CODE BEGIN EXTI2_IRQn 1 */
 
   /* USER CODE END EXTI2_IRQn 1 */
-}
-
-/**
-* @brief This function handles DMA1 stream0 global interrupt.
-*/
-void DMA1_Stream0_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Stream0_IRQn 0 */
-
-  /* USER CODE END DMA1_Stream0_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_spi3_rx);
-  /* USER CODE BEGIN DMA1_Stream0_IRQn 1 */
-
-  /* USER CODE END DMA1_Stream0_IRQn 1 */
-}
-
-/**
-* @brief This function handles DMA1 stream5 global interrupt.
-*/
-void DMA1_Stream5_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Stream5_IRQn 0 */
-
-  /* USER CODE END DMA1_Stream5_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_spi3_tx);
-  /* USER CODE BEGIN DMA1_Stream5_IRQn 1 */
-
-  /* USER CODE END DMA1_Stream5_IRQn 1 */
 }
 
 /**
@@ -170,7 +127,7 @@ void USART1_IRQHandler(void)
 void EXTI15_10_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
-
+ 
 	// PRAWY PRZYCISK
 	uint32_t bat;
 	uint32_t temp;
@@ -181,13 +138,13 @@ void EXTI15_10_IRQHandler(void)
 	
 	// bat
 	ADC1->SQR1 &= ~ADC_SQR1_L; // 1 conversion
-	ADC1->SQR3 = ADC_CH_BAT; // channel to be converted
+	ADC1->SQR3 = ADC_CHANNEL_9; // channel to be converted
 	HAL_ADC_Start(&hadc1);
 	bat = HAL_ADC_GetValue(&hadc1);
 	
 	//todo: tutaj zczytuje 2 razy to samo
 	//temp
-	ADC1->SQR3 = ADC_CH_BAT; // channel to be converted
+	ADC1->SQR3 = ADC_CHANNEL_9; // channel to be converted
 	HAL_ADC_Start(&hadc1);
 	temp = HAL_ADC_GetValue(&hadc1);
 	
@@ -205,6 +162,7 @@ void EXTI15_10_IRQHandler(void)
 void SPI3_IRQHandler(void)
 {
   /* USER CODE BEGIN SPI3_IRQn 0 */
+
   /* USER CODE END SPI3_IRQn 0 */
   HAL_SPI_IRQHandler(&hspi3);
   /* USER CODE BEGIN SPI3_IRQn 1 */
@@ -217,6 +175,7 @@ void SPI3_IRQHandler(void)
 */
 void TIM6_DAC_IRQHandler(void)
 {
+  /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
 		switch(count){
 		case 1:

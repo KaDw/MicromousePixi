@@ -58,8 +58,6 @@ uint32_t adc;
 uint8_t Tx_buf = 0x0C;
 uint8_t Rx_buf = 0xFF; 
 
-/* GYRO */
-float angle1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -97,14 +95,18 @@ int main(void)
   MX_TIM12_Init();
   MX_USART1_UART_Init();
   MX_TIM6_Init();
-  MX_TIM7_Init();
 
   /* USER CODE BEGIN 2 */
 	/* ENABLE TIM TO GET BATTERY STATUS */
 	//HAL_TIM_Base_Start_IT(&htim6);
+/* CHANNEL_ALL enables CHANNEL1 and CHANNEL2 
+	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
+	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);*/
+	MotorInit();
 
 
  
+  UI_LedOff();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -113,21 +115,11 @@ int main(void)
 
 	
 	UI_Init();
-	MotorInit();
+
+	//HAL_Delay(1000);
 	MotorSetPWMRaw(0, 0);
 	GyroInit();
 	GyroCalibrate();
-//	SpiRead(FXAS21002C_H_CTRL_REG1, 1);
-//	SpiWrite(FXAS21002C_H_CTRL_REG1, SpiRxBuffer[0]|(1<<5));
-//	SpiRead(FXAS21002C_H_CTRL_REG1, 1);
-//	GyroCalibrate();
-//	for(int i =0; i < 1000; i++){
-//		GyroReadData();
-//		HAL_Delay(10);
-//		printf("%f\r\n", raw.z);
-		
-		
-//	}
 /*MotorSetPWMRaw(700, 0);
 for(int i = 0; i < 30; ++i)
 {
@@ -143,8 +135,6 @@ float sum = 0;
 		//Go(100, 100, 400, 0);
 		UI_Beep(1000, 100);
 		//printf_("lewy:%d  prawy:%d\n", getEncL(), getEncR());
-
-		
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -203,21 +193,21 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 		
 		case 'W':
 		case 'F':
-			MotorSetPWMRaw(600, 600);
+			//MotorSetPWMRaw(600, 600);
 		break;
 		
 		case 'S':
-			MotorSetPWMRaw(-400, -400);
+			//MotorSetPWMRaw(-400, -400);
 		break;
 		
 		case 'D':
 		case 'R': 
-			MotorSetPWMRaw(600, 300);
+			//MotorSetPWMRaw(600, 300);
 		break;
 			
 		case 'A':
 		case 'L':
-			MotorSetPWMRaw(300, 600);
+			//MotorSetPWMRaw(300, 600);
 		break;
 		}
 			
