@@ -12,10 +12,11 @@
 //#include "tinylib.h"
 
 #define PI 3.14
+
+// position controller
 #define MOTOR_MAX_VEL					1000
 #define MOTOR_ACC							5
-#define MOTOR_DRIVER_FREQ			200
-#define MOTOR_DRIVER_D_CNT 		100
+#define MOTOR_DRIVER_FREQ			1000
 #define MOTOR_EPSILON 				15 /* enc tick 15~1mm*/
 #define MOTOR_SLOW_TICK				200
 #define MOTOR_SLOW_VEL				200
@@ -23,26 +24,13 @@
 #define HALF_WHEELBASE				(66/2) /* mm*/
 #define WHEEL_DIAMETER 				37 /* mm*/
 
-#define KP  2.0
-#define KD  1.0
-#define KI  0.1
+#define MOTOR_GPIO 						GPIOC
+#define MOTOR_HTIM  					htim12
+#define MOTOR_CH_L						TIM_CHANNEL_1
+#define MOTOR_CH_R						TIM_CHANNEL_2
 
-
-typedef uint16_t 	pos_t;
-typedef int16_t		posDif_t;
-
-#define MOTOR_GPIO GPIOC
-/*#define ML_IN1_Pin 
-#define ML_IN2_Pin
-#define MR_IN1_Pin 
-#define MR_IN2_Pin*/
-
-#define MOTOR_HTIM  htim12
-#define MOTOR_CH_L	TIM_CHANNEL_1
-#define MOTOR_CH_R	TIM_CHANNEL_2
-
-#define MOTOR_HTIM_ENC_L htim3
-#define MOTOR_HTIM_ENC_R htim4
+#define MOTOR_HTIM_ENC_L 			htim3
+#define MOTOR_HTIM_ENC_R 			htim4
 
 extern TIM_HandleTypeDef MOTOR_HTIM, MOTOR_HTIM_ENC_L, MOTOR_HTIM_ENC_R;
 
@@ -59,6 +47,68 @@ typedef enum
 	MOTOR_CONST_VEL
 } MotorStat;
 
+
+//========================
+//====== VELOCITY ========
+//========================
+#define MOTOR_VELV_KP					1.0f
+#define MOTOR_VELV_KD					0.0f
+#define MOTOR_VELW_KP					1.0f
+#define MOTOR_VELW_KD					0.0f
+#define MOTOR_ACC_V						5.0f
+#define MOTOR_ACC_W						5.0f
+
+// flags determine sensor int turn
+extern int _motor_flag;
+#define FLAG_PID							1
+#define FLAG_GYRO							2
+#define FLAG_SENSOR						4
+#define FLAG_ENCODER					8
+#define ENABLE_PID 						(_motor_flag|=FLAG_PID)
+#define ENABLE_GYRO 					(_motor_flag|=FLAG_GYRO)
+#define ENABLE_SENSOR 				(_motor_flag|=FLAG_SENSOR)
+#define ENABLE_ENCODER 				(_motor_flag|=FLAG_ENCODER)
+#define DISABLE_PID 					(_motor_flag&=~FLAG_PID)
+#define DISABLE_GYRO 					(_motor_flag&=~FLAG_GYRO)
+#define DISABLE_SENSOR 				(_motor_flag&=~FLAG_SENSOR)
+#define DISABLE_ENCODER 			(_motor_flag&=~FLAG_ENCODER)
+
+#define EncL									MOTOR_HTIM_ENC_L.Instance->CNT
+#define EncR								MOTOR_HTIM_ENC_R.Instance->CNT
+
+extern float sensorGyroW;
+
+typedef struct
+{
+	uint16_t lastEnc;
+	int enc;
+	int encChange;
+	int PWM;
+} _MotorV;
+
+typedef struct
+{
+	_MotorV mot[2];
+	float targetV, currentV, PosErrV, lastPosErrV;
+	float targetW, currentW, PosErrW, lastPosErrW;
+	int distLeft;
+} MotorsV;
+
+void MotorInit();
+void MotorUpdateEnc();
+void MotorStop();
+void MotorSetPWMRaw(int left, int right);
+//========================
+//====== POSITION ========
+//========================
+/*
+#define KP  									2.0
+#define KD  									1.0
+#define KI  									0.1
+
+
+typedef uint16_t 	pos_t;
+typedef int16_t		posDif_t;
 
 typedef struct
 {
@@ -339,5 +389,5 @@ static void MotorDriverD(Motors_t* m);
 ///
 static void MotorDriverVelP(Motors_t* m);
 
-
+*/
 #endif

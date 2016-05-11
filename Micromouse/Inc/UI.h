@@ -8,20 +8,33 @@
 #define USE_FULL_ASSERT
 #include "stm32f4xx_hal.h"
 #include "gpio.h"
+#include "sensor.h"
 
 #define LOG(m)
 
 extern UART_HandleTypeDef huart1;
 #define UI_UART_Handle huart1
 
+
+#define UI_LED_L 			LED4_Pin
+#define UI_LED_R 			LED3_Pin
+#define UI_LED_GREEN	LED1_Pin
+#define UI_LED_YELLOW	LED2_Pin
+
+
 void UI_Init(void);
 void UI_InitBeep(void);
 void UI_InitLeds(void);
+void UI_InitBattControl(void);
 
 void UI_Send(uint8_t* m);
 void UI_Beep(int time, int freq);
-void UI_LedOff(void);
+void UI_LedOffAll(void);
+void UI_LedOnAll(void);
+void UI_LedOn(int UI_LED_n);
+void UI_LedOff(int UI_LED_n);
 
+void UI_BattControl(void);
 
 
 /*

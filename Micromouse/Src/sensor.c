@@ -8,9 +8,10 @@
 #include "sensor.h"
 
 
-uint32_t cal[5];
-uint32_t sens[4];
+uint32_t cal[7];
+uint32_t sens[6];
 uint32_t vbat;
+uint8_t batError;
 
 /* 	
 	@note WARNING 
@@ -18,12 +19,16 @@ uint32_t vbat;
 		*/
 
 void ADCreadAmbient(){
-	ADC1->SQR1 = ADC_SQR1_L_2; // 5 conversions (0x04, count from 0)
+	ADC1->SQR1 = (ADC_SQR1_L_2|ADC_SQR1_L_1); // 7 conversions (0x06, count from 0)
 	// TODO fix this hex
 	//(CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15)|(CH9<<20);
-	ADC1->SQR3 = (CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15)|(CH9<<20); // channels to convert: 2, 11, 12, 13 and 9 for battery
-	HAL_ADC_Start_DMA(&hadc1, cal, 5);
-	vbat = cal[4];
+	ADC1->SQR3 = (CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15)|(CH3<<20)|(CH10<<25); // channels to convert: 2, 11, 12, 13 and 9 for battery
+	ADC1->SQR2 = CH9;
+	//CH3, CH10
+	HAL_ADC_Start_DMA(&hadc1, cal, 7);
+	vbat = (cal[6]*0.0025)+0.067; // *0.0025 i dodac 0,067
+	if(cal[6] < 2884 && cal[6] > 2650) // 7,4-6,8
+		batError = 1;
 }
 
 void ADCreadChannel(uint8_t CHx, uint32_t *buf){
@@ -36,6 +41,15 @@ void ADCread2Channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf){
 	ADC1->SQR1 = ADC_SQR1_L_0;
 	ADC1->SQR3 = (CHx1)|(CHx2<<5);
 	HAL_ADC_Start_DMA(&hadc1, buf, 2);
+}
+
+void SensorOff(){
+	HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
+	HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_RESET);	
 }
 
 

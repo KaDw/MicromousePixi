@@ -102,11 +102,11 @@ int main(void)
 /* CHANNEL_ALL enables CHANNEL1 and CHANNEL2 
 	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);*/
-	MotorInit();
+	//MotorInit();
 
 
  
-  UI_LedOff();
+  UI_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -114,28 +114,38 @@ int main(void)
 	
 
 	
-	UI_Init();
+	//UI_Init();
 
-	//HAL_Delay(1000);
-	MotorSetPWMRaw(0, 0);
-	GyroInit();
-	GyroCalibrate();
-/*MotorSetPWMRaw(700, 0);
-for(int i = 0; i < 30; ++i)
+	HAL_Delay(1000);
+	//MotorSetPWMRaw(0, 0);
+//	GyroInit();
+//	GyroCalibrate(0.001);
+//MotorSetPWMRaw(400, 400);
+for(int i = 0; i < 250; ++i)
 {
-	printf("%d %d\n", getEncL(), getEncR());
-}*/
-MotorSetPWMRaw(0, 0);
-Go(50, 50, 40, 0);
+	//printf("%d %d\r\n", EncL, EncR);
+	HAL_Delay(1);
+}
+//MotorSetPWMRaw(0, 0);
+//Go(50, 50, 40, 0);
 //MotorSetPWMRaw(200, 200);
 HAL_Delay(1000);
-MotorSetPWMRaw(0, 0);
+//MotorSetPWMRaw(0, 0);
   while (1)
   {
-		
+		//ADCreadChannel(CH9, &adc);
+		//printf_("%d %d %d %d %d %d %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
 		HAL_Delay(100);
+		
+//		if(!batError){
+//			MotorStop();
+//			SensorOff();
+//			HAL_TIM_Base_Stop_IT(&htim6);
+//			UI_LedOnAll();
+//		}
 		//Go(100, 100, 400, 0);
 		//UI_Beep(1000, 100);
+		//printf("%f\r\n", (GetGyro(0.001))*2.1);
 		//printf_("lewy:%d  prawy:%d\n", getEncL(), getEncR());
   /* USER CODE END WHILE */
 

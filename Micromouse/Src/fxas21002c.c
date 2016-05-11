@@ -18,6 +18,13 @@ float angle1;
 float prev_z;
 int16_t cal_x, cal_y, cal_z;
 //angular_data angle ,x_pri, x_post, v_pri, v_post, alfa, beta;
+// get time between readings
+/* Captured Values */
+uint32_t uwIC2Value1 = 0;
+uint32_t uwIC2Value2 = 0;
+/* Capture index */
+uint16_t uhCaptureIndex = 0;
+float sensorGyroW;
 
 
 
@@ -84,10 +91,9 @@ void GyroInit(void){
 		//SpiWrite(FXAS21002C_H_CTRL_REG1, 0x40); // Reset all registers to POR values
 		//SpiRead(FXAS21002C_H_CTRL_REG1, 1);
 		HAL_Delay(1);
-		SpiWrite(FXAS21002C_H_CTRL_REG0, (GFS_250DPS)); // set FSR,
-		SpiWrite(FXAS21002C_H_CTRL_REG1, GODR_800HZ); // set ODR
-		SpiRead(FXAS21002C_H_CTRL_REG1, 1);
-		SpiWrite(FXAS21002C_H_CTRL_REG1, (MODE_ACTIVE|SpiRxBuffer[0])); // Active Mode
+		//SpiWrite(FXAS21002C_H_CTRL_REG2, (1<<3)|(1<<4)); // interrupt active low, enable, INT1
+	  SpiWrite(FXAS21002C_H_CTRL_REG0, (GFS_250DPS)); // set FSR  
+		SpiWrite(FXAS21002C_H_CTRL_REG1, (GODR_800HZ |  MODE_ACTIVE));  // set ODR and switch to active mode  
 		HAL_Delay(100);
 
 		#ifdef DEBUG_MODE
@@ -107,7 +113,7 @@ void GyroReadData(void){
 	//}
 }
 /* Take 100 samples and average offset value*/
-void GyroCalibrate(void){
+void GyroCalibrate(float dt){
 	#ifdef DEBUG_MODE
 		printf_("Calibrating...\r\n");
 	#endif  
@@ -134,8 +140,49 @@ float GetGyro(float dt){
 	
 }
 
+// get dt
+//void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+//{
+//  if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3)
+//{
+//    if(uhCaptureIndex == 0)
+//    {
+//      /* Get the 1st Input Capture value */
+//      uwIC2Value1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_3);
+//      uhCaptureIndex = 1;
+//			GyroReadData();
+//		}
+//		
+//    else if(uhCaptureIndex == 1)
+//    {
+//      /* Get the 2nd Input Capture value */
+//      uwIC2Value2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_3); 
 
-
+//      /* Capture computation */
+//      if (uwIC2Value2 > uwIC2Value1)
+//      {
+//        dt = (uwIC2Value2 - uwIC2Value1); 
+//      }
+//      else if (uwIC2Value2 < uwIC2Value1)
+//      {
+//        dt = ((0xFFFF - uwIC2Value1) + uwIC2Value2); 
+//      }
+//      else
+//      {
+//        /* If capture values are equal, we have reached the limit of frequency
+//           measures */
+//        __BKPT(0);
+//      }
+      /* Frequency computation: for this example TIMx (TIM1) is clocked by
+         2xAPB2Clk */      
+//      uwFrequency = (2*HAL_RCC_GetPCLK2Freq()) / uwDiffCapture;
+//      uhCaptureIndex = 0;
+			///calculate dt
+			
+			//GyroGetAngle(dt);
+//    }
+//  }
+//}
 /* Non-essentail functions */
 
 //void GyroSelfTest(){
