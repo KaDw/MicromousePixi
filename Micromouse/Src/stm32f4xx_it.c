@@ -38,8 +38,10 @@
 /* USER CODE BEGIN 0 */
 #include "sensor.h"
 #include "UI.h"
+#include "motor.h"
 
-volatile uint8_t count = 3;
+volatile uint8_t count = 0;
+
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -82,11 +84,11 @@ void EXTI2_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI2_IRQn 0 */
 	NVIC_ClearPendingIRQ(EXTI2_IRQn);
-	while(1)
-	{
-		printf_("Jestem w guziku z lewej!\n");
-		HAL_Delay(100);
-	}
+//	while(1)
+//	{
+//		printf_("Jestem w guziku z lewej!\n");
+//		HAL_Delay(100);
+//	}
   /* USER CODE END EXTI2_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
   /* USER CODE BEGIN EXTI2_IRQn 1 */
@@ -116,6 +118,12 @@ void EXTI15_10_IRQHandler(void)
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
  
 	// PRAWY PRZYCISK
+	//wywalic pozniej
+	MotorStop();
+	HAL_TIM_Base_Stop_IT(&htim6);
+	
+	
+	count = 0;
 	uint32_t bat;
 	uint32_t temp;
 	extern ADC_HandleTypeDef hadc1;
@@ -135,7 +143,7 @@ void EXTI15_10_IRQHandler(void)
 	HAL_ADC_Start(&hadc1);
 	temp = HAL_ADC_GetValue(&hadc1);
 	
-	printf_("bat:%d  temp:%d\n", bat, temp);
+	//printf_("bat:%d  temp:%d\n", bat, temp);
   /* USER CODE END EXTI15_10_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
@@ -164,66 +172,67 @@ void TIM6_DAC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
-		switch(count){
-		case 1: 
+//		switch(count){
+//		case 1: 
 			ADCreadAmbient(); // read ambient light
-			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_SET); 
-			break;
-		case 3: // 40us
-			ADCreadChannel(CH2, &sens[0]); // LF read
-			sens[0]-=cal[0];
-			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_RESET); 
-			//HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET); 
-			break;
-		case 6: // 100us
-			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET); 
-			//ADCreadChannel(CH11, &sens[1]); // RF read
-			//sens[1]-=cal[1];
-			//HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET); 
-			//HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
-			//HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
-			break;
-		case 8: // 140us
-			ADCreadChannel(CH11, &sens[1]); // RF read
-			sens[1]-=cal[1];
-			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET);
+//			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_SET); 
+//			break;
+//		case 3: // 40us
+//			ADCreadChannel(CH2, &sens[0]); // LF read
+//			sens[0]-=cal[0];
+//			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_RESET); 
+//			//HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET); 
+//			break;
+//		case 6: // 100us
+//			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET); 
+//			//ADCreadChannel(CH11, &sens[1]); // RF read
+//			//sens[1]-=cal[1];
+//			//HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET); 
+//			//HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
+//			//HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
+//			break;
+//		case 8: // 140us
+//			ADCreadChannel(CH11, &sens[1]); // RF read
+//			sens[1]-=cal[1];
+//			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET);
+////			ADCread2Channel(CH13, CH12, &sens[2]); // L, R read
+////			sens[2]-=cal[2];
+////			sens[3]-=cal[3];
+////			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
+////			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET);
+////			HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_SET); 
+////			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_SET);
+//			break;
+//		case 11: // 200us
+//			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
+//			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
+//			break;
+//		case 13: // 240us
 //			ADCread2Channel(CH13, CH12, &sens[2]); // L, R read
 //			sens[2]-=cal[2];
 //			sens[3]-=cal[3];
 //			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
-//			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET);
+//			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET); 
+//			break;
+//		case 16: // 300us
 //			HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_SET); 
 //			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_SET);
-			break;
-		case 11: // 200us
-			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
-			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
-			break;
-		case 13: // 240us
-			ADCread2Channel(CH13, CH12, &sens[2]); // L, R read
-			sens[2]-=cal[2];
-			sens[3]-=cal[3];
-			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
-			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET); 
-			break;
-		case 16: // 300us
-			HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_SET); 
-			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_SET);
-			break;
-		case 18: // 340us
-			ADCread2Channel(CH3, CH10, &sens[4]); // LS, RS read
-			sens[4]-=cal[4];
-			sens[5]-=cal[5];
-			HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_RESET); // side sensors off
-			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_RESET);
-			count = 0; // trzeba to przsuwac do ostatniego case
-			break;
-	}
-			count++;
-
+//			break;
+//		case 18: // 340us
+//			ADCread2Channel(CH3, CH10, &sens[4]); // LS, RS read
+//			sens[4]-=cal[4];
+//			sens[5]-=cal[5];
+//			HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_RESET); // side sensors off
+//			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_RESET);
+//			count = 0; // trzeba to przsuwac do ostatniego case
+//			break;
+//	}
+			count = 1;
+		
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
+	
   /* USER CODE END TIM6_DAC_IRQn 1 */
 }
 

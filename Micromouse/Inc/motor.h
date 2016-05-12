@@ -51,8 +51,8 @@ typedef enum
 //========================
 //====== VELOCITY ========
 //========================
-#define MOTOR_VELV_KP					1.0f
-#define MOTOR_VELV_KD					0.0f
+#define MOTOR_VELV_KP					1.0f // 34.96
+#define MOTOR_VELV_KD					12.0f // -0.01676
 #define MOTOR_VELW_KP					1.0f
 #define MOTOR_VELW_KD					0.0f
 #define MOTOR_ACC_V						5.0f
@@ -80,9 +80,9 @@ extern float sensorGyroW;
 
 typedef struct
 {
-	uint16_t lastEnc;
+	int16_t lastEnc;
 	int enc;
-	int encChange;
+	int16_t encChange;
 	int PWM;
 } _MotorV;
 
@@ -98,6 +98,7 @@ void MotorInit();
 void MotorUpdateEnc();
 void MotorStop();
 void MotorSetPWMRaw(int left, int right);
+void MotorGo(int dist, float vel);
 //========================
 //====== POSITION ========
 //========================

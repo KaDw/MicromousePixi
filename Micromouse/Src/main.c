@@ -57,6 +57,12 @@
 uint32_t adc;
 uint8_t Tx_buf = 0x0C;
 uint8_t Rx_buf = 0xFF; 
+uint16_t prevL;
+uint16_t prevR;
+uint16_t currL;
+uint16_t currR;
+uint16_t cnt;
+extern volatile uint8_t count;
 
 /* USER CODE END PV */
 
@@ -98,11 +104,10 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 	/* ENABLE TIM TO GET BATTERY STATUS */
-	//HAL_TIM_Base_Start_IT(&htim6);
 /* CHANNEL_ALL enables CHANNEL1 and CHANNEL2 
 	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);*/
-	//MotorInit();
+	MotorInit();
 
 
  
@@ -116,26 +121,41 @@ int main(void)
 	
 	//UI_Init();
 
-	HAL_Delay(1000);
+HAL_Delay(1000);
 	//MotorSetPWMRaw(0, 0);
 //	GyroInit();
 //	GyroCalibrate(0.001);
-//MotorSetPWMRaw(400, 400);
-for(int i = 0; i < 250; ++i)
-{
-	//printf("%d %d\r\n", EncL, EncR);
-	HAL_Delay(1);
-}
-//MotorSetPWMRaw(0, 0);
-//Go(50, 50, 40, 0);
+HAL_TIM_Base_Start_IT(&htim6);
 //MotorSetPWMRaw(200, 200);
-HAL_Delay(1000);
+//for(int i = 0; i < 5000; ++i)
+//{
+//	printf_("%d %d\r\n", EncL, EncR);
+//	HAL_Delay(1);
+//}
+//Go(50, 50, 40, 0);
+MotorGo(200, 100);
+//MotorSetPWMRaw(200, 200);
+//HAL_Delay(1000);
 //MotorSetPWMRaw(0, 0);
   while (1)
   {
-		//ADCreadChannel(CH9, &adc);
-		//printf_("%d %d %d %d %d %d %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
-		HAL_Delay(100);
+//		//ADCreadChannel(CH9, &adc);
+//		//printf_("%d %d %d %d %d %d %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
+//		if(count){
+//			currL = EncL;
+//			currR = EncR;
+//			printf("%d\r\n", (currR-prevR));
+//			prevL = currL;
+//			prevR = currR;
+//			count = 0;
+//			cnt++;
+//		}
+
+//		if(cnt > 1000){ //  zatrzymanie silnikow
+//			MotorSetPWMRaw(0, 0);
+//			HAL_TIM_Base_Stop_IT(&htim6);
+//			count = 0;
+//		}
 		
 //		if(!batError){
 //			MotorStop();
@@ -152,6 +172,7 @@ HAL_Delay(1000);
   /* USER CODE BEGIN 3 */
 
   }
+
   /* USER CODE END 3 */
 
 }

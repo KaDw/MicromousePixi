@@ -5,8 +5,9 @@
 
 #include "motor.h"
 
-
-
+	int encoderVFeedback;
+	int encoderWFeedback;
+	int rotationalFeedback = 0;
 int abs(int x)
 {
 	if(x < 0)
@@ -80,19 +81,36 @@ void MotorInit()
 	MotorReset();
 }
 	
+//void MotorUpdateEnc()
+//{
+//	int delta;
+//	delta = MOTOR_HTIM_ENC_L.Instance->CNT - motors.mot[0].lastEnc;
+//	motors.mot[0].encChange = delta;
+//	motors.mot[0].enc += delta;
+//	
+//	delta = MOTOR_HTIM_ENC_R.Instance->CNT - motors.mot[1].lastEnc;
+//	motors.mot[1].encChange = delta;
+//	motors.mot[1].enc += delta;
+//	
+//	motors.mot[0].lastEnc = MOTOR_HTIM_ENC_L.Instance->CNT;
+//	motors.mot[1].lastEnc = MOTOR_HTIM_ENC_R.Instance->CNT;
+//}
 void MotorUpdateEnc()
 {
-	int delta;
-	delta = MOTOR_HTIM_ENC_L.Instance->CNT - motors.mot[0].lastEnc;
+	int16_t delta;
+	int16_t el = MOTOR_HTIM_ENC_L.Instance->CNT;
+	int16_t er = MOTOR_HTIM_ENC_R.Instance->CNT;
+	
+	delta = el - motors.mot[0].lastEnc;
 	motors.mot[0].encChange = delta;
 	motors.mot[0].enc += delta;
 	
-	delta = MOTOR_HTIM_ENC_R.Instance->CNT - motors.mot[1].lastEnc;
+	delta = er - motors.mot[1].lastEnc;
 	motors.mot[1].encChange = delta;
 	motors.mot[1].enc += delta;
 	
-	motors.mot[0].lastEnc = MOTOR_HTIM_ENC_L.Instance->CNT;
-	motors.mot[1].lastEnc = MOTOR_HTIM_ENC_R.Instance->CNT;
+	motors.mot[0].lastEnc = el;
+	motors.mot[1].lastEnc = er;
 }
 
 void MotorUpdateVelocity()
@@ -129,9 +147,9 @@ void MotorUpdateVelocity()
 
 void MotorDriver()
 {
-	int rotationalFeedback = 0;
-	int encoderVFeedback;
-	int encoderWFeedback;
+//	int rotationalFeedback = 0;
+//	int encoderVFeedback;
+//	int encoderWFeedback;
 	int gyroFeedback;
 	int sensorFeedback;
 	int errorV, errorW;
@@ -193,10 +211,12 @@ void MotorSetPWM()
 
 void MotorUpdate()
 {
+	while(1) {MotorUpdateEnc(); printf("L:%d  R:%d\r\n", motors.mot[0].enc, motors.mot[1].enc); HAL_Delay(50); }
 	MotorUpdateEnc();
 	MotorUpdateVelocity();
 	MotorDriver();
-	MotorSetPWM();
+	printf("errV:%d errR:%d PwmL:%d PwmR:%d ledtf:%d\r\n", encoderVFeedback, rotationalFeedback, motors.mot[0].PWM, motors.mot[1].PWM, motors.distLeft);
+	//MotorSetPWM();
 }
 
 void MotorGoA(int dist, float vel)
@@ -232,6 +252,7 @@ void MotorTurn(int angle, int r, float vel)
 		MotorUpdate();
 		HAL_Delay(1);
 	}
+	
 }
 
 void MotorSetPWMRaw(int left, int right)
