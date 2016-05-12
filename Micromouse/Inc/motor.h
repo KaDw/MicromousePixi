@@ -80,14 +80,9 @@ extern float sensorGyroW;
 
 typedef struct
 {
-<<<<<<< HEAD
 	int16_t lastEnc;
 	int enc;
 	int16_t encChange;
-=======
-	int16_t lastEnc, encChange;
-	int enc;
->>>>>>> e1f409698345cfacd5ce06b4df01019c3ed1db7e
 	int PWM;
 } _MotorV;
 
