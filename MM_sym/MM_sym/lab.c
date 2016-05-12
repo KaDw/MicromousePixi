@@ -3,6 +3,7 @@
 
 Cell_t g_Map[LAB_SIZE][LAB_SIZE];
 Cost_t g_Cost[LAB_SIZE][LAB_SIZE];
+Dir_t g_Parent[LAB_SIZE][LAB_SIZE];
 Sensor_t g_SWD = 0;
 
 
@@ -43,15 +44,15 @@ LCoord_t LabDecompressY(LCoordFull_t c)
 }
 
 
-Cost_t LabCompressCost(Cost_t real, Cost_t imag)
+Cost_t LabCompressCost(Cost_t real, uint8_t imag)
 {
-	return ((real+imag) << 5) | (imag & 0x1F); // 11 bit for real (2048) and  5 bit for imag(32)
+	return real << 5 | (imag & 0x1F); // 11 bit for real (2048) and  5 bit for imag(32)
 }
 
 
 Cost_t LabDecompressCostReal(Cost_t c)
 {
-	return (c >> 5) - (c & 0x1F);
+	return c >> 5;
 }
 
 
@@ -145,21 +146,12 @@ Wall_t LabGetParent(LCoord_t x, LCoord_t y)
 }
 
 
-Cost_t LabGetCostReal(LCoord_t x, LCoord_t y)
+Cost_t LabGetCost(LCoord_t x, LCoord_t y)
 {
 	if (!LabIsIn(x, y))
 		return MAX_COST;
 
-	return (g_Cost[x][y] >> 5) - (g_Cost[x][y] & 0x1F);
-}
-
-
-Cost_t LabGetCostImag(LCoord_t x, LCoord_t y)
-{
-	if (!LabIsIn(x, y))
-		return MAX_COST;
-
-	return g_Cost[x][y] & 0x1F;
+	return g_Cost[x][y];
 }
 
 

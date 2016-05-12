@@ -5,7 +5,7 @@
 
 typedef unsigned char		wqueue_v; // value
 typedef unsigned short int	wqueue_c; // cost
-typedef short int			wqueue_i; // index in table
+typedef unsigned char		wqueue_i; // index in table
 
 
 typedef struct 
@@ -28,9 +28,6 @@ wqueue_v wqueue_value(wqueue_s * wq, wqueue_i i);
 
 /// return cost of element i
 wqueue_c wqueue_cost(wqueue_s * wq, wqueue_i i);
-
-/// return pointer to cost of element i
-wqueue_c* wqueue_costPtr(wqueue_s * wq, wqueue_i i);
 
 /// remove one element
 void wqueue_remove(wqueue_s * wq, wqueue_i i);

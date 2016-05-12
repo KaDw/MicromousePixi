@@ -66,3 +66,8 @@ eagle.epf
 *.iex
 .#*
 *.uvguix.*
+
+#ignore Visual studio file
+*/.vs/*
+*.sdf
+MM_sym/MM_sym/x64/

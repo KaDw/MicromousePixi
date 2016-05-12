@@ -8,7 +8,7 @@ typedef uint8_t LCoord_t; // lab coordinate
 typedef uint8_t LCoordFull_t; // lab coordinate
 
 // MAX_Cost can not be 0xff because we sometimes make something like this f(cost + 2)
-#define MAX_COST		2030
+#define MAX_COST		0xfffA
 #define LAB_SIZE		10 /* in cells */
 #define CELL_SIZE		100 /*in mm*/
 
@@ -113,7 +113,7 @@ extern "C"
 	LCoord_t	LabDecompressX(LCoordFull_t c);
 	LCoord_t	LabDecompressY(LCoordFull_t c);
 
-	Cost_t		LabCompressCost(Cost_t real, Cost_t imag);
+	Cost_t		LabCompressCost(Cost_t real, uint8_t imag);
 	Cost_t		LabDecompressCostReal(Cost_t);
 	Cost_t		LabDecompressCostImag(Cost_t);
 
@@ -124,8 +124,7 @@ extern "C"
 	uint8_t		LabIsWall(int8_t x, int8_t y, Wall_t w);
 	uint8_t		LabIsIn(int8_t x, int8_t y);
 	Wall_t		LabGetParent(LCoord_t x, LCoord_t y);
-	Cost_t		LabGetCostReal(LCoord_t x, LCoord_t y);
-	Cost_t		LabGetCostImag(LCoord_t x, LCoord_t y);
+	Cost_t		LabGetCost(LCoord_t x, LCoord_t y);
 
 	void		LabSetBlind(uint8_t x, uint8_t y);
 	void		LabSetVisited(uint8_t x, uint8_t y);

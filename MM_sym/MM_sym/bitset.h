@@ -1,6 +1,6 @@
 #ifndef __BITSET__
 #define __BITSET__
-
+/*
 #define BITSET_MODULO	32
 typedef int bitset_t;
 
@@ -24,5 +24,5 @@ void bitset_clear(bitset_s* bs, int bit);
 
 /// get one bit - return 0 when bit is cleared and !0 otherwise
 int bitset_get(bitset_s* bs, int bit);
-
+*/
 #endif

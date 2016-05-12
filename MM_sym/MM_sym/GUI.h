@@ -10,11 +10,11 @@ class GUI
 	static GUI* _instance;
 	Font _font;
 	uint8_t _fontSize = 22;
+	RenderWindow _wnd;
 	std::map<std::string, button*> _btnMap;
 	sf::Vector2f _btnPos = Vector2f(500, 50);
 	Vector2f _cellSize = Vector2f(36, 36);
 	float _lab_offset = 4;
-	std::thread buttons_thread;
 
 
 public:
@@ -26,7 +26,7 @@ public:
 	void addButton(std::string str, btn_cb cb);
 
 	void update();
-	void updateButtons(sf::Event e);
+	void updateButtons(sf::Event& e);
 
 
 	void draw();
@@ -52,7 +52,6 @@ public:
 	bool _drawMove{true};
 	bool _drawVisited{false};
 	bool _singleStep{false};
-	RenderWindow _wnd;
 private:
 	GUI();
 	void handleMouse(Event& e);

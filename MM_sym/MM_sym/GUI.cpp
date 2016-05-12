@@ -7,8 +7,8 @@ Cell_t gui_Map[LAB_SIZE][LAB_SIZE];
 
 extern LCoord_t g_CurrX;
 extern LCoord_t g_CurrY;
-extern LCoord_t g_CurrTarX;
-extern LCoord_t g_CurrTarY;
+extern LCoord_t g_TargetX;
+extern LCoord_t g_TargetY;
 extern Dir_t g_CurrDir;
 extern Mode_t g_Mode;
 
@@ -21,9 +21,7 @@ void cb_save(button& btn);
 void cb_load(button& btn);
 void cb_reset(button& btn);
 
-using std::cout;
-using std::thread;
-using std::endl;
+
 
 void SensorUpdateSWD()
 {
@@ -167,7 +165,7 @@ void printTime(std::string text, std::chrono::high_resolution_clock::time_point&
 	std::cout << text << std::setw(7) << abs(std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count()) << "ms ";
 }
 
-void cb_floodRaw()
+void cb_flood(button& btn)
 {
 	static long fulltime = 0;
 	static int stepnum = 1;
@@ -178,47 +176,42 @@ void cb_floodRaw()
 	auto t0 = Clock::now();
 	SensorUpdateSWD();
 	auto t1 = Clock::now();
-	//ConUpdateLabFromCenter();
+	ConUpdateLabFromCenter();
 	auto t2 = Clock::now();
 
 
 	// change mode if it is time to do that
 	if (g_Mode == MODE_TO_TARGET && g_CurrX == g_TargetX && g_CurrY == g_TargetY)
-	{
 		g_Mode = MODE_TO_START;
-		g_CurrTarX = g_TargetX;
-		g_CurrTarY = g_TargetY;
-	}
 	else if (g_Mode == MODE_TO_START && g_CurrX == 0 && g_CurrY == 0)
-	{
 		g_Mode = MODE_FAST_TARGET;
-		g_CurrTarX = 0;
-		g_CurrTarY = 0;
-	}
 	else if (g_Mode == MODE_FAST_TARGET && g_CurrX == g_TargetX && g_CurrY == g_TargetY)
-	{
 		g_Mode = MODE_FAST_START;
-		g_CurrTarX = g_TargetX;
-		g_CurrTarY = g_TargetY;
-	}
 	else if (g_Mode == MODE_FAST_START && g_CurrX == 0 && g_CurrY == 0)
-	{
 		g_Mode = MODE_STOP;
-		g_CurrTarX = 0;
-		g_CurrTarY = 0;
-	}
 
 	auto t3 = Clock::now();
 	auto t4 = t3, t5 = t3;
 
-	
-	ConFloodTo();
-	t4 = Clock::now();
-	//ConFindPathByCostTo();
-	t5 = Clock::now();
-
-	if (g_Mode == MODE_STOP)
+	// flood wright 
+	if (g_Mode == MODE_TO_TARGET || g_Mode == MODE_FAST_TARGET)
 	{
+		ConFloodTo(g_TargetX, g_TargetY);
+		t4 = Clock::now();
+		ConFindPathByCostTo(g_TargetX, g_TargetY);
+		t5 = Clock::now();
+	}
+	else if (g_Mode == MODE_TO_START || g_Mode == MODE_FAST_START)
+	{
+		ConFloodTo(0, 0);
+		t4 = Clock::now();
+		ConFindPathByCostTo(0, 0);
+		t5 = Clock::now();
+	}
+	else if (g_Mode == MODE_STOP)
+	{
+		ConFloodFrom(0, 0);
+		ConFindPathByCostFrom(0, 0);
 		printf("Zatrzymaj sie!! file:%s  line:%d\n", __FILE__, __LINE__);
 	}
 
@@ -228,18 +221,6 @@ void cb_floodRaw()
 	printTime("   Path ", t4, t5);
 	printf("   fullFlood: %d  avegrade: %d\n", fulltime, fulltime/stepnum);
 	++stepnum;
-}
-
-std::thread flood_thread;
-
-void cb_flood(button& btn)
-{
-	if (flood_thread.joinable())
-		flood_thread.join();
-
-	flood_thread = std::thread(cb_floodRaw);
-	//cb_floodRaw();
-
 }
 
 void cb_save(button& btn)
@@ -327,14 +308,7 @@ GUI::~GUI()
 	{
 		delete ib->second;
 	}
-
-	if (flood_thread.joinable())
-		flood_thread.join();
-
-	if (buttons_thread.joinable())
-		buttons_thread.join();
 }
-
 
 
 void GUI::handleEvent()
@@ -370,10 +344,9 @@ void GUI::update()
 	handleEvent();
 	draw();
 	_wnd.display();
-	sleep(sf::milliseconds(3));
 }
 
-void GUI::updateButtons(sf::Event e)
+void GUI::updateButtons(sf::Event& e)
 {
 	std::map<std::string, button*>::iterator ib;
 
@@ -528,9 +501,9 @@ void GUI::drawCost()
 		for (int y = 0; y < LAB_SIZE; ++y)
 		{
 			ss.str("");
-			c = LabGetCostReal(x, y);// +LabGetCostImag(x, y);
+			c = LabGetCost(x, y);
 
-			if (c < 999 && c < MAX_COST)
+			if (c < 999)
 				ss << c;
 			else
 				continue;
@@ -549,7 +522,7 @@ void GUI::drawParent()
 	sf::Vector2f off;
 
 	rect.setFillColor(Color(250, 50, 50, 150));
-	rect.setOrigin(rect.getGlobalBounds().width*0.5f, rect.getGlobalBounds().height*0.9f);
+	rect.setOrigin(rect.getGlobalBounds().width*0.5, rect.getGlobalBounds().height*0.9f);
 	off = _cellSize*0.5f;
 
 	for (int x = 0; x < LAB_SIZE; ++x)
@@ -632,11 +605,19 @@ void GUI::drawCellText(int x, int y, const String str, Color col)
 }
 
 
+Vector2f GUI::getLabCellPos(int x, int y)
+{
+	assert_xy(x, y);
+
+	Vector2f off = Vector2f(25, 15);
+	return Vector2f(off.x + static_cast<float>(x * (_cellSize.x + _lab_offset)), off.y + static_cast<float>((LAB_SIZE - y - 1) * (_cellSize.y + _lab_offset)) );
+}
+
+
 void GUI::draw()
 {
 
 	// draw lab background
-	_wnd.clear(sf::Color(240, 240, 245));
 
 	mouseHover();
 
@@ -651,16 +632,6 @@ void GUI::draw()
 	drawCost();
 	drawMove();
 	drawButtons();
-	_wnd.display();
-}
-
-
-Vector2f GUI::getLabCellPos(int x, int y)
-{
-	assert_xy(x, y);
-
-	Vector2f off = Vector2f(25, 15);
-	return Vector2f(off.x + static_cast<float>(x * (_cellSize.x + _lab_offset)), off.y + static_cast<float>((LAB_SIZE - y - 1) * (_cellSize.y + _lab_offset)) );
 }
 
 
@@ -744,32 +715,6 @@ void GUI::mouseHover()
 			}
 }
 
-
-void GUI::handleMouse(Event& e)
-{
-	Vector2f wsp;
-	Rect<float> rec;
-	RectangleShape rs;
-
-	if (e.type != sf::Event::MouseButtonReleased || e.mouseButton.button != Mouse::Left)
-		return;
-
-	for (int x = 0; x < LAB_SIZE; ++x)
-		for (int y = 0; y < LAB_SIZE; ++y)
-			for (Wall_t w = (Wall_t)1; w <= 8; w = (Wall_t)((int)w << 1))
-			{
-				if (isMouseOnWall(x, y, w))
-				{
-					if (GLabIsWall(x, y, w))
-						GLabClearWall(x, y, w);
-					else
-						GLabSetWall(x, y, w);
-
-					return;
-				}
-			}
-}
-
 void GUI::loadLab(const std::string & path)
 {
 	try
@@ -830,60 +775,39 @@ void GUI::saveLab(const std::string & path)
 }
 
 
-void draw_thread()
+void GUI::handleMouse(Event& e)
 {
-	GUI* g = GUI::getGUI();
+	Vector2f wsp;
+	Rect<float> rec;
+	RectangleShape rs;
 
-	while (1)
-	{
-		printf("d");
-		if (!g->_wnd.isOpen())
-			break;
-		g->draw();
-		std::this_thread::sleep_for(std::chrono::microseconds(30));
-	}
-}
+	if (e.type != sf::Event::MouseButtonReleased || e.mouseButton.button != Mouse::Left)
+		return;
 
-void handle_thread()
-{
-	GUI* g = GUI::getGUI();
-
-	while (1)
-	{
-		printf("h");
-		if (!g->_wnd.isOpen())
-			break;
-		g->handleEvent();
-		std::this_thread::sleep_for(std::chrono::microseconds(30));
-	}
+	for (int x = 0; x < LAB_SIZE; ++x)
+		for (int y = 0; y < LAB_SIZE; ++y)
+			for (Wall_t w = (Wall_t)1; w <= 8; w = (Wall_t)((int)w<<1))
+			{
+				if (isMouseOnWall(x, y, w))
+				{
+					if (GLabIsWall(x, y, w))
+						GLabClearWall(x, y, w);
+					else
+						GLabSetWall(x, y, w);
+					
+					return;
+				}
+			}
 }
 
 
 void GUI::start()
 {
-	//auto handle = std::async(std::launch::async, draw_thread);
-	//auto handle2 = std::async(std::launch::async, handle_thread);
-	//std::async td([] { GUI*g = GUI::getGUI();  while (1) {g->draw();			sleep(sf::milliseconds(100));} });
-	//std::furure<void> th([] { GUI*g = GUI::getGUI();  while (1) {g->handleEvent();	sleep(sf::milliseconds(100));} });
-	//std::thread td = std::thread(draw_thread);
-	//std::thread th = std::thread(handle_thread);
-	//td.detach();
-	//th.detach();
-	
-	//td.join();
-	//th.join();
-
 	while (_wnd.isOpen())
 	{
-		handleEvent();
-		draw();
+		update();
+		//sleep(milliseconds(100));
 	}
-
-	if (flood_thread.joinable())
-		flood_thread.join();
-
-	if (buttons_thread.joinable())
-		buttons_thread.join();
 }
 
 
