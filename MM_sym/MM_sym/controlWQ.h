@@ -2,6 +2,7 @@
 #define __CONTROLWQ_H__
 #include "wqueue.h"
 #include "list.h"
+//#include "bitset.h"
 #include "lab.h"
 
 

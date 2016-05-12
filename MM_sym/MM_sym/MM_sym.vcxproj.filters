@@ -51,6 +51,9 @@
     <ClInclude Include="lab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bitset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -84,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="keil_to_vs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bitset.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

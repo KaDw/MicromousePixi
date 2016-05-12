@@ -47,7 +47,6 @@ int _motor_flag = FLAG_ENCODER;
 
 void MotorReset()
 {
-	
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, 0);
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, 0);
 	EncL = 0;
@@ -82,17 +81,20 @@ void MotorInit()
 	
 void MotorUpdateEnc()
 {
-	int delta;
-	delta = MOTOR_HTIM_ENC_L.Instance->CNT - motors.mot[0].lastEnc;
+	int16_t delta;
+	int el = MOTOR_HTIM_ENC_L.Instance->CNT;
+	int er = MOTOR_HTIM_ENC_R.Instance->CNT;
+	
+	delta = el - motors.mot[0].lastEnc;
 	motors.mot[0].encChange = delta;
 	motors.mot[0].enc += delta;
 	
-	delta = MOTOR_HTIM_ENC_R.Instance->CNT - motors.mot[1].lastEnc;
+	delta = er - motors.mot[1].lastEnc;
 	motors.mot[1].encChange = delta;
 	motors.mot[1].enc += delta;
 	
-	motors.mot[0].lastEnc = MOTOR_HTIM_ENC_L.Instance->CNT;
-	motors.mot[1].lastEnc = MOTOR_HTIM_ENC_R.Instance->CNT;
+	motors.mot[0].lastEnc = el;
+	motors.mot[1].lastEnc = er;
 }
 
 void MotorUpdateVelocity()
