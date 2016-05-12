@@ -9,15 +9,12 @@
 
 #include <cassert>
 #include <chrono> //high_resolution_clock
-#include <exception>
-#include <fstream>
-#include <iomanip>
-#include <mutex>
-#include <sstream>
 #include <stdio.h>
 #include <tchar.h>
-#include <thread>
-#include <future>
+#include <exception>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
 #include "SFML/System.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/Main.hpp"

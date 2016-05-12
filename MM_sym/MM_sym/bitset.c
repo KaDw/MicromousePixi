@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "bitset.h"
 
-void bitset_init(bitset_s * bs, bitset_t * data, int lenght)
+/*void bitset_init(bitset_s * bs, bitset_t * data, int lenght)
 {
 	bs->data = data;
 	bs->size = lenght;
@@ -46,3 +46,4 @@ int bitset_get(bitset_s * bs, int bit)
 
 	return (bs->data[i] & (1 << b));
 }
+*/

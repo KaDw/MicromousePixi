@@ -41,11 +41,6 @@ wqueue_c wqueue_cost(wqueue_s * wq, wqueue_i i)
 	return wq->bufCost[i];
 }
 
-wqueue_c * wqueue_costPtr(wqueue_s * wq, wqueue_i i)
-{
-	return wq->bufCost + i;
-}
-
 
 wqueue_i wqueue_next(wqueue_s* wq, wqueue_i i)
 {
@@ -90,17 +85,11 @@ wqueue_i wqueue_min(wqueue_s* wq)
 /// return index of element or -1 when not exist
 wqueue_i wqueue_find(wqueue_s* wq, wqueue_v val)
 {
-	wqueue_i i = wq->tail;
-	
-	if (wqueue_empty(wq))
-		return -1;
+	wqueue_i i;
 
-	do
-	{
+	for (i = wq->tail; wqueue_into(wq, i); i = wqueue_next(wq, i))
 		if (wq->bufValue[i] == val)
 			return i;
-		i = wqueue_next(wq, i);
-	} while (wqueue_into(wq, i));
 
 	return -1;
 }
@@ -112,22 +101,13 @@ void wqueue_remove(wqueue_s* wq, wqueue_i i)
 
 	// if i is not tail then copy tail to i and move tail by one
 	// when i is tail then only					move tail by one
-	/*if (i != wq->tail)
+	if (i != wq->tail)
 	{
 		wq->bufCost[i] = wq->bufCost[wq->tail];
 		wq->bufValue[i] = wq->bufValue[wq->tail];
 	}
 
-	wq->tail = wqueue_next(wq, wq->tail);*/
-
-	// we have checked that wqueue is not empty at begin of this function, so head > 0
-	if (i != wq->head - 1)
-	{
-		wq->bufCost[i] = wq->bufCost[wq->head - 1];
-		wq->bufValue[i] = wq->bufValue[wq->head - 1];
-	}
-
-	--wq->head;
+	wq->tail = wqueue_next(wq, wq->tail);
 }
 
 

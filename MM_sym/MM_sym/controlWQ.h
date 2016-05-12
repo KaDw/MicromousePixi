@@ -2,8 +2,8 @@
 #define __CONTROLWQ_H__
 #include "wqueue.h"
 #include "list.h"
+//#include "bitset.h"
 #include "lab.h"
-#include "bitset.h"
 
 
 // global map construction
@@ -26,22 +26,11 @@ extern "C"
 {
 #endif
 
-
-#define ASTAR
-
-const LCoord_t g_TargetX{ LAB_SIZE / 2 };
-const LCoord_t g_TargetY{ LAB_SIZE / 2 };
-
-
 #define MODE_TO_TARGET	0
 #define MODE_TO_START	1
 #define MODE_FAST_TARGET 2
 #define MODE_FAST_START	3
 #define MODE_STOP		4
-
-
-#define COST_DIAGONAL	(3<<5)
-#define COST_ORTHO		(2<<5)
 
 
 	typedef uint8_t Mode_t;
@@ -69,12 +58,8 @@ const LCoord_t g_TargetY{ LAB_SIZE / 2 };
 	/// update lab map
 	/// This function based on current data from sensors
 	/// should be called in a ?edge? of a cell
-	/// g_CurrX, g_CurrY and g_CurrDir shouldn't be refreshed before funtion call
 	void ConUpdateLabFromEdge();
 
-
-	/// returns imaginary (heuristuc) cost from Current position to x, y
-	Cost_t ConGetImagCost(LCoord_t x, LCoord_t y);
 
 	/// it is used only in a flood algorithm
 	void ConCheckOneCell(LCoord_t nx, LCoord_t ny, Wall_t parent, Cost_t nc);
@@ -88,25 +73,24 @@ const LCoord_t g_TargetY{ LAB_SIZE / 2 };
 	/// assign parent and cost to cells
 	/// pointer moves from g_Curr position to dest pos
 	/// @return 1 if it is possible to achieve target x, y and 0 otherwise
-	uint8_t ConFloodTo();
+	uint8_t ConFloodTo(int8_t dest_x, int8_t dest_y);
 
 	/// assign parent and cost to cells
 	/// pointer moves to dest pos from g_Curr position
 	/// @return 1 if it is possible to achieve target x, y and 0 otherwise
-	uint8_t ConFloodFrom();
-
+	uint8_t ConFloodFrom(int8_t dest_x, int8_t dest_y);
 
 	/// create path in list
 	/// this function base on data from g_Map (parents)
-	Wall_t ConFindPathByParent();
+	Wall_t ConFindPathByParent(int8_t dest_x, int8_t dest_y);
 
 	/// create path in list
 	/// this function base on data from g_Cost
-	Wall_t ConFindPathByCostTo();
+	Wall_t ConFindPathByCostTo(int8_t dest_x, int8_t dest_y);
 
 	/// create path in list
 	/// this function base on data from g_Cost
-	Wall_t ConFindPathByCostFrom();
+	Wall_t ConFindPathByCostFrom(int8_t dest_x, int8_t dest_y);
 
 
 

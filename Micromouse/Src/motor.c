@@ -48,7 +48,6 @@ int _motor_flag = FLAG_ENCODER;
 
 void MotorReset()
 {
-	
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, 0);
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, 0);
 	EncL = 0;

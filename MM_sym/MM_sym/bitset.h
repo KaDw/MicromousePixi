@@ -1,5 +1,5 @@
-#ifndef __BITSET__
-#define __BITSET__
+#ifndef __BITSET__H__
+#define __BITSET__H__
 
 #define BITSET_MODULO	32
 typedef int bitset_t;
