@@ -40,7 +40,7 @@
 #include "UI.h"
 #include "motor.h"
 
-volatile uint8_t count = 0;
+volatile uint16_t count = 0;
 
 /* USER CODE END 0 */
 
@@ -143,7 +143,7 @@ void EXTI15_10_IRQHandler(void)
 	HAL_ADC_Start(&hadc1);
 	temp = HAL_ADC_GetValue(&hadc1);
 	
-	//printf_("bat:%d  temp:%d\n", bat, temp);
+	printf_("bat:%d  temp:%d\n", bat, temp);
   /* USER CODE END EXTI15_10_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
@@ -227,7 +227,11 @@ void TIM6_DAC_IRQHandler(void)
 //			count = 0; // trzeba to przsuwac do ostatniego case
 //			break;
 //	}
-			count = 1;
+		
+		++count;
+		
+		if(count >= 50)
+			count = 0;
 		
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);

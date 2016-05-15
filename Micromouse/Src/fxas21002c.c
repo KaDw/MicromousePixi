@@ -128,8 +128,8 @@ void GyroCalibrate(float dt){
 
 /* Trapezoidal integration */
 float GyroGetAngle(float dt){
-	float a1 = 0; // current angle
-	a1 = ((((prev_z-cal_z)+(raw.z-cal_z))/2.0)*dt*0.0078125) + a1;
+	float a1; // current angle
+	a1 = ((((prev_z-cal_z)+(raw.z-cal_z))*0.5f)*dt*0.0078125f) + a1;
 	angle1+=a1;
 	return angle1;
 }

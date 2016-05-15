@@ -103,25 +103,19 @@ int main(void)
   MX_TIM6_Init();
 
   /* USER CODE BEGIN 2 */
-	/* ENABLE TIM TO GET BATTERY STATUS */
-/* CHANNEL_ALL enables CHANNEL1 and CHANNEL2 
-	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
-	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);*/
 	MotorInit();
-
-
- 
   UI_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	
-
-	
-	//UI_Init();
-
-HAL_Delay(1000);
+/*while(1)
+{
+	UI_LedOn(UI_LED_YELLOW);
+	UI_DelayUs(25000);
+	UI_LedOff(UI_LED_YELLOW);
+	UI_DelayUs(25000);
+}*/
 	//MotorSetPWMRaw(0, 0);
 //	GyroInit();
 //	GyroCalibrate(0.001);
@@ -133,12 +127,26 @@ HAL_TIM_Base_Start_IT(&htim6);
 //	HAL_Delay(1);
 //}
 //Go(50, 50, 40, 0);
-MotorGo(200, 100);
+printf("Czekam na start\r\n");
+UI_WaitBtnL();
+HAL_Delay(600);
+MotorGoA(50, 50, 100); //mm mm mm/s
 //MotorSetPWMRaw(200, 200);
 //HAL_Delay(1000);
 //MotorSetPWMRaw(0, 0);
   while (1)
-  {
+  {		
+		UI_TimerUs(1000);
+		MotorUpdate();
+		//printf("MotorUpdate: %dus", TIM7->CNT);
+		while(UI_TimerBusy()){}
+		//UI_LedOffAll();
+		//while(UI_TimerBusy()){}
+		//UI_TimerUs(10000);
+		//MotorUpdate();
+		//UI_LedOnAll();
+		//while(UI_TimerBusy()){}
+			
 //		//ADCreadChannel(CH9, &adc);
 //		//printf_("%d %d %d %d %d %d %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
 //		if(count){

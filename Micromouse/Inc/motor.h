@@ -11,18 +11,19 @@
 #include "UI.h"
 //#include "tinylib.h"
 
-#define PI 3.14
+#define PI  3.1415926535f
 
 // position controller
-#define MOTOR_MAX_VEL					1000
-#define MOTOR_ACC							5
+#define MOTOR_MAX_PWM					1000
 #define MOTOR_DRIVER_FREQ			1000
-#define MOTOR_EPSILON 				15 /* enc tick 15~1mm*/
+#define MOTOR_DRIVER_T				0.001f
+#define MOTOR_EPSILON 				15 /* acceptable position error - enc tick 15~1mm*/
 #define MOTOR_SLOW_TICK				200
 #define MOTOR_SLOW_VEL				200
-#define TICKS_PER_REVOLUTION	1760
+#define TICKS_PER_REVOLUTION	1760.0f
+#define TICKS_PER_MM					(TICKS_PER_REVOLUTION/(PI*HALF_WHEELBASE))
 #define HALF_WHEELBASE				(66/2) /* mm*/
-#define WHEEL_DIAMETER 				37 /* mm*/
+#define WHEEL_DIAMETER 				37.0f /* mm*/
 
 #define MOTOR_GPIO 						GPIOC
 #define MOTOR_HTIM  					htim12
@@ -51,12 +52,19 @@ typedef enum
 //========================
 //====== VELOCITY ========
 //========================
-#define MOTOR_VELV_KP					1.0f // 34.96
-#define MOTOR_VELV_KD					12.0f // -0.01676
-#define MOTOR_VELW_KP					1.0f
-#define MOTOR_VELW_KD					0.0f
-#define MOTOR_ACC_V						5.0f
-#define MOTOR_ACC_W						5.0f
+
+// P-imp/T 
+#define MOTOR_VELV_KP					100.0f //1.85e-2f // 34.96
+#define MOTOR_VELV_KD					0.034e-3f // -0.01676
+//#define MOTOR_VELV_KD					12.0f // -0.01676
+#define MOTOR_VELV_KI					4.60f
+#define MOTOR_VELW_KP					1.0e-2f
+#define MOTOR_VELW_KD					0.0e-3f
+#define MOTOR_VELW_KI					0.0e-3f
+
+// ACC_V [mm/s/s] 	ACC_W[rad/s/s]
+#define MOTOR_ACC_V						800.0f
+#define MOTOR_ACC_W						1.0f
 
 // flags determine sensor int turn
 extern int _motor_flag;
@@ -80,45 +88,84 @@ extern float sensorGyroW;
 
 typedef struct
 {
-	int16_t lastEnc;
+	int16_t lastEnc, encChange;
 	int enc;
-	int16_t encChange;
 	int PWM;
 } _MotorV;
 
 typedef struct
 {
 	_MotorV mot[2];
-	float targetV, currentV, PosErrV, lastPosErrV;
-	float targetW, currentW, PosErrW, lastPosErrW;
-	int distLeft;
+	float targetV, currentV, previousV; // mm/s
+	float targetW, currentW, previousW; // rad/s
+	//float PosErrV, lastPosErrV;
+	//float	PosErrW, lastPosErrW;
+	float errVP, errVI, errVD;
+	float errWP, errWI, errWD;
+	int distLeft, Sbreak; // tick
 } MotorsV;
 
-void MotorInit();
-void MotorUpdateEnc();
-void MotorStop();
+void MotorInit(void);
+void MotorUpdate(void);
+void MotorStop(void);
 void MotorSetPWMRaw(int left, int right);
-void MotorGo(int dist, float vel);
+void MotorGo(int left, int right, float vel); // [mm] [mm] [mm/s]
+void MotorGoA(int left, int right, float vel); // [mm] [mm] [mm/s]
+
 //========================
 //====== POSITION ========
 //========================
 /*
-#define KP  									2.0
-#define KD  									1.0
-#define KI  									0.1
+//      _____________
+//     /(1)       (2)\
+// ___/               \
+//   t=0               \____
+//        Velocity     (3)
+//                      ___
+//                   .~^
+//                .'
+//             .'
+//          .'
+//       .'
+// ___,-"   Position
+//
+//
+#define MOTOR_ACC_V						600 // mm/s/s
 
+#define MOTOR_VELV_KP  				(20.0f*0.034f)
+#define MOTOR_VELV_KD  				0.0f
+#define MOTOR_VELV_KI  				(0.01f*1.85f)
+#define MOTOR_VELW_KP  				(20.0f*0.034f)
+#define MOTOR_VELW_KD  				0.0f
+#define MOTOR_VELW_KI  				(1.0e-9f)
+
+
+extern int _motor_flag;
+#define FLAG_PID							1
+#define FLAG_GYRO							2
+#define FLAG_SENSOR						4
+#define FLAG_ENCODER					8
+#define ENABLE_PID 						(_motor_flag|=FLAG_PID)
+#define ENABLE_GYRO 					(_motor_flag|=FLAG_GYRO)
+#define ENABLE_SENSOR 				(_motor_flag|=FLAG_SENSOR)
+#define ENABLE_ENCODER 				(_motor_flag|=FLAG_ENCODER)
+#define DISABLE_PID 					(_motor_flag&=~FLAG_PID)
+#define DISABLE_GYRO 					(_motor_flag&=~FLAG_GYRO)
+#define DISABLE_SENSOR 				(_motor_flag&=~FLAG_SENSOR)
+#define DISABLE_ENCODER 			(_motor_flag&=~FLAG_ENCODER)
 
 typedef uint16_t 	pos_t;
 typedef int16_t		posDif_t;
 
 typedef struct
 {
-	int V, lastV, PWM;
-	int T1, T2, T3;
-	pos_t S1, S2, S3, wS; // whole track
-	pos_t enc;
-	posDif_t err;
-	int errI, errP;
+	int V, lastV; // [mm/s]
+	int T1, T2, T3; // T - here [ms]
+	int S0, S1, S2, S3, wS; // whole track [tick]
+	int enc;
+	int16_t lastEnc, encChange;
+	float errP, errI, errD;
+	int PWM, PWMV;
 } _Motor_t;
 
 
@@ -184,7 +231,7 @@ int mmToTicks(int mm);
 ///
 /// Init motor module. In every application this function has to be called before using another function from this module
 /// @return void
-/// @see Go(), Turn(), TICKS_PER_REVOLUTION, MOTOR_MAX_VEL, HALF_WHEELBASE, WHEEL_DIAMETER, TICKS_PER_REVOLUTION, KP, KD, KI
+/// @see Go(), Turn(), TICKS_PER_REVOLUTION, MOTOR_MAX_PWM, HALF_WHEELBASE, WHEEL_DIAMETER, TICKS_PER_REVOLUTION, KP, KD, KI
 /// @before none
 /// @after none
 ///
@@ -211,7 +258,7 @@ int getEncR(void);
 
 
 ///
-/// Set motor PWM from -MOTOR_MAX_VEL to +MOTOR_MAX_VEL
+/// Set motor PWM from -MOTOR_MAX_PWM to +MOTOR_MAX_PWM
 /// @see MotorFloat(), MotorStop()
 /// @before MotorInit()
 /// @after
@@ -220,7 +267,7 @@ void MotorSetPWMRaw(int left, int right);
 
 
 ///
-/// Set motor PWM from -MOTOR_MAX_VEL to +MOTOR_MAX_VEL
+/// Set motor PWM from -MOTOR_MAX_PWM to +MOTOR_MAX_PWM
 /// @see MotorFloat(), MotorStop()
 /// @before MotorInit()
 /// @after
@@ -229,7 +276,7 @@ void MotorSetPWM(void);
 
 
 ///
-/// Set motor velocity from -MOTOR_MAX_VEL to +MOTOR_MAX_VEL
+/// Set motor velocity from -MOTOR_MAX_PWM to +MOTOR_MAX_PWM
 /// 
 /// @param pointer to Motors_t struct
 /// @see MotorFloat(), MotorStop()
@@ -286,7 +333,7 @@ int MotorUpdate(void);
 /// @before MotorInit()
 /// @after none
 ///
-void GoA(int left, int right, int vel, int(*driver)(Motors_t*));
+void GoA(int left, int right, float vel, int(*driver)(Motors_t*));
 
 
 ///
@@ -304,7 +351,7 @@ void GoA(int left, int right, int vel, int(*driver)(Motors_t*));
 /// @before MotorInit()
 /// @after none
 ///
-void Go(int left, int right, int vel, int(*driver)(Motors_t*));
+void Go(int left, int right, float vel, int(*driver)(Motors_t*));
 
 
 
@@ -349,11 +396,11 @@ void Turn(int angle, int radius, int vel, int(*driver)(Motors_t*));
 /// truncate velocity parameter
 /// @return truncated velocity
 /// @param velocity to truncate
-/// @see MOTOR_MAX_VEL
+/// @see MOTOR_MAX_PWM
 /// @before
 /// @after
 ///
-int MotorTruncVel(int vel);
+int MotorTruncPWM(int vel);
 
 
 ///
@@ -365,30 +412,10 @@ int MotorTruncVel(int vel);
 ///
 int MotorEnd(void);
 
-
 ///
 /// Private function of Motor module
 ///
-static void MotorDriverP(Motors_t* m);
+static void MotorDriverVelP(Motors_t* m);*/
 
 
-///
-/// Private function of Motor module
-/// It works similar to MotorDriverP, but old way style
-///
-static void MotorDriverP2(Motors_t* m);
-
-
-///
-/// Private function of Motor module
-///
-static void MotorDriverD(Motors_t* m);
-
-
-///
-/// Private function of Motor module
-///
-static void MotorDriverVelP(Motors_t* m);
-
-*/
 #endif

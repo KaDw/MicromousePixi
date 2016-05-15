@@ -3,12 +3,21 @@
 #include "UI.h"
 #include "usart.h"
 
+void UI_InitDelayUs(void);
+
 void UI_Init()
 {
 	MX_USART1_UART_Init();
 	UI_InitBeep();
 	UI_InitLeds();
 	//UI_InitBattControl();
+	UI_InitDelayUs();
+	
+	// pull up for buttons (PA15 PB2)
+	GPIOA->PUPDR &= ~GPIO_PUPDR_PUPDR15_0; // pull-up
+	GPIOA->PUPDR |= GPIO_PUPDR_PUPDR15_1; // pull-down
+	GPIOB->PUPDR &= ~GPIO_PUPDR_PUPDR2_0; // pull-up
+	GPIOB->PUPDR |= GPIO_PUPDR_PUPDR2_1; // pull-down
 }
 
 
@@ -73,6 +82,16 @@ void UI_InitBattControl()
 	
 	TIM11->CR1 = TIM_CR1_CEN; //counter_enable
 }
+
+
+void UI_InitDelayUs()
+{
+	__TIM7_CLK_ENABLE();
+	TIM7->PSC = 168/2;
+	TIM7->EGR = TIM_EGR_UG;
+	TIM7->CR1 = TIM_CR1_OPM;
+}
+
 
 void UI_Beep(int time, int freq)
 {
@@ -149,6 +168,51 @@ void UI_BattControl()
 void UI_Send(uint8_t* m)
 {
 	HAL_UART_Transmit(&UI_UART_Handle, m, strlen((char*)m), 0xFF);
+}
+
+void UI_DelayUs(uint16_t us)
+{
+	TIM7->CNT = 1;
+	TIM7->ARR = us;
+	TIM7->CR1 |= TIM_CR1_CEN;
+	while(TIM7->CNT != 0)
+	{}
+}
+
+void UI_TimerUs(uint16_t us)
+{
+	TIM7->CNT = 1;
+	TIM7->ARR = us;
+	TIM7->CR1 |= TIM_CR1_CEN;
+}
+
+int UI_TimerBusy()
+{
+	return TIM7->CNT != 0;
+}
+
+void UI_WaitBtnL()
+{
+	int c = 0;
+	while(c < 10000)
+	{
+		if(GPIOB->IDR & PB2)
+			++c;
+		else
+			c = 0;
+	}
+}
+
+void UI_WaitBtnR()
+{
+	int c = 0;
+	while(c < 10000)
+	{
+	if(GPIOA->IDR & PA15)
+		++c;
+	else
+		c=0;
+	}
 }
 
 
