@@ -5,6 +5,9 @@
 
 #include "motor.h"
 
+const float HALF_WHEELBASE = (66/2); /* mm*/
+const float TICKS_PER_MM = (TICKS_PER_REVOLUTION/(PI*HALF_WHEELBASE));
+
 int abs(int x)
 {
 	if(x < 0)
@@ -16,6 +19,21 @@ int abs(int x)
 int sgn(int x)
 {
 	return (x>0)-(x<0);
+}
+
+float fast_sqrt(float x)
+{
+	// Heron from Alexandria
+	float p = 0.5f*x;
+	float lastP = x;
+	
+	while(lastP-p > 0.1f)
+	{
+		lastP = p;
+		p = 0.5f*(x/p+p);
+	}
+	
+	return p;
 }
 
 
@@ -39,7 +57,7 @@ int MotorTruncPWM(int vel)
 //========================
 //====== VELOCITY ========
 //========================
-MotorsV motors;
+/*MotorsV motors;
 int _motor_flag = FLAG_ENCODER;
 
 void MotorReset()
@@ -114,13 +132,15 @@ void MotorUpdateVelocity()
 	}
 	
 	// breaking
-	if(motors.distLeft < 0)
-		motors.targetV = 0;
-	else if(motors.distLeft < motors.Sbreak) // decelerate
+	if(motors.distLeft < motors.Sbreak) // decelerate
 	{
 		// we use distance to calc velocity to stop right where we want
 		// and whe override previous de/acceleration block based on MOTOR_ACC_V and MOTOR_DRIVER_T
 		motors.currentV = motors.targetV * motors.distLeft/(motors.Sbreak);
+		if(motors.currentV > 0 && abs(motors.distLeft) > MOTOR_EPSILON)
+			motors.currentV += 20;
+		else if(motors.currentV < 0 && abs(motors.distLeft) > MOTOR_EPSILON)
+			motors.currentV -= 20;
 	}
 	
 	
@@ -177,6 +197,7 @@ void MotorDriver()
 		rotationalFeedback += sensorFeedback;
 	}
 
+	// errorV = cV*0.017 - encoderVFeedback
 	errorV = motors.currentV*MOTOR_DRIVER_T*TICKS_PER_MM - encoderVFeedback; // [mm/s]*T -> imp
 	errorW = motors.currentW - rotationalFeedback;
 	
@@ -191,11 +212,11 @@ void MotorDriver()
 	PwmV = (int)(MOTOR_VELV_KP*errorV + MOTOR_VELV_KI*motors.errVI + MOTOR_VELV_KD*motors.errVD);
 	PwmW = 0;//MOTOR_VELW_KP*errorW + MOTOR_VELW_KI*motors.errWI + MOTOR_VELW_KD*motors.errWD;
 	
-	// == I clmaping == 
-	if((PwmV < -MOTOR_MAX_PWM) || (MOTOR_MAX_PWM < PwmV))
-		motors.errVI -= errorV;
-	if((PwmW < -MOTOR_MAX_PWM) || (MOTOR_MAX_PWM < PwmW))
-		motors.errWI -= errorW;
+	// == I limitation == 
+	//if((PwmV < -MOTOR_MAX_PWM) || (MOTOR_MAX_PWM < PwmV))
+	//	motors.errVI -= errorV;
+	//if((PwmW < -MOTOR_MAX_PWM) || (MOTOR_MAX_PWM < PwmW))
+	//	motors.errWI -= errorW;
 	
 	motors.mot[0].PWM = PwmV - PwmW;
 	motors.mot[1].PWM = PwmV + PwmW;
@@ -214,8 +235,8 @@ void MotorSetPWM()
 	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, VR<=0 ? GPIO_PIN_SET 	: GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, VR<=0 ? GPIO_PIN_RESET	: GPIO_PIN_SET);
 
-	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, VL);
-	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, VR);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, abs(VL));
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, abs(VR));
 }
 
 void MotorUpdate()
@@ -235,13 +256,21 @@ void MotorUpdate()
 void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 {	
 	float w = 0;
-	float dV = vel - motors.previousV;
-	float Sbreak = 2.0f*0.5f*vel*vel/MOTOR_ACC_V;// mm = mm/s * mm/s * s*s/mm		double S because we accumulate dX from 2 wheels
-	float Tacc = dV/MOTOR_ACC_V; // s
+	float dV = vel - motors.previousV; // [mm/s]
+	float Sbreak = 2.0f*0.5f*vel*vel/MOTOR_ACC_V;// [mm] = mm/s * mm/s * s*s/mm		double S because we accumulate dX from 2 wheels
+	float Tacc = dV/MOTOR_ACC_V; // [s]
 	int Sacc = 2.0f*(motors.previousV*Tacc + 0.5f*dV*dV/MOTOR_ACC_V);// mm = mm/s * mm/s * s*s/mm		double S because we accumulate dX from 2 wheels
 	
 	// when vel is big and dist is short
-	// then deccelerate has higher priority in 
+	// then deccelerate has higher priority in
+	if(Sacc + Sbreak > left + right)
+	{
+		vel = fast_sqrt(0.01f*(MOTOR_ACC_V*(left+right) + 0.5f*motors.previousV*motors.previousV)); // mm/s/s*mm + mm*mm/s/s
+		dV = vel - motors.previousV;
+		Sbreak = 2.0f*0.5f*vel*vel/MOTOR_ACC_V;
+		Tacc = dV/MOTOR_ACC_V;
+		Sacc = 2.0f*(motors.previousV*Tacc + 0.5f*dV*dV/MOTOR_ACC_V);
+	}
 	
 	// calc W speed
 	if(left != right)
@@ -303,8 +332,8 @@ void MotorSetPWMRaw(int left, int right)
 	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, right<=0 ? 	GPIO_PIN_SET 		: GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, right<=0 ? 	GPIO_PIN_RESET	: GPIO_PIN_SET);
 
-	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, left);
-	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, right);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, abs(left));
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, abs(right));
 }
 
 
@@ -320,11 +349,11 @@ void MotorStop()
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, 0);
 
 }
-
+*/
 //========================
 //====== POSITION ========
 //========================
-/*
+
 Motors_t motors;
 
 void MotorInit()
@@ -349,8 +378,10 @@ void MotorInit()
 	
 	//TIM3->CNT = 0;
 	//TIM4->CNT = 0;
-	motors.mot[0].enc = getEncL();
-	motors.mot[1].enc = getEncR();
+	MOTOR_HTIM_ENC_L.Instance->CNT = 0;
+	MOTOR_HTIM_ENC_R.Instance->CNT = 0;
+	motors.mot[0].enc = 0;
+	motors.mot[1].enc = 0;
 	motors.mot[0].lastV = 0;
 	motors.mot[1].lastV = 0;
 	motors.mot[0].errI = 0;
@@ -385,8 +416,8 @@ void MotorSetPWMRaw(int left, int right)
 	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, right<=0 ? 	GPIO_PIN_SET 		: GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, right<=0 ? 	GPIO_PIN_RESET	: GPIO_PIN_SET);
 
-	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, left);
-	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, right);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, abs(left));
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, abs(right));
 }
 
 
@@ -400,8 +431,8 @@ void MotorSetPWM()
 	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, VR<=0 ? GPIO_PIN_SET 	: GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, VR<=0 ? GPIO_PIN_RESET	: GPIO_PIN_SET);
 
-	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, VL);
-	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, VR);
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, abs(VL));
+	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_R, abs(VR));
 }
 
 
@@ -443,7 +474,7 @@ int MotorEnd()
 {
 	//if( abs(getEncL() - motors.mot[0].S3) < MOTOR_EPSILON &&
 	//	  abs(getEncR() - motors.mot[1].S3) < MOTOR_EPSILON )
-	if( abs(getEncL()-motors.mot[0].S3) + abs(getEncR()-motors.mot[1].S3) < MOTOR_EPSILON)
+	if( abs(getEncL()-motors.mot[0].S3) + abs(getEncR()-motors.mot[1].S3) < 2*MOTOR_EPSILON)
 		return 1; //true
 	else
 		return 0; //false
@@ -471,9 +502,7 @@ void MotorUpdateEnc()
 
 int MotorGetS(_Motor_t* m) // return absolute ticks
 {
-	pos_t s;
-	posDif_t e;
-	++motors.t;
+	int s;
 	float t = MOTOR_DRIVER_T * motors.t; // s
 	
 	if(motors.t < m->T1)
@@ -510,15 +539,8 @@ void MotorDriverV(_Motor_t* m)
 	m->PWMV = MOTOR_VELV_KP*e + MOTOR_VELV_KI*m->errI + MOTOR_VELV_KD*m->errD;
 	
 	// prevent integral from windapping 
-	if(abs(m->PWMV) > MOTOR_MAX_PWM)
-		m->errI -= e;
-	
-	//static int i = 1;
-	//if(i<20)
-	//{
-	//	printf("Err:%f  ErrP:%f  ErrI:%f  PWM:%d  s:%d\n", e, m->errP, m->errI, m->PWM, s);
-	//	++i;
-	//}
+	//if(abs(m->PWMV) > MOTOR_MAX_PWM)
+	//	m->errI -= e;
 }
 
 
@@ -565,14 +587,20 @@ int MotorUpdate()
 	if(motors.driver!=0 && motors.driver(&motors))
 		return 0;
 	
-	// normalise
-	//m->velL = MotorTruncPWM(m->velL);
-	//m->velR = MotorTruncPWM(m->velR);
-	//m->velL = m->mot[0].PWM;
-	//m->velR = m->mot[1].PWM;
+	// == sum ==
+	motors.mot[0].PWM = motors.mot[0].PWMV;
+	motors.mot[1].PWM = motors.mot[1].PWMV;
 	
 	// set velocity
 	MotorSetPWM();
+	
+	
+	static int i = 1;
+	if(i<20)
+	{
+		printf("ErrP:%f  ErrI:%f  PWM:%d  s:%d\n", motors.mot[0].errP, motors.mot[0].errI, motors.mot[0].PWM, MotorGetS(&motors.mot[0]));
+		++i;
+	}
 	
 	return 1;
 }
@@ -580,14 +608,12 @@ int MotorUpdate()
 
 void MotorFillStruct(_Motor_t* m, int track, float V, int b_break)
 {
-	m->wS = mmToTicks(track); // [ticks]
-	m->V = V;
-	
+	m->V = V; // [mm/s]
 	float dV = V - m->lastV; // [mm/s]
 	
 	// accelerate
 	float Tacc = dV/MOTOR_ACC_V; //[s]
-	float Sacc =  (m->lastV*Tacc + ((dV*Tacc))); // [mm] = [mm/s] * s + [mm/s] * [s]
+	float Sacc = m->lastV*Tacc + 0.5f*dV*Tacc; // [mm] = [mm/s] * s + [mm/s] * [s]
 	
 	// deccelerate
 	float Tbr = 0;
@@ -598,8 +624,25 @@ void MotorFillStruct(_Motor_t* m, int track, float V, int b_break)
 		Sbr = 0.5f*(V*V/MOTOR_ACC_V); // [mm]
 	}
 	
+	
+	// when V is high and wS is low
+	// then for precise calculating you need sqrt
+	// so we approximate it with a linear 
+	if(Sacc + Sbr > track)
+	{
+		V = fast_sqrt(track*MOTOR_ACC_V - 0.5f*m->lastV*m->lastV);
+		dV = V - m->lastV;
+		Tacc = dV / MOTOR_ACC_V;
+		Sacc = m->lastV*Tacc + 0.5f*dV*Tacc;
+		if(b_break)
+		{
+			Tbr = V/MOTOR_ACC_V; //[s]
+			Sbr = 0.5f*(V*V/MOTOR_ACC_V); // [mm]
+		}
+	}
+	
 	// const Velocity
-	float Sm = m->wS - Sacc - Sbr; //[mm]
+	float Sm = track - Sacc - Sbr; //[mm]
 	float Tm = Sm / V; // [s]
 	
 	m->T1 = (int)(MOTOR_DRIVER_FREQ*Tacc); // T - here [ms]
@@ -608,24 +651,14 @@ void MotorFillStruct(_Motor_t* m, int track, float V, int b_break)
 	m->S0 = m->enc; // ticks
 	m->S1 = m->S0 + (int)(TICKS_PER_MM*Sacc); // [tick]
 	m->S2 = m->S1 + (int)(TICKS_PER_MM*Sm); // [tick]
-	m->S3 = m->enc + (int)(TICKS_PER_MM*m->wS); // [tick]
+	m->S3 = m->S0 + (int)(TICKS_PER_MM*track); // [tick]
+	m->wS = mmToTicks(track); // [ticks]
 	
-	// when V is high and wS is low
-	// then for precise calculating you need sqrt
-	// so we approximate it with a linear 
-	if(Sacc + Sbr > m->wS)
-	{
-		m->S1 = m->enc;
-		m->S2 = m->S1 + (int)(TICKS_PER_MM*m->wS); // [ticks]
-		m->S3 = m->S2;
-		m->T1 = 0;
-		m->T2 = (int)(MOTOR_DRIVER_FREQ * m->wS / m->V); // [ms]
-		m->T3 = m->T2;
-	}
-	
-	printf("V:%d  lastV:%d\n", m->V, m->lastV);
-	printf("T1:%d  T2:%d  T3:%d\n", m->T1, m->T2, m->T3);
-	printf("S1:%d  S2:%d  S3:%d  wS:%d\n", m->S1, m->S2, m->S3, m->wS);
+	printf("V:%d  lastV:%d track:%d\r\n", m->V, m->lastV, track);
+	printf("T1:%d\t  T2:%d\t  T3:%d\t [T]\r\n", m->T1, m->T2, m->T3);
+	printf("T1:%f\t  T2:%f\t  T3:%f\t [s]\r\n", Tacc, Tacc+Tm, Tacc+Tm+Tbr);
+	printf("S1:%d\t  S2:%d\t  S3:%d\t  wS:%d\t [ticks]\r\n", m->S1, m->S2, m->S3, m->wS);
+	printf("S1:%d\t  S2:%d\t  S3:%d\t  wS:%d\t [mm]\r\n", (int)(m->S1/TICKS_PER_MM), (int)(m->S2/TICKS_PER_MM), (int)(m->S3/TICKS_PER_MM), (int)(m->wS/TICKS_PER_MM));
 }
 
 
@@ -693,4 +726,4 @@ void Turn(int angle, int radius, int vel, int(*driver)(Motors_t*))
 	trackR = PI*(radius-HALF_WHEELBASE)*angle/180;
 	
 	Go(trackL, trackR, vel, driver);
-}*/
+}

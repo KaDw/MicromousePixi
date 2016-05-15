@@ -18,12 +18,10 @@
 #define MOTOR_DRIVER_FREQ			1000
 #define MOTOR_DRIVER_T				0.001f
 #define MOTOR_EPSILON 				15 /* acceptable position error - enc tick 15~1mm*/
+#define WHEEL_DIAMETER 				37.0f /* mm*/
 #define MOTOR_SLOW_TICK				200
 #define MOTOR_SLOW_VEL				200
 #define TICKS_PER_REVOLUTION	1760.0f
-#define TICKS_PER_MM					(TICKS_PER_REVOLUTION/(PI*HALF_WHEELBASE))
-#define HALF_WHEELBASE				(66/2) /* mm*/
-#define WHEEL_DIAMETER 				37.0f /* mm*/
 
 #define MOTOR_GPIO 						GPIOC
 #define MOTOR_HTIM  					htim12
@@ -37,6 +35,8 @@ extern TIM_HandleTypeDef MOTOR_HTIM, MOTOR_HTIM_ENC_L, MOTOR_HTIM_ENC_R;
 
 
 int abs(int);
+int sgn(int);
+float fast_sqrt(float x);
 
 
 typedef enum
@@ -52,18 +52,18 @@ typedef enum
 //========================
 //====== VELOCITY ========
 //========================
-
+/*
 // P-imp/T 
-#define MOTOR_VELV_KP					100.0f //1.85e-2f // 34.96
-#define MOTOR_VELV_KD					0.034e-3f // -0.01676
+#define MOTOR_VELV_KP					0.1f //1.85e-2f // 34.96
+#define MOTOR_VELV_KD					0.0f // -0.01676
 //#define MOTOR_VELV_KD					12.0f // -0.01676
-#define MOTOR_VELV_KI					4.60f
+#define MOTOR_VELV_KI					1.60f
 #define MOTOR_VELW_KP					1.0e-2f
 #define MOTOR_VELW_KD					0.0e-3f
 #define MOTOR_VELW_KI					0.0e-3f
 
 // ACC_V [mm/s/s] 	ACC_W[rad/s/s]
-#define MOTOR_ACC_V						800.0f
+#define MOTOR_ACC_V						(4000.0f*2.0f) // double becouse for 2 wheels
 #define MOTOR_ACC_W						1.0f
 
 // flags determine sensor int turn
@@ -82,7 +82,7 @@ extern int _motor_flag;
 #define DISABLE_ENCODER 			(_motor_flag&=~FLAG_ENCODER)
 
 #define EncL									MOTOR_HTIM_ENC_L.Instance->CNT
-#define EncR								MOTOR_HTIM_ENC_R.Instance->CNT
+#define EncR									MOTOR_HTIM_ENC_R.Instance->CNT
 
 extern float sensorGyroW;
 
@@ -111,11 +111,11 @@ void MotorStop(void);
 void MotorSetPWMRaw(int left, int right);
 void MotorGo(int left, int right, float vel); // [mm] [mm] [mm/s]
 void MotorGoA(int left, int right, float vel); // [mm] [mm] [mm/s]
-
+*/
 //========================
 //====== POSITION ========
 //========================
-/*
+
 //      _____________
 //     /(1)       (2)\
 // ___/               \
@@ -415,7 +415,7 @@ int MotorEnd(void);
 ///
 /// Private function of Motor module
 ///
-static void MotorDriverVelP(Motors_t* m);*/
+static void MotorDriverVelP(Motors_t* m);
 
 
 #endif

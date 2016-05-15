@@ -130,7 +130,7 @@ HAL_TIM_Base_Start_IT(&htim6);
 printf("Czekam na start\r\n");
 UI_WaitBtnL();
 HAL_Delay(600);
-MotorGoA(50, 50, 100); //mm mm mm/s
+GoA(500, 500, 500, 0); //mm mm mm/s
 //MotorSetPWMRaw(200, 200);
 //HAL_Delay(1000);
 //MotorSetPWMRaw(0, 0);
@@ -138,7 +138,18 @@ MotorGoA(50, 50, 100); //mm mm mm/s
   {		
 		UI_TimerUs(1000);
 		MotorUpdate();
-		//printf("MotorUpdate: %dus", TIM7->CNT);
+		//printf("MotorUpdate: %dus", TIM7->CNT-1);
+		if(TIM7->CNT > 30)
+		{
+			MotorStop();
+			while(1)
+			{
+				UI_LedOnAll();
+				UI_DelayUs(25000);
+				UI_LedOffAll();
+				UI_DelayUs(25000);
+			}
+		}
 		while(UI_TimerBusy()){}
 		//UI_LedOffAll();
 		//while(UI_TimerBusy()){}
