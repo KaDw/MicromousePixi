@@ -15,9 +15,6 @@
 
 // position controller
 #define MOTOR_MAX_PWM					1000
-#define MOTOR_DRIVER_FREQ			1000
-#define MOTOR_DRIVER_T				0.001f
-#define MOTOR_EPSILON 				15 /* acceptable position error - enc tick 15~1mm*/
 #define WHEEL_DIAMETER 				37.0f /* mm*/
 #define MOTOR_SLOW_TICK				200
 #define MOTOR_SLOW_VEL				200
@@ -52,15 +49,14 @@ typedef enum
 //========================
 //====== VELOCITY ========
 //========================
-/*
+
 // P-imp/T 
-#define MOTOR_VELV_KP					0.1f //1.85e-2f // 34.96
+#define MOTOR_VELV_KP					35.1f //20
+#define MOTOR_VELV_KI					6.60f // 11
 #define MOTOR_VELV_KD					0.0f // -0.01676
-//#define MOTOR_VELV_KD					12.0f // -0.01676
-#define MOTOR_VELV_KI					1.60f
-#define MOTOR_VELW_KP					1.0e-2f
-#define MOTOR_VELW_KD					0.0e-3f
-#define MOTOR_VELW_KI					0.0e-3f
+#define MOTOR_VELW_KP					(8.0f)
+#define MOTOR_VELW_KI					1.0f
+#define MOTOR_VELW_KD					0.0f
 
 // ACC_V [mm/s/s] 	ACC_W[rad/s/s]
 #define MOTOR_ACC_V						(4000.0f*2.0f) // double becouse for 2 wheels
@@ -72,10 +68,10 @@ extern int _motor_flag;
 #define FLAG_GYRO							2
 #define FLAG_SENSOR						4
 #define FLAG_ENCODER					8
-#define ENABLE_PID 						(_motor_flag|=FLAG_PID)
-#define ENABLE_GYRO 					(_motor_flag|=FLAG_GYRO)
-#define ENABLE_SENSOR 				(_motor_flag|=FLAG_SENSOR)
-#define ENABLE_ENCODER 				(_motor_flag|=FLAG_ENCODER)
+#define ENABLE_PID()					(_motor_flag|=FLAG_PID)
+#define ENABLE_GYRO() 				(_motor_flag|=FLAG_GYRO)
+#define ENABLE_SENSOR() 			(_motor_flag|=FLAG_SENSOR)
+#define ENABLE_ENCODER() 			(_motor_flag|=FLAG_ENCODER)
 #define DISABLE_PID 					(_motor_flag&=~FLAG_PID)
 #define DISABLE_GYRO 					(_motor_flag&=~FLAG_GYRO)
 #define DISABLE_SENSOR 				(_motor_flag&=~FLAG_SENSOR)
@@ -111,11 +107,11 @@ void MotorStop(void);
 void MotorSetPWMRaw(int left, int right);
 void MotorGo(int left, int right, float vel); // [mm] [mm] [mm/s]
 void MotorGoA(int left, int right, float vel); // [mm] [mm] [mm/s]
-*/
+
 //========================
 //====== POSITION ========
 //========================
-
+/*
 //      _____________
 //     /(1)       (2)\
 // ___/               \
@@ -132,9 +128,9 @@ void MotorGoA(int left, int right, float vel); // [mm] [mm] [mm/s]
 //
 #define MOTOR_ACC_V						600 // mm/s/s
 
-#define MOTOR_VELV_KP  				(20.0f*0.034f)
+#define MOTOR_VELV_KP  				(12.0f*0.034f)
 #define MOTOR_VELV_KD  				0.0f
-#define MOTOR_VELV_KI  				(0.01f*1.85f)
+#define MOTOR_VELV_KI  				(0.001f*1.85f)
 #define MOTOR_VELW_KP  				(20.0f*0.034f)
 #define MOTOR_VELW_KD  				0.0f
 #define MOTOR_VELW_KI  				(1.0e-9f)
@@ -333,7 +329,7 @@ int MotorUpdate(void);
 /// @before MotorInit()
 /// @after none
 ///
-void GoA(int left, int right, float vel, int(*driver)(Motors_t*));
+void MotorGoA(int left, int right, float vel, int(*driver)(Motors_t*));
 
 
 ///
@@ -416,6 +412,6 @@ int MotorEnd(void);
 /// Private function of Motor module
 ///
 static void MotorDriverVelP(Motors_t* m);
-
+*/
 
 #endif

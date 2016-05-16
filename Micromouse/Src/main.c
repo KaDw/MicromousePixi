@@ -127,18 +127,20 @@ HAL_TIM_Base_Start_IT(&htim6);
 //	HAL_Delay(1);
 //}
 //Go(50, 50, 40, 0);
-printf("Czekam na start\r\n");
-UI_WaitBtnL();
+printf("\r\n\nCzekam na start\r\n");
+ENABLE_SENSOR();
+//UI_WaitBtnL();
 HAL_Delay(600);
-GoA(500, 500, 500, 0); //mm mm mm/s
+MotorGoA(1000, 1000, 0); //mm mm mm/s
+//sens[0] sens[1];
 //MotorSetPWMRaw(200, 200);
 //HAL_Delay(1000);
 //MotorSetPWMRaw(0, 0);
+extern MotorsV motors;
   while (1)
   {		
 		UI_TimerUs(1000);
 		MotorUpdate();
-		//printf("MotorUpdate: %dus", TIM7->CNT-1);
 		if(TIM7->CNT > 30)
 		{
 			MotorStop();
@@ -150,6 +152,8 @@ GoA(500, 500, 500, 0); //mm mm mm/s
 				UI_DelayUs(25000);
 			}
 		}
+//		if(motors.t == 1)
+//			printf("MotorUpdate: %dus\r\n", TIM7->CNT-1);
 		while(UI_TimerBusy()){}
 		//UI_LedOffAll();
 		//while(UI_TimerBusy()){}
@@ -159,7 +163,7 @@ GoA(500, 500, 500, 0); //mm mm mm/s
 		//while(UI_TimerBusy()){}
 			
 //		//ADCreadChannel(CH9, &adc);
-//		//printf_("%d %d %d %d %d %d %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
+		printf_("%d\t %d\t %d\t %d\t %d\t %d\t %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
 //		if(count){
 //			currL = EncL;
 //			currR = EncR;
