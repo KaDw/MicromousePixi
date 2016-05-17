@@ -155,7 +155,7 @@ void UI_BattControl()
 	
 	ADCreadChannel(CH9, &lastValue);
 	 //1080LSB/2.7V
-	if(battValue > 2200 && battValue < 2960 ) // 5.5V...7.4V
+	if(battValue > 2650 && battValue < 2884 ) // 5.5V...7.4V
 	{
 		UI_Beep(500, 700);
 		UI_LedOffAll();

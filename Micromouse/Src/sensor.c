@@ -8,10 +8,25 @@
 #include "sensor.h"
 
 
-uint32_t cal[7];
+uint32_t cal[7]; 
 uint32_t sens[6];
 uint32_t vbat;
 uint8_t batError;
+/*
+sens[0] - L - Left
+sens[1] - R - Right
+sens[3] - LF - Left Front
+sens[4] - RF - Right Front
+sens[5] - LS - Left Side
+sens[6] - RS - Right Side
+
+	L		LF	RF		R
+	\		|		|   /
+	 \	|		|  /
+		\	|		| /
+LS----		 ---- RS
+
+*/
 
 /* 	
 	@note WARNING 

@@ -8,9 +8,10 @@
 #include "fxas21002c.h"
 const float HALF_WHEELBASE				= (66/2); /* mm*/
 const float TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
-const float MOTOR_DRIVER_FREQ			= 200; // Hz
+const float MOTOR_DRIVER_FREQ			= 1000; // Hz
 const float MOTOR_DRIVER_T				= 1.f/MOTOR_DRIVER_FREQ;
 const int MOTOR_EPSILON 					= 15; /* acceptable position error - enc tick 15~1mm*/
+const int ONE_CELL_DISTANCE				= 2725; // ticks
 
 int abs(int x)
 {
@@ -198,11 +199,16 @@ void MotorDriver()
 	}
 	
 	if(_motor_flag & FLAG_SENSOR)
-	{
-		float sensorFeedback = 0;//sensorError/a_scale;//have sensor error properly scale to fit the system
-//		if(sens[0] < 1000 || sens[1] < 1000)
-//			sensorFeedback = sens[0]-sens[1];
-		rotationalFeedback += sensorFeedback;
+	{ // 1100 LMiddleValue 920 RMiddleValue
+		float sensorFeedback = 0;//sensorError/a_scale;
+		if(sens[2] > 1100 && sens[3] < 920)
+			//sensorFeedback = sens[2] - sens[3];
+			sensorFeedback = 1100 - sens[2];
+		else if(sens[3] > 920 && sens[2] < 1100)
+			sensorFeedback = sens[3] - 920;
+		else
+			sensorFeedback = 0;
+		rotationalFeedback += 0.01*sensorFeedback;
 	}
 	
 	//printf("PWM_W: %f\r\n", rotationalFeedback);
