@@ -2,7 +2,7 @@
 #include "motor.h"
 
 
-const int LAB_SIZE 10;
+#define LAB_SIZE  10
 
 
 typedef enum{
@@ -14,7 +14,7 @@ typedef enum{
 	DIR_NE= 4,
 	DIR_NW= 5,
 	DIR_SE= 6,
-	DIR_SW= 7,
+	DIR_SW= 7
 } Dir_t;
 
 typedef enum{
@@ -35,4 +35,3 @@ typedef uint8_t Cell_t;
 Wall_t ConWallLoc2Glo(Dir_t currDir, Wall_t localWall); // ControlTransformWall from local orientation to global orientation
 Wall_t ConWallGlo2Loc(Dir_t currDir, Wall_t localWall);
 Cell_t* (*ConGetCell)(uint8_t x, uint8_t y);
-DirLoc2Glob(DIR_t)

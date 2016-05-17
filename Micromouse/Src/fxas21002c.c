@@ -103,11 +103,12 @@ void GyroInit(void){
 
 void GyroReadData(void){
 		prev_z = raw.z;
-		SpiRead(FXAS21002C_H_OUT_X_MSB, 6);
-		//SpiRead(FXAS21002C_H_OUT_Z_MSB, 2);
-		raw.x = (int16_t)(SpiRxBuffer[0] << 8 | SpiRxBuffer[1]);
-		raw.y = (int16_t)(SpiRxBuffer[2] << 8 | SpiRxBuffer[3]);
+		//SpiRead(FXAS21002C_H_OUT_X_MSB, 6);
+		SpiRead(FXAS21002C_H_OUT_Z_MSB, 2);
+//		raw.x = (int16_t)(SpiRxBuffer[0] << 8 | SpiRxBuffer[1]);
+//		raw.y = (int16_t)(SpiRxBuffer[2] << 8 | SpiRxBuffer[3]);
 		raw.z = (int16_t)(SpiRxBuffer[4] << 8 | SpiRxBuffer[5]);
+		sensorGyroW = raw.z - cal_z;
 		// zero te gyro and get angular velocity 15.625
 		//angle.z = ((float)(cal_z-raw.z));//*0.0078125); //31.25
 	//}

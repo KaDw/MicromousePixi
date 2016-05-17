@@ -119,7 +119,7 @@ int main(void)
 	//MotorSetPWMRaw(0, 0);
 //	GyroInit();
 //	GyroCalibrate(0.001);
-HAL_TIM_Base_Start_IT(&htim6);
+//HAL_TIM_Base_Start_IT(&htim6);
 //MotorSetPWMRaw(200, 200);
 //for(int i = 0; i < 5000; ++i)
 //{
@@ -128,19 +128,20 @@ HAL_TIM_Base_Start_IT(&htim6);
 //}
 //Go(50, 50, 40, 0);
 printf("\r\n\nCzekam na start\r\n");
-ENABLE_SENSOR();
-//UI_WaitBtnL();
+//ENABLE_SENSOR();
+UI_WaitBtnL();
 HAL_Delay(600);
-MotorGoA(1000, 1000, 0); //mm mm mm/s
+MotorGoA(1000, 1000, 1000); //mm mm mm/s
 //sens[0] sens[1];
 //MotorSetPWMRaw(200, 200);
 //HAL_Delay(1000);
 //MotorSetPWMRaw(0, 0);
-extern MotorsV motors;
+extern MotorsV motors; // 1ms
   while (1)
   {		
-		UI_TimerUs(1000);
+		UI_TimerUs(5000);
 		MotorUpdate();
+		UI_BattControl();
 		if(TIM7->CNT > 30)
 		{
 			MotorStop();
@@ -151,6 +152,7 @@ extern MotorsV motors;
 				UI_LedOffAll();
 				UI_DelayUs(25000);
 			}
+			
 		}
 //		if(motors.t == 1)
 //			printf("MotorUpdate: %dus\r\n", TIM7->CNT-1);
@@ -163,7 +165,7 @@ extern MotorsV motors;
 		//while(UI_TimerBusy()){}
 			
 //		//ADCreadChannel(CH9, &adc);
-		printf_("%d\t %d\t %d\t %d\t %d\t %d\t %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
+//		printf_("%d\t %d\t %d\t %d\t %d\t %d\t %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
 //		if(count){
 //			currL = EncL;
 //			currR = EncR;

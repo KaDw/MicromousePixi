@@ -5,6 +5,7 @@
 
 #include "motor.h"
 #include "sensor.h"
+#include "fxas21002c.h"
 const float HALF_WHEELBASE				= (66/2); /* mm*/
 const float TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
 const float MOTOR_DRIVER_FREQ			= 200; // Hz
@@ -103,6 +104,7 @@ void MotorInit()
 void MotorUpdateEnc()
 {
 	int16_t delta;
+	
 	int16_t el = MOTOR_HTIM_ENC_L.Instance->CNT;
 	int16_t er = MOTOR_HTIM_ENC_R.Instance->CNT;
 	
@@ -198,9 +200,9 @@ void MotorDriver()
 	if(_motor_flag & FLAG_SENSOR)
 	{
 		float sensorFeedback = 0;//sensorError/a_scale;//have sensor error properly scale to fit the system
-		if(sens[0] < 1000 || sens[1] < 1000)
-			sensorFeedback = sens[0]-sens[1];
-		rotationalFeedback += 1e-6f*sensorFeedback;
+//		if(sens[0] < 1000 || sens[1] < 1000)
+//			sensorFeedback = sens[0]-sens[1];
+		rotationalFeedback += sensorFeedback;
 	}
 	
 	//printf("PWM_W: %f\r\n", rotationalFeedback);
@@ -217,7 +219,7 @@ void MotorDriver()
 	motors.errVP = errorV;
 	motors.errWP = errorW;
 	
-	PwmV = 0;//(int)(MOTOR_VELV_KP*errorV + MOTOR_VELV_KI*motors.errVI + MOTOR_VELV_KD*motors.errVD);
+	PwmV = (int)(MOTOR_VELV_KP*errorV + MOTOR_VELV_KI*motors.errVI + MOTOR_VELV_KD*motors.errVD);
 	PwmW = MOTOR_VELW_KP*errorW + MOTOR_VELW_KI*motors.errWI + MOTOR_VELW_KD*motors.errWD;
 	
 	// == I limitation == 
@@ -235,8 +237,8 @@ void MotorDriver()
 
 void MotorSetPWM()
 {
-	int VL = 0.5f*MotorTruncPWM(motors.mot[0].PWM);
-	int VR = 0.5f*MotorTruncPWM(motors.mot[1].PWM);
+	int VL = MotorTruncPWM(motors.mot[0].PWM)/2;
+	int VR = MotorTruncPWM(motors.mot[1].PWM)/2;
 	
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, VL>=0 ? GPIO_PIN_SET		: GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, VL>=0 ? GPIO_PIN_RESET : GPIO_PIN_SET);
@@ -250,10 +252,11 @@ void MotorSetPWM()
 void MotorUpdate()
 {
 	//while(1) {MotorUpdateEnc(); printf("L:%d\t R:%d\r\n", motors.mot[0].enc, motors.mot[1].enc); HAL_Delay(50); }
+	//GyroReadData();
 	MotorUpdateEnc();
 	MotorUpdateVelocity();
 	MotorDriver();
-	//MotorSetPWM();
+	MotorSetPWM();
 	//printf("tarV:%f errV:%d errR:%d PwmL:%d PwmR:%d ledtf:%d\r\n", motors.targetV, rotationalFeedback, motors.mot[0].PWM, motors.mot[1].PWM, motors.distLeft);
 	//printf("L:%d  R:%d\r\n", motors.mot[0].PWM, motors.mot[0].PWM);
 	//static int lastDistLeft;
