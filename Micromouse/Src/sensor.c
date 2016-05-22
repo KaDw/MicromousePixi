@@ -10,13 +10,16 @@
 
 uint32_t cal[7]; 
 uint32_t sens[6];
+uint32_t read[2];
+uint32_t fuzzy[6];
 uint32_t vbat;
 uint8_t batError;
+#define SENS_LF sens[0]
 /*
-sens[0] - L - Left
-sens[1] - R - Right
-sens[3] - LF - Left Front
-sens[4] - RF - Right Front
+sens[0] - LF - Left
+sens[1] - RF - Right
+sens[3] - L - Left Front
+sens[4] - R - Right Front
 sens[5] - LS - Left Side
 sens[6] - RS - Right Side
 
@@ -58,23 +61,38 @@ void ADCread2Channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf){
 	HAL_ADC_Start_DMA(&hadc1, buf, 2);
 }
 
+
 void SensorOff(){
-	HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
-	HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_RESET);	
+	// set as input
+	GPIOC->MODER &= ~(GPIO_MODER_MODER14_0|GPIO_MODER_MODER14_1|
+										GPIO_MODER_MODER15_0|GPIO_MODER_MODER15_1|
+										GPIO_MODER_MODER13_0|GPIO_MODER_MODER13_1|
+										GPIO_MODER_MODER4_0|GPIO_MODER_MODER4_1|
+										GPIO_MODER_MODER5_0|GPIO_MODER_MODER5_1);
+	GPIOA->MODER &= ~(GPIO_MODER_MODER1_0|GPIO_MODER_MODER1_0);
+	
+	// pull down
+	GPIOC->PUPDR &= ~54000500;
+	GPIOC->PUPDR |= 0xA8000A00;
+	GPIOA->PUPDR &= ~GPIO_PUPDR_PUPDR1_0;
+	GPIOA->PUPDR |= GPIO_PUPDR_PUPDR0_1;
 }
 
 
+uint32_t LinADC(uint32_t *sens){
+	float x = (float)(*sens);
+	if(*sens < 3400)
+		return (uint32_t)(((-1.14897e-8f*x + 8.18093e-5f)*x - 0.19299f)*x + 203.425f);
+	else
+		return (uint32_t)((-5.03451e-5f*x + 0.287246f)*x - 349.511f);
+}
 // To be continued    vvvvv
 void ADCcalibrate(){
 	
 }
 
 uint8_t FingerStart(){ // calibrate after finger start
-while(sens[0] > 2000 && sens[2] > 2000) // LF and L sensor
+while(sens[0] < 2000 && sens[2] < 2000) // LF and L sensor
 	{}
 		
 	return 1;

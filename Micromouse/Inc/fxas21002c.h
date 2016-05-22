@@ -5,29 +5,30 @@
 #include "stm32f4xx_hal.h"
 
 
-typedef struct
-{
-   float x;
-   float y;
-   float z;
-} angular_data;
+//typedef struct
+//{
+//   float x;
+//   float y;
+//   float z;
+//} angular_data;
 
-typedef struct
-{
-   int16_t x;
-   int16_t y;
-   int16_t z;
-} raw_data;
+//typedef struct
+//{
+//   int16_t x;
+//   int16_t y;
+//   int16_t z;
+//} raw_data;
 
 
 extern float prev_z; 
 extern volatile uint16_t dt;
-extern float angle1;
+extern float angle;
+//extern float angle1;
 //extern int16_t x, y, z;
 //extern int16_t cal_x, cal_y, cal_z;
-extern raw_data raw;
-extern angular_data angle;//, x_pri, x_post, v_pri, v_post, alfa, beta;
-extern uint8_t SpiRxBuffer[6];
+//extern raw_data raw;
+//extern angular_data angle;//, x_pri, x_post, v_pri, v_post, alfa, beta;
+extern uint8_t SpiRxBuffer[2];
 extern float sensorGyroW;
 
 
@@ -87,9 +88,9 @@ uint8_t SpiRead(uint8_t address, uint8_t size);
 void SpiWrite(uint8_t address,uint8_t value);
 void GyroInit(void);
 void GyroReadData(void);
-void GyroCalibrate(float dt);
+void GyroCalibrate(uint32_t dt);
+float GyroIntegrate(float dt);
 float GyroGetAngle(float dt);
-float GetGyro(float dt);
 //void GyroSelfTest();
 //void AlfaBetaFilter(void);
 

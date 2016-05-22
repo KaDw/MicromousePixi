@@ -1,30 +1,34 @@
 #include "spi.h"
 #include "fxas21002c.h"
 #include "gpio.h"
+
 /*
 TODO:
 fix sensitivity
-compute sampling time using timer
+get dt using timer
 */
 
 
 //#define DEBUG_MODE
 // SPI buffers
-uint8_t SpiRxBuffer[6];
+uint8_t SpiRxBuffer[2];
 volatile uint16_t dt;
 //int16_t x, y, z;
-raw_data raw;
-float angle1;
+//raw_data raw;
+int16_t raw_z;
+int16_t cal_z;
+float angle;
 float prev_z;
-int16_t cal_x, cal_y, cal_z;
+float sensorGyroW;
+float a1; // current angle
 //angular_data angle ,x_pri, x_post, v_pri, v_post, alfa, beta;
 // get time between readings
-/* Captured Values */
-uint32_t uwIC2Value1 = 0;
-uint32_t uwIC2Value2 = 0;
-/* Capture index */
-uint16_t uhCaptureIndex = 0;
-float sensorGyroW;
+///* Captured Values */
+//uint32_t uwIC2Value1;
+//uint32_t uwIC2Value2;
+///* Capture index */
+//uint16_t uhCaptureIndex;
+
 
 
 
@@ -34,13 +38,12 @@ uint8_t SpiRead(uint8_t address, uint8_t size){
 	address |= 0x80;
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_RESET); // CS LOW
 	/* Setup time for SPI_CS_B signal 250ns*/
-		
-	HAL_SPI_TransmitReceive_IT(&hspi3, &address, SpiRxBuffer, 1);
+	HAL_SPI_TransmitReceive_DMA(&hspi3, &address, SpiRxBuffer, 1);
   while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
 	while ((SPI3->SR & SPI_FLAG_BSY));
 	// for multi-read mode
 	for(int i = 0; i < size; i++){
-		HAL_SPI_TransmitReceive_IT(&hspi3, &a, &SpiRxBuffer[i], 1);
+		HAL_SPI_TransmitReceive_DMA(&hspi3, &a, &SpiRxBuffer[i], 1);
 	
 	  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
 		while ((SPI3->SR & SPI_FLAG_BSY)); // shouldnt be here
@@ -56,10 +59,10 @@ void SpiWrite(uint8_t address, uint8_t value){
 	/* Setup time for SPI_CS_B signal 250ns*/
 	// MSB is 0 + address
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_RESET); // CS LOW
-	HAL_SPI_TransmitReceive_IT(&hspi3, &address, SpiRxBuffer, 1);
+	HAL_SPI_TransmitReceive_DMA(&hspi3, &address, SpiRxBuffer, 1);
   while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
 	while ((SPI3->SR & SPI_FLAG_BSY));
-	HAL_SPI_TransmitReceive_IT(&hspi3, &value, SpiRxBuffer, 1);
+	HAL_SPI_TransmitReceive_DMA(&hspi3, &value, SpiRxBuffer, 1);
 	
 	while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
   while ((SPI3->SR & SPI_FLAG_BSY)); // check BUSY flag
@@ -72,6 +75,9 @@ void GyroInit(void){
 	/* Gyro is now in Standby mode every register 
 			changes should be made in this mode
 	*/
+	// this shouldnt be here, HAL
+	SpiRead(FXAS21002C_H_WHO_AM_I, 1); //  dummy read for clk synchronization
+	
 	// check connection by reading whoami register, it should always be 0xD7
 	if(SpiRead(FXAS21002C_H_WHO_AM_I, 1) != 0xD7){
 		#ifdef DEBUG_MODE
@@ -94,7 +100,7 @@ void GyroInit(void){
 		//SpiWrite(FXAS21002C_H_CTRL_REG2, (1<<3)|(1<<4)); // interrupt active low, enable, INT1
 	  SpiWrite(FXAS21002C_H_CTRL_REG0, (GFS_250DPS)); // set FSR  
 		SpiWrite(FXAS21002C_H_CTRL_REG1, (GODR_800HZ |  MODE_ACTIVE));  // set ODR and switch to active mode  
-		HAL_Delay(100);
+		HAL_Delay(50);
 
 		#ifdef DEBUG_MODE
 			printf_("Ready\r\n");
@@ -102,42 +108,35 @@ void GyroInit(void){
 }
 
 void GyroReadData(void){
-		prev_z = raw.z;
-		//SpiRead(FXAS21002C_H_OUT_X_MSB, 6);
+		prev_z = raw_z;
 		SpiRead(FXAS21002C_H_OUT_Z_MSB, 2);
-//		raw.x = (int16_t)(SpiRxBuffer[0] << 8 | SpiRxBuffer[1]);
-//		raw.y = (int16_t)(SpiRxBuffer[2] << 8 | SpiRxBuffer[3]);
-		raw.z = (int16_t)(SpiRxBuffer[4] << 8 | SpiRxBuffer[5]);
-		sensorGyroW = raw.z - cal_z;
-		// zero te gyro and get angular velocity 15.625
-		//angle.z = ((float)(cal_z-raw.z));//*0.0078125); //31.25
+		raw_z = (int16_t)(SpiRxBuffer[0] << 8 | SpiRxBuffer[1]);
+		sensorGyroW = (float)(raw_z - cal_z);
 	//}
 }
 /* Take 100 samples and average offset value*/
-void GyroCalibrate(float dt){
+void GyroCalibrate(uint32_t dt){
 	#ifdef DEBUG_MODE
 		printf_("Calibrating...\r\n");
 	#endif  
 	for(int i = 0; i < 100; i++){
 		GyroReadData();
-		cal_z += raw.z;
+		cal_z += raw_z;
 		//printf("%d\r\n", raw.x);
-		HAL_Delay(10);
+		HAL_Delay(dt); //
 	}
 	cal_z = cal_z/100;
 }
 
 /* Trapezoidal integration */
-float GyroGetAngle(float dt){
-	float a1; // current angle
-	a1 = ((((prev_z-cal_z)+(raw.z-cal_z))*0.5f)*dt*0.0078125f) + a1;
-	angle1+=a1;
-	return angle1;
+float GyroIntegrate(float dt){
+	a1 = ((((float)(prev_z-cal_z)+(raw_z-cal_z))*0.5f)*dt*0.0078125f) + a1;
+	return a1;
 }
-/* Call this function to get angle*/
-float GetGyro(float dt){
+/* Call this function to get angle */
+float GyroGetAngle(float dt){
 	GyroReadData();
-	return GyroGetAngle(dt); 
+	return GyroIntegrate(dt); 
 	
 }
 

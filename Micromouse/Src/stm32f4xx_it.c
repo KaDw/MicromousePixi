@@ -46,7 +46,8 @@ volatile uint16_t count = 0;
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc1;
-extern SPI_HandleTypeDef hspi3;
+extern DMA_HandleTypeDef hdma_spi3_rx;
+extern DMA_HandleTypeDef hdma_spi3_tx;
 extern TIM_HandleTypeDef htim6;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern UART_HandleTypeDef huart1;
@@ -94,6 +95,34 @@ void EXTI2_IRQHandler(void)
   /* USER CODE BEGIN EXTI2_IRQn 1 */
 
   /* USER CODE END EXTI2_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA1 stream0 global interrupt.
+*/
+void DMA1_Stream0_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream0_IRQn 0 */
+
+  /* USER CODE END DMA1_Stream0_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_spi3_rx);
+  /* USER CODE BEGIN DMA1_Stream0_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream0_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA1 stream5 global interrupt.
+*/
+void DMA1_Stream5_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream5_IRQn 0 */
+
+  /* USER CODE END DMA1_Stream5_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_spi3_tx);
+  /* USER CODE BEGIN DMA1_Stream5_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream5_IRQn 1 */
 }
 
 /**
@@ -152,20 +181,6 @@ void EXTI15_10_IRQHandler(void)
 }
 
 /**
-* @brief This function handles SPI3 global interrupt.
-*/
-void SPI3_IRQHandler(void)
-{
-  /* USER CODE BEGIN SPI3_IRQn 0 */
-
-  /* USER CODE END SPI3_IRQn 0 */
-  HAL_SPI_IRQHandler(&hspi3);
-  /* USER CODE BEGIN SPI3_IRQn 1 */
-
-  /* USER CODE END SPI3_IRQn 1 */
-}
-
-/**
 * @brief This function handles TIM6 global interrupt, DAC1 and DAC2 underrun error interrupts.
 */
 void TIM6_DAC_IRQHandler(void)
@@ -178,13 +193,16 @@ void TIM6_DAC_IRQHandler(void)
 			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_SET); 
 			break;
 		case 3: // 40us
-			ADCreadChannel(CH2, &sens[0]); // LF read
-			sens[0]-=cal[0];
+			ADCreadChannel(CH2, &read[0]); // LF read
 			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_RESET); 
 			//HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET); 
 			break;
 		case 6: // 100us
-			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET); 
+			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET);	
+			//read[0] = ((read[0] - cal[0]) + 7*fuzzy[0])/8;
+			sens[0] = read[0];
+			//sens[0] = LinADC(&read[0]);
+			//fuzzy[0] = read[0];
 			//ADCreadChannel(CH11, &sens[1]); // RF read
 			//sens[1]-=cal[1];
 			//HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET); 
@@ -192,8 +210,7 @@ void TIM6_DAC_IRQHandler(void)
 			//HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
 			break;
 		case 8: // 140us
-			ADCreadChannel(CH11, &sens[1]); // RF read
-			sens[1]-=cal[1];
+			ADCreadChannel(CH11, &read[1]); // RF read
 			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET);
 //			ADCread2Channel(CH13, CH12, &sens[2]); // L, R read
 //			sens[2]-=cal[2];
@@ -206,11 +223,17 @@ void TIM6_DAC_IRQHandler(void)
 		case 11: // 200us
 			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
 			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
+			read[1] = ((read[1] - cal[1]) + 7*fuzzy[1])/8;
+			sens[3] = read[1];
+			sens[1] = LinADC(&read[1]);
+			fuzzy[1] = read[1];
 			break;
 		case 13: // 240us
-			ADCread2Channel(CH13, CH12, &sens[2]); // L, R read
-			sens[2]-=cal[2];
-			sens[3]-=cal[3];
+			ADCread2Channel(CH13, CH12, &read[0]); // L, R read
+			read[0]-=cal[2];
+			read[1]-=cal[3];
+			//sens[2] = LinADC(&read[0]);
+			//sens[3] = LinADC(&read[1]);
 			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
 			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET); 
 			break;
@@ -219,9 +242,11 @@ void TIM6_DAC_IRQHandler(void)
 			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_SET);
 			break;
 		case 18: // 340us
-			ADCread2Channel(CH3, CH10, &sens[4]); // LS, RS read
-			sens[4]-=cal[4];
-			sens[5]-=cal[5];
+			ADCread2Channel(CH3, CH10, &read[0]); // LS, RS read
+			read[0]-=cal[4];
+			read[1]-=cal[5];
+			sens[4] = LinADC(&read[0]);
+			sens[5] = LinADC(&read[1]);
 			HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_RESET); // side sensors off
 			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_RESET);
 			count = 0; // trzeba to przsuwac do ostatniego case

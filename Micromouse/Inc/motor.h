@@ -28,6 +28,10 @@
 #define MOTOR_HTIM_ENC_L 			htim3
 #define MOTOR_HTIM_ENC_R 			htim4
 
+
+extern const float MOTOR_DRIVER_T;
+extern const float HALF_WHEELBASE;
+
 extern TIM_HandleTypeDef MOTOR_HTIM, MOTOR_HTIM_ENC_L, MOTOR_HTIM_ENC_R;
 
 
@@ -42,7 +46,8 @@ typedef enum
 	MOTOR_RUNNING_STOP, // motor is running now, stop wheels when end running
 	MOTOR_RUNNING_FLOAT, // motor is running now, float wheels when end running
 	MOTOR_FLOATING,
-	MOTOR_CONST_VEL
+	MOTOR_CONST_VEL,
+	MOTOR_ELSE
 } MotorStat;
 
 
@@ -54,13 +59,16 @@ typedef enum
 #define MOTOR_VELV_KP					35.1f //20
 #define MOTOR_VELV_KI					6.60f // 11
 #define MOTOR_VELV_KD					0.0f // -0.01676
-#define MOTOR_VELW_KP					(8.0f)
-#define MOTOR_VELW_KI					1.0f
+#define MOTOR_VELW_KP					3.0f
+#define MOTOR_VELW_KI					10.0f
 #define MOTOR_VELW_KD					0.0f
+//#define MOTOR_VELW_KP					8.0f
+//#define MOTOR_VELW_KI					1.0f
+//#define MOTOR_VELW_KD					0.0f
 
 // ACC_V [mm/s/s] 	ACC_W[rad/s/s]
-#define MOTOR_ACC_V						(4000.0f*2.0f) // double becouse for 2 wheels
-#define MOTOR_ACC_W						1.0f
+#define MOTOR_ACC_V						(1300.0f*2.0f) // double becouse for 2 wheels
+#define MOTOR_ACC_W						5.0f
 
 // flags determine sensor int turn
 extern int _motor_flag;
@@ -98,15 +106,20 @@ typedef struct
 	//float	PosErrW, lastPosErrW;
 	float errVP, errVI, errVD;
 	float errWP, errWI, errWD;
-	int distLeft, Sbreak; // tick
+	int distLeftV, SbreakV; // tick
+	float distLeftW, SbreakW;
+	MotorStat status;
 } MotorsV;
 
 void MotorInit(void);
 void MotorUpdate(void);
 void MotorStop(void);
+void MotorFloat(void);
 void MotorSetPWMRaw(int left, int right);
 void MotorGo(int left, int right, float vel); // [mm] [mm] [mm/s]
 void MotorGoA(int left, int right, float vel); // [mm] [mm] [mm/s]
+void MotorTurn(int angle, int r, float vel);
+void MotorTurnA(int angle, int r, float vel);
 
 //========================
 //====== POSITION ========

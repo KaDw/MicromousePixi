@@ -109,16 +109,9 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-/*while(1)
-{
-	UI_LedOn(UI_LED_YELLOW);
-	UI_DelayUs(25000);
-	UI_LedOff(UI_LED_YELLOW);
-	UI_DelayUs(25000);
-}*/
-	//MotorSetPWMRaw(0, 0);
-//	GyroInit();
-//	GyroCalibrate(0.001);
+
+	GyroInit();
+	GyroCalibrate(2);
 HAL_TIM_Base_Start_IT(&htim6);
 //MotorSetPWMRaw(200, 200);
 //for(int i = 0; i < 5000; ++i)
@@ -126,13 +119,21 @@ HAL_TIM_Base_Start_IT(&htim6);
 //	printf_("%d %d\r\n", EncL, EncR);
 //	HAL_Delay(1);
 //}
-//Go(50, 50, 40, 0);
 printf("\r\n\nCzekam na start\r\n");
-ENABLE_GYRO();
+//ENABLE_GYRO();
 ENABLE_SENSOR();
+//SensorOff();
+//ENABLE_ENCODER();
+//ENABLE_GYRO();
 UI_WaitBtnL();
 HAL_Delay(600);
-MotorGoA(1000, 1000, 1000); //mm mm mm/s
+//MotorTurn(90,0,0);
+//MotorTurnA(120, 0, 80000); //mm mm mm/s
+//MotorTurn(-90, 0, 0);
+//MotorTurn(90, 0, 0);
+//UI_WaitBtnL();
+MotorGoA(300, 300, 400); //mm mm mm/s
+
 //sens[0] sens[1];
 //MotorSetPWMRaw(200, 200);
 //HAL_Delay(1000);
@@ -140,23 +141,36 @@ MotorGoA(1000, 1000, 1000); //mm mm mm/s
 extern MotorsV motors; 
   while (1)
   {		
-		UI_BattControl(); // nie jestem pewny tego sprawdzenia
-		UI_TimerUs(1000);
+		//UI_BattControl(); // nie jestem pewny tego sprawdzenia
+		UI_TimerUs(1e6f*MOTOR_DRIVER_T);
 		MotorUpdate();
-		if(TIM7->CNT > 30)
+		/*if(SENS_RF + SENS_LF < 160) // gdy sciana z przodu
 		{
-			MotorStop();
-			while(1)
-			{
-				UI_LedOnAll();
-				UI_DelayUs(25000);
-				UI_LedOffAll();
-				UI_DelayUs(25000);
-			}
-			
+			MotorTurn(-90, 0, 0);
+			MotorGoA(300, 300, 400);
 		}
+		if(SENS_R > 80) // gdy niema sciany z prawej
+		{
+			UI_DelayUs(60000);
+			MotorTurn(90, 0, 0);
+			MotorSetPWMRaw(300, 300);
+			UI_DelayUs(600);
+			MotorGoA(300, 300, 400);
+		}*/
+//		printf("MotorUpdate: %dus\r\n", TIM7->CNT-1);
+//		if(TIM7->CNT > 30)
+//		{
+//			MotorStop();
+//			while(1)
+//			{
+//				UI_LedOnAll();
+//				UI_DelayUs(25000);
+//				UI_LedOffAll();
+//				UI_DelayUs(25000);
+//			}
+//		}
+	  //printf("%d\t %d\t %d\t %d\t %d\t %d\t bat:%dmV\r\n", SENS_LS, SENS_L, SENS_LF, SENS_RF, SENS_R, SENS_RF, vbat );
 //		if(motors.t == 1)
-//			printf("MotorUpdate: %dus\r\n", TIM7->CNT-1);
 		while(UI_TimerBusy()){}
 		//UI_LedOffAll();
 		//while(UI_TimerBusy()){}
@@ -167,32 +181,7 @@ extern MotorsV motors;
 			
 //		//ADCreadChannel(CH9, &adc);
 //		printf("%d\t %d\t %d\t %d\t %d\t %d\t %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
-//		if(count){
-//			currL = EncL;
-//			currR = EncR;
-//			printf("%d\r\n", (currR-prevR));
-//			prevL = currL;
-//			prevR = currR;
-//			count = 0;
-//			cnt++;
-//		}
 
-//		if(cnt > 1000){ //  zatrzymanie silnikow
-//			MotorSetPWMRaw(0, 0);
-//			HAL_TIM_Base_Stop_IT(&htim6);
-//			count = 0;
-//		}
-		
-//		if(!batError){
-//			MotorStop();
-//			SensorOff();
-//			HAL_TIM_Base_Stop_IT(&htim6);
-//			UI_LedOnAll();
-//		}
-		//Go(100, 100, 400, 0);
-		//UI_Beep(1000, 100);
-		//printf("%f\r\n", (GetGyro(0.001))*2.1);
-		//printf_("lewy:%d  prawy:%d\n", getEncL(), getEncR());
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
