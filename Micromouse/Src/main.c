@@ -125,6 +125,7 @@ ENABLE_SENSOR();
 //SensorOff();
 //ENABLE_ENCODER();
 //ENABLE_GYRO();
+//UI_Beep(5000, 2500);
 UI_WaitBtnL();
 HAL_Delay(600);
 //MotorTurn(90,0,0);
