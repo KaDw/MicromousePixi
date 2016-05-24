@@ -269,12 +269,13 @@ void MotorFindParams(float previousV, float* v, float dist, float acc, int* time
 	float vel = *v;
 	float dV = vel - previousV; // [mm/s]
 	float Tacc = dV/acc; // [s]
+	if(Tacc < 0) Tacc = -Tacc;
 	float Sbreak = 0.5f*vel*vel/acc;// [mm] = mm/s * mm/s * s*s/mm
 	float Sacc = (previousV*Tacc + 0.5f*dV*dV/acc);// mm = mm/s * mm/s * s*s/mm
 	
 	if(Sacc + Sbreak > dist)
 	{
-		vel = fast_sqrt(0.5f*(acc*dist + 0.5f*previousV*previousV)); // mm/s/s*mm + mm*mm/s/s
+		vel = fast_sqrt(0.5f*(acc*dist + previousV*previousV)); // mm/s/s*mm + mm*mm/s/s
 		dV = vel - previousV;
 		Tacc = dV/acc;
 		Sacc = 2.0f*(0.5f*(previousV*Tacc + dV*dV/acc));
@@ -293,7 +294,7 @@ void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 	if(left != right)
 	{
 		float a = 0.5f*(left-right)/HALF_WHEELBASE; // rad
-		float w = a * vel / (abs(left)+abs(right)); // [rad/s] = rad * [mm/s] / mm
+		float w = a * vel * 2.f / (abs(left)+abs(right)); // [rad/s] = rad * [mm/s] / mm
 		MotorFindParams(motors.previousW, &w, a, MOTOR_ACC_W, &motors.tw);
 		motors.targetW = w;
 	}
