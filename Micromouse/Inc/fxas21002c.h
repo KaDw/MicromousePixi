@@ -30,6 +30,7 @@ extern float angle;
 //extern angular_data angle;//, x_pri, x_post, v_pri, v_post, alfa, beta;
 extern uint8_t SpiRxBuffer[2];
 extern float sensorGyroW;
+extern float sensorGyroA;
 
 
 /* Gyro registers */
@@ -88,7 +89,7 @@ uint8_t SpiRead(uint8_t address, uint8_t size);
 void SpiWrite(uint8_t address,uint8_t value);
 void GyroInit(void);
 void GyroReadData(void);
-void GyroCalibrate(uint32_t dt);
+void GyroCalibrate(uint32_t dt, uint16_t samples);
 float GyroIntegrate(float dt);
 float GyroGetAngle(float dt);
 //void GyroSelfTest();

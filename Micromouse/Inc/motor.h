@@ -15,6 +15,7 @@
 
 // position controller
 #define MOTOR_MAX_PWM					1000
+#define MAX_ANGULAR_VEL				500 //deg/s
 #define WHEEL_DIAMETER 				37.0f /* mm*/
 #define MOTOR_SLOW_TICK				200
 #define MOTOR_SLOW_VEL				200
@@ -68,7 +69,7 @@ typedef enum
 
 // ACC_V [mm/s/s] 	ACC_W[rad/s/s]
 #define MOTOR_ACC_V						(1300.0f*2.0f) // double becouse for 2 wheels
-#define MOTOR_ACC_W						5.0f
+#define MOTOR_ACC_W						5.0f // 174.532925 rad/s/s = 10000 deg/s/s
 
 // flags determine sensor int turn
 extern int _motor_flag;

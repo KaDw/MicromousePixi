@@ -17,9 +17,11 @@ volatile uint16_t dt;
 //raw_data raw;
 int16_t raw_z;
 int16_t cal_z;
+int16_t old_cal_z;
 float angle;
 float prev_z;
 float sensorGyroW;
+float sensorGyroA;
 float a1; // current angle
 //angular_data angle ,x_pri, x_post, v_pri, v_post, alfa, beta;
 // get time between readings
@@ -115,31 +117,39 @@ void GyroReadData(void){
 	//}
 }
 /* Take 100 samples and average offset value*/
-void GyroCalibrate(uint32_t dt){
+void GyroCalibrate(uint32_t dt, uint16_t samples){
 	#ifdef DEBUG_MODE
 		printf_("Calibrating...\r\n");
 	#endif  
-	for(int i = 0; i < 100; i++){
+	for(int i = 0; i < samples; i++){
 		GyroReadData();
 		cal_z += raw_z;
-		//printf("%d\r\n", raw.x);
-		HAL_Delay(dt); //
+		HAL_Delay(dt);
 	}
-	cal_z = cal_z/100;
+	cal_z = cal_z/samples;
+	cal_z = old_cal_z;
 }
 
 /* Trapezoidal integration */
 float GyroIntegrate(float dt){
+	cal_z = 0;
 	a1 = ((((float)(prev_z-cal_z)+(raw_z-cal_z))*0.5f)*dt*0.0078125f) + a1;
 	return a1;
 }
 /* Call this function to get angle */
 float GyroGetAngle(float dt){
 	GyroReadData();
-	return GyroIntegrate(dt); 
+	sensorGyroA = GyroIntegrate(dt); 
+	return sensorGyroA;
 	
 }
+void GyroResetDrif(){
+	GyroCalibrate(1, 10);
+	cal_z+=old_cal_z;
+}
 
+// w = raw-cal = 10
+// raw-cal = 0
 // get dt
 //void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 //{

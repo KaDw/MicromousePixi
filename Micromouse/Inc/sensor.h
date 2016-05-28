@@ -30,23 +30,30 @@ sens[6] - RS - Right Side
 LS----		 ---- RS
 
 */
-#define SENS_LF sens[0]
-#define SENS_RF sens[1]
-#define SENS_L  sens[2]
-#define SENS_R  sens[3]
-#define SENS_LS sens[4]
-#define SENS_RS sens[5]
+#define SENS_LF sensor[0].sens
+#define SENS_RF sensor[1].sens
+#define SENS_L  sensor[2].sens
+#define SENS_R  sensor[3].sens // read[1]
+#define SENS_LS sensor[4].sens
+#define SENS_RS sensor[5].sens
 
 
 
 // calibration
+typedef struct{
+	uint32_t sens;
+	uint32_t buf[3];
+} _sensor;
+extern _sensor sensor[6];
 extern uint32_t cal[7];
 // sensor data
 extern uint32_t sens[6];
 extern uint32_t fuzzy[6];
-extern uint32_t read[2];
+extern uint32_t read[4];
 extern uint32_t vbat;
 extern uint8_t batError;
+
+
 
 typedef enum {
 	CH2 = 2,
@@ -59,8 +66,10 @@ typedef enum {
 } CHx;
 
 uint32_t LinADC(uint32_t* sens);
-void ADCreadAmbient(void);	
+void ADCreadAmbient();	
 void ADCreadChannel(uint8_t channel, uint32_t *buf);
 void ADCread2Channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf);
-void SensorOff(void);
+void SensorOff();
+uint32_t Sort(_sensor sensor);
+void Move(_sensor *sensor);
 #endif

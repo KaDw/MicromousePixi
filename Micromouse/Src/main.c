@@ -54,7 +54,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* ADC */
-uint32_t adc;
+float sum;
+uint32_t adc = 4000;
 uint8_t Tx_buf = 0x0C;
 uint8_t Rx_buf = 0xFF; 
 uint16_t prevL;
@@ -111,7 +112,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
 	GyroInit();
-	GyroCalibrate(2);
+	GyroCalibrate(1, 100);
 HAL_TIM_Base_Start_IT(&htim6);
 //MotorSetPWMRaw(200, 200);
 //for(int i = 0; i < 5000; ++i)
@@ -121,29 +122,39 @@ HAL_TIM_Base_Start_IT(&htim6);
 //}
 printf("\r\n\nCzekam na start\r\n");
 //ENABLE_GYRO();
-ENABLE_SENSOR();
+//ENABLE_SENSOR();
 //SensorOff();
 //ENABLE_ENCODER();
 //ENABLE_GYRO();
-UI_WaitBtnL();
-HAL_Delay(600);
-//MotorTurn(90,0,0);
-//MotorTurnA(120, 0, 80000); //mm mm mm/s
-//MotorTurn(-90, 0, 0);
-//MotorTurn(90, 0, 0);
 //UI_WaitBtnL();
-MotorGoA(300, 300, 400); //mm mm mm/s
-
-//sens[0] sens[1];
+//HAL_Delay(600);
+//UI_WaitBtnL();
+//MotorGoA(500, 500, 500); //mm mm mm/s
+GyroGetAngle(0.001);
 //MotorSetPWMRaw(200, 200);
-//HAL_Delay(1000);
-//MotorSetPWMRaw(0, 0);
+//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
+//		GyroGetAngle(0.001);
+//		adc = TIM7->CNT;
+//		printf("MotorUpdate: %dus\r\n", adc-1);
+//sensor[0].sens[0] = 5;
+//sensor[0].sens[1] = 3;
+//sensor[0].sens[2] = 1;
+//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
+//Sort(&sensor[0]);
+//adc = TIM7->CNT;
+//printf("Removing pepper noise: %dus\r\n", adc-1);
 extern MotorsV motors; 
+UI_TimerUs(1e6f*MOTOR_DRIVER_T);
   while (1)
   {		
+		UI_DelayUs(1000);
+//		GyroGetAngle(0.001);
+//		MotorTurn(90, 0, 300);
 		//UI_BattControl(); // nie jestem pewny tego sprawdzenia
-		UI_TimerUs(1e6f*MOTOR_DRIVER_T);
-		MotorUpdate();
+//		MotorTurnA(1, 1, 1);
+//		HAL_Delay(1);
+//		GyroGetAngle(0.001);
+//		MotorUpdate();
 		/*if(SENS_RF + SENS_LF < 160) // gdy sciana z przodu
 		{
 			MotorTurn(-90, 0, 0);
@@ -157,7 +168,12 @@ extern MotorsV motors;
 			UI_DelayUs(600);
 			MotorGoA(300, 300, 400);
 		}*/
-//		printf("MotorUpdate: %dus\r\n", TIM7->CNT-1);
+		// predkosc spi jest troche powyzej maksymalnej z noty( 2MHz, jest 2,6MHz) ale dziala
+//		UI_DelayUs(1000);
+//		GyroGetAngle(0.001);
+		//printf("%f\r\n", GyroGetAngle(0.001));
+//		adc = TIM7->CNT;
+//		printf("MotorUpdate: %dus\r\n", adc-1);
 //		if(TIM7->CNT > 30)
 //		{
 //			MotorStop();
@@ -169,9 +185,13 @@ extern MotorsV motors;
 //				UI_DelayUs(25000);
 //			}
 //		}
-	  //printf("%d\t %d\t %d\t %d\t %d\t %d\t bat:%dmV\r\n", SENS_LS, SENS_L, SENS_LF, SENS_RF, SENS_R, SENS_RF, vbat );
+	  printf("%d\t %d\t %d\t %d\t %d\t %d\t\r\n", SENS_LF, SENS_RF, SENS_L, SENS_R, SENS_RS, SENS_LS);
+//		
+//		if(SENS_LF < adc)
+//			adc = SENS_LF;
+//		printf("%d\r\n", adc);
 //		if(motors.t == 1)
-		while(UI_TimerBusy()){}
+		//while(UI_TimerBusy()){}
 		//UI_LedOffAll();
 		//while(UI_TimerBusy()){}
 		//UI_TimerUs(10000);
@@ -185,7 +205,7 @@ extern MotorsV motors;
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
+	
   }
 
   /* USER CODE END 3 */
@@ -233,34 +253,34 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 // Bluetooth manual mode
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-	if('a' <= Rx_buf && Rx_buf <= 'z')
-		Rx_buf += 'A'-'a';
-	
-	switch(Rx_buf){
-		
-		case 'W':
-		case 'F':
-			//MotorSetPWMRaw(600, 600);
-		break;
-		
-		case 'S':
-			//MotorSetPWMRaw(-400, -400);
-		break;
-		
-		case 'D':
-		case 'R': 
-			//MotorSetPWMRaw(600, 300);
-		break;
-			
-		case 'A':
-		case 'L':
-			//MotorSetPWMRaw(300, 600);
-		break;
-		}
-			
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+//	if('a' <= Rx_buf && Rx_buf <= 'z')
+//		Rx_buf += 'A'-'a';
+//	
+//	switch(Rx_buf){
+//		
+//		case 'W':
+//		case 'F':
+//			//MotorSetPWMRaw(600, 600);
+//		break;
+//		
+//		case 'S':
+//			//MotorSetPWMRaw(-400, -400);
+//		break;
+//		
+//		case 'D':
+//		case 'R': 
+//			//MotorSetPWMRaw(600, 300);
+//		break;
+//			
+//		case 'A':
+//		case 'L':
+//			//MotorSetPWMRaw(300, 600);
+//		break;
+//		}
+//			
 
-}
+//}
 
 /* USER CODE END 4 */
 

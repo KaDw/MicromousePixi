@@ -148,33 +148,33 @@ void EXTI15_10_IRQHandler(void)
  
 	// PRAWY PRZYCISK
 	//wywalic pozniej
-	MotorStop();
-	HAL_TIM_Base_Stop_IT(&htim6);
-	
-	
-	count = 0;
-	uint32_t bat;
-	uint32_t temp;
-	extern ADC_HandleTypeDef hadc1;
-	
-	NVIC_ClearPendingIRQ(EXTI15_10_IRQn);
-	EXTI->PR |= EXTI_PR_PR15; // pending register 15
-	
-	// bat
-	ADC1->SQR1 &= ~ADC_SQR1_L; // 1 conversion
-	ADC1->SQR3 = ADC_CHANNEL_9; // channel to be converted
-	HAL_ADC_Start(&hadc1);
-	bat = HAL_ADC_GetValue(&hadc1);
-	
-	//todo: tutaj zczytuje 2 razy to samo
-	//temp
-	ADC1->SQR3 = ADC_CHANNEL_9; // channel to be converted
-	HAL_ADC_Start(&hadc1);
-	temp = HAL_ADC_GetValue(&hadc1);
-	
-	printf_("bat:%d  temp:%d\n", bat, temp);
-  /* USER CODE END EXTI15_10_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
+//	MotorStop();
+//	HAL_TIM_Base_Stop_IT(&htim6);
+//	
+//	
+//	count = 0;
+//	uint32_t bat;
+//	uint32_t temp;
+//	extern ADC_HandleTypeDef hadc1;
+//	
+//	NVIC_ClearPendingIRQ(EXTI15_10_IRQn);
+//	EXTI->PR |= EXTI_PR_PR15; // pending register 15
+//	
+//	// bat
+//	ADC1->SQR1 &= ~ADC_SQR1_L; // 1 conversion
+//	ADC1->SQR3 = ADC_CHANNEL_9; // channel to be converted
+//	HAL_ADC_Start(&hadc1);
+//	bat = HAL_ADC_GetValue(&hadc1);
+//	
+//	//todo: tutaj zczytuje 2 razy to samo
+//	//temp
+//	ADC1->SQR3 = ADC_CHANNEL_9; // channel to be converted
+//	HAL_ADC_Start(&hadc1);
+//	temp = HAL_ADC_GetValue(&hadc1);
+//	
+//	printf_("bat:%d  temp:%d\n", bat, temp);
+//  /* USER CODE END EXTI15_10_IRQn 0 */
+//  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
   /* USER CODE END EXTI15_10_IRQn 1 */
@@ -193,64 +193,71 @@ void TIM6_DAC_IRQHandler(void)
 			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_SET); 
 			break;
 		case 3: // 40us
-			ADCreadChannel(CH2, &read[0]); // LF read
+			Move(&sensor[0]);
+			ADCreadChannel(CH2, &sensor[0].buf[2]); // LF read
 			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_RESET); 
-			//HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET); 
 			break;
 		case 6: // 100us
-			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET);	
+			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET);
+			sensor[0].sens = Sort(sensor[0]) - cal[0];
 			//read[0] = ((read[0] - cal[0]) + 7*fuzzy[0])/8;
-			sens[0] = read[0];
+			//sens[0] = read[0];
 			//sens[0] = LinADC(&read[0]);
 			//fuzzy[0] = read[0];
-			//ADCreadChannel(CH11, &sens[1]); // RF read
 			//sens[1]-=cal[1];
-			//HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET); 
-			//HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
-			//HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
 			break;
 		case 8: // 140us
-			ADCreadChannel(CH11, &read[1]); // RF read
+			Move(&sensor[1]);
+			ADCreadChannel(CH11, &sensor[1].buf[2]); // RF read
 			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET);
 //			ADCread2Channel(CH13, CH12, &sens[2]); // L, R read
 //			sens[2]-=cal[2];
 //			sens[3]-=cal[3];
-//			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
-//			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET);
-//			HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_SET); 
-//			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_SET);
 			break;
 		case 11: // 200us
 			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
 			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
-			read[1] = ((read[1] - cal[1]) + 7*fuzzy[1])/8;
-			sens[3] = read[1];
-			sens[1] = LinADC(&read[1]);
-			fuzzy[1] = read[1];
+			sensor[1].sens = Sort(sensor[1]) - cal[1];
+			//read[1] = ((read[1] - cal[1]) + 7*fuzzy[1])/8;
+			//sens[1] = read[1];
+			//sens[1] = LinADC(&read[1]);
+			//fuzzy[1] = read[1];
 			break;
 		case 13: // 240us
+			Move(&sensor[2]);
+			Move(&sensor[3]);
 			ADCread2Channel(CH13, CH12, &read[0]); // L, R read
-			read[0]-=cal[2];
-			read[1]-=cal[3];
-			//sens[2] = LinADC(&read[0]);
-			//sens[3] = LinADC(&read[1]);
 			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
 			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET); 
 			break;
 		case 16: // 300us
-			HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_SET); 
+			HAL_GPIO_WritePin(GPIOC, D_LS_Pin, GPIO_PIN_SET); 
 			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_SET);
+			// no DMA in fact
+			sensor[2].buf[2] = read[0];
+			sensor[3].buf[2] = read[1];
+			sensor[2].sens = Sort(sensor[2]) - cal[2];
+			sensor[3].sens = Sort(sensor[3]) - cal[3];
+
 			break;
 		case 18: // 340us
-			ADCread2Channel(CH3, CH10, &read[0]); // LS, RS read
-			read[0]-=cal[4];
-			read[1]-=cal[5];
-			sens[4] = LinADC(&read[0]);
-			sens[5] = LinADC(&read[1]);
-			HAL_GPIO_WritePin(GPIOA, D_LS_Pin, GPIO_PIN_RESET); // side sensors off
+			Move(&sensor[4]);
+			Move(&sensor[5]);
+			ADCread2Channel(CH3, CH10, &read[2]); // LS, RS read
+//			read[0]-=cal[4];
+//			read[1]-=cal[5];
+//			sens[4] = read[0];
+//			sens[5] = read[1];
+			HAL_GPIO_WritePin(GPIOC, D_LS_Pin, GPIO_PIN_RESET); // side sensors off
 			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_RESET);
-			count = 0; // trzeba to przsuwac do ostatniego case
 			break;
+		case 19:
+			// no DMA in fact
+			sensor[4].buf[2] = read[2];
+			sensor[5].buf[2] = read[3];
+			sensor[4].sens = Sort(sensor[4]) - cal[4];
+			sensor[5].sens = Sort(sensor[5]) - cal[5];
+		break;
 	}
 		
 		++count;

@@ -6,15 +6,23 @@
 #include "usart.h"
 #include "gpio.h"
 #include "sensor.h"
+#include "UI.h"
 
 
+//uint32_t sens1[3];
+//uint32_t sens2[3];
+//uint32_t sens3[3];
+//uint32_t sens4[3];
+//uint32_t sens5[3];
+//uint32_t sens6[3];
+
+_sensor sensor[6];
 uint32_t cal[7]; 
 uint32_t sens[6];
-uint32_t read[2];
-uint32_t fuzzy[6];
+uint32_t read[4];
+uint32_t fuzzy[6] = {4, 2, 3, 4, 5, 6};
 uint32_t vbat;
 uint8_t batError;
-#define SENS_LF sens[0]
 /*
 sens[0] - LF - Left
 sens[1] - RF - Right
@@ -38,15 +46,16 @@ LS----		 ---- RS
 
 void ADCreadAmbient(){
 	ADC1->SQR1 = (ADC_SQR1_L_2|ADC_SQR1_L_1); // 7 conversions (0x06, count from 0)
-	// TODO fix this hex
-	//(CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15)|(CH9<<20);
-	ADC1->SQR3 = (CH2)|(CH11<<5)|(CH12<<10)|(CH13<<15)|(CH3<<20)|(CH10<<25); // channels to convert: 2, 11, 12, 13 and 9 for battery
+	// channels order is important!
+	ADC1->SQR3 = (CH2)|(CH11<<5)|(CH13<<10)|(CH12<<15)|(CH3<<20)|(CH10<<25); // channels to convert: 2, 11, 12, 13 and 9 for battery
 	ADC1->SQR2 = CH9;
 	//CH3, CH10
 	HAL_ADC_Start_DMA(&hadc1, cal, 7);
 	vbat = (cal[6]*0.0025)+0.067; // *0.0025 i dodac 0,067
-	if(cal[6] < 2884 && cal[6] > 2650) // 7,4-6,8
+	if(cal[6] < 2884 && cal[6] > 2650){ // 7,4-6,8
 		batError = 1;
+		UI_LedOnAll();
+	}
 }
 
 void ADCreadChannel(uint8_t CHx, uint32_t *buf){
@@ -90,6 +99,45 @@ uint32_t LinADC(uint32_t *sens){
 void ADCcalibrate(){
 	
 }
+
+void Move(_sensor *sensor){ // moving samples in buf
+	sensor->buf[0] = sensor->buf[1];
+	sensor->buf[1] = sensor->buf[2];
+}
+/*Pepper noise filtering
+	Correct value will be stored in sensor.sens[1]
+	sens[3][6];
+	ADCread2channel(&hadc1, 2, &sens[3][0]);
+*/
+
+uint32_t Swap(uint32_t *s1, uint32_t *s2){
+	uint32_t temp = 0;
+	temp = (*s2);
+	(*s2) = (*s1);
+	(*s1) = temp;
+	
+}
+
+uint32_t Sort(_sensor sensor){
+	uint32_t temp = 0;
+	// faster bubble sort
+	if (sensor.buf[0] > sensor.buf[1]) Swap(&sensor.buf[0], &sensor.buf[1]);
+	if (sensor.buf[1] > sensor.buf[2]) Swap(&sensor.buf[1], &sensor.buf[2]);
+	if (sensor.buf[0] > sensor.buf[1]) Swap(&sensor.buf[0], &sensor.buf[1]);
+	// bubble sort
+//	for(uint8_t i = 0; i < 3; i++){ // size
+//		for(uint8_t j = 0; j < 2; j++){ // size -1
+//			if(sensor.buf[j] > sensor.buf[j+1]){
+//				temp = sensor.buf[j+1];
+//				sensor.buf[j+1] = sensor.buf[j];
+//				sensor.buf[j] = temp;
+//			}
+//		}
+//	}
+	
+	return sensor.buf[1]; // filtered value, sens[3] = {bad, good, bad};
+}
+	
 
 uint8_t FingerStart(){ // calibrate after finger start
 while(sens[0] < 2000 && sens[2] < 2000) // LF and L sensor

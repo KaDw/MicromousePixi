@@ -197,27 +197,27 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>SpiRxBuffer</ItemText>
+          <ItemText>test</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>angle</ItemText>
+          <ItemText>temp</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sensorGyroW</ItemText>
+          <ItemText>sensor</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>a1</ItemText>
+          <ItemText>temp</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sum</ItemText>
+          <ItemText>i</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
