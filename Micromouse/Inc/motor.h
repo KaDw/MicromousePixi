@@ -107,8 +107,9 @@ typedef struct
 	//float	PosErrW, lastPosErrW;
 	float errVP, errVI, errVD;
 	float errWP, errWI, errWD;
-	int distLeftV, SbreakV; // tick
-	float distLeftW, SbreakW;
+	//int distLeftV, SbreakV; // tick
+	//float distLeftW, SbreakW;
+	int tv, tw; // [T]
 	MotorStat status;
 } MotorsV;
 
@@ -116,6 +117,7 @@ void MotorInit(void);
 void MotorUpdate(void);
 void MotorStop(void);
 void MotorFloat(void);
+void MotorSetPWM();
 void MotorSetPWMRaw(int left, int right);
 void MotorGo(int left, int right, float vel); // [mm] [mm] [mm/s]
 void MotorGoA(int left, int right, float vel); // [mm] [mm] [mm/s]

@@ -38,7 +38,7 @@ void UI_BattControl(void);
 
 void UI_DelayUs(uint16_t us);
 void UI_TimerUs(uint16_t us);
-int UI_TimerBusy(void);
+int  UI_TimerBusy(void);
 void UI_WaitBtnL(void);
 void UI_WaitBtnR(void);
 /*
