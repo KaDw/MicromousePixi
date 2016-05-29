@@ -15,7 +15,7 @@
 
 // position controller
 #define MOTOR_MAX_PWM					1000
-#define MAX_ANGULAR_VEL				500 //deg/s
+#define MAX_ANGULAR_VEL				200.7f //rad/s
 #define WHEEL_DIAMETER 				37.0f /* mm*/
 #define MOTOR_SLOW_TICK				200
 #define MOTOR_SLOW_VEL				200
@@ -60,8 +60,8 @@ typedef enum
 #define MOTOR_VELV_KP					35.1f //20
 #define MOTOR_VELV_KI					6.60f // 11
 #define MOTOR_VELV_KD					0.0f // -0.01676
-#define MOTOR_VELW_KP					3.0f
-#define MOTOR_VELW_KI					10.0f
+#define MOTOR_VELW_KP					1000.0f
+#define MOTOR_VELW_KI					100.0f
 #define MOTOR_VELW_KD					0.0f
 //#define MOTOR_VELW_KP					8.0f
 //#define MOTOR_VELW_KI					1.0f
@@ -103,13 +103,10 @@ typedef struct
 	_MotorV mot[2];
 	float targetV, currentV, previousV; // mm/s
 	float targetW, currentW, previousW; // rad/s
-	//float PosErrV, lastPosErrV;
-	//float	PosErrW, lastPosErrW;
 	float errVP, errVI, errVD;
 	float errWP, errWI, errWD;
-	//int distLeftV, SbreakV; // tick
-	//float distLeftW, SbreakW;
-	int tv, tw; // [T]
+	float desAlpha;
+	int timev, timew; // [T]
 	MotorStat status;
 } MotorsV;
 
@@ -117,12 +114,14 @@ void MotorInit(void);
 void MotorUpdate(void);
 void MotorStop(void);
 void MotorFloat(void);
-void MotorSetPWM();
+void MotorSetPWM(void);
 void MotorSetPWMRaw(int left, int right);
 void MotorGo(int left, int right, float vel); // [mm] [mm] [mm/s]
 void MotorGoA(int left, int right, float vel); // [mm] [mm] [mm/s]
 void MotorTurn(int angle, int r, float vel);
 void MotorTurnA(int angle, int r, float vel);
+void MotorRotR90A(void);
+void Turn90C(void);
 
 //========================
 //====== POSITION ========

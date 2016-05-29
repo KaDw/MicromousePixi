@@ -119,7 +119,6 @@ uint32_t Swap(uint32_t *s1, uint32_t *s2){
 }
 
 uint32_t Sort(_sensor sensor){
-	uint32_t temp = 0;
 	// faster bubble sort
 	if (sensor.buf[0] > sensor.buf[1]) Swap(&sensor.buf[0], &sensor.buf[1]);
 	if (sensor.buf[1] > sensor.buf[2]) Swap(&sensor.buf[1], &sensor.buf[2]);

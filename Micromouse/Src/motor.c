@@ -130,7 +130,8 @@ void MotorUpdateEnc()
 
 int MotorUpdateStatus()
 {
-	if(motors.currentV != 0 || motors.currentW != 0)
+	if(motors.currentV != 0 || motors.targetV != 0 ||
+		motors.currentW != 0 || motors.targetW != 0)
 		return 0; // motor running
 	else
 		return 1; // motor stopped
@@ -194,7 +195,8 @@ void MotorDriver()
 	
 	if(_motor_flag & FLAG_GYRO)
 	{
-		rotationalFeedback += (-sensorGyroW)*MOTOR_DRIVER_T*PI*0.00277777777777777777777777777778f; // /360
+		//rotationalFeedback += (-sensorGyroW)*MOTOR_DRIVER_T*PI*0.00277777777777777777777777777778f; // /360
+		motors.desAlpha += motors.currentW*MOTOR_DRIVER_T*180.f/PI - (-sensorGyroA);
 	}
 	
 	if(_motor_flag & FLAG_SENSOR)
@@ -212,15 +214,15 @@ void MotorDriver()
 	}
 
 	// == decrement movement timer ==
-	if(motors.tv > 1)
-		--motors.tv;
+	if(motors.timev > 0)
+		--motors.timev;
 	else
-		motors.tv = motors.targetV = 0;
+		motors.targetV = 0;
 	
-	if(motors.tw > 1)
-		--motors.tw;
+	if(motors.timew > 0)
+		--motors.timew;
 	else
-		motors.tw = motors.targetW = 0;
+		motors.targetW = 0;
 	
 	
 	// == error calc == 
@@ -254,10 +256,9 @@ void MotorDriver()
 
 void MotorUpdate()
 {
-	GyroReadData(); // angular velocity
-	//GetGyro(0.001); //  get angle
+	GyroGetAngle(MOTOR_DRIVER_T);
 	MotorUpdateEnc();
-	if(MotorUpdateStatus()) return;// return 1 when motor driver should be called
+	//if(MotorUpdateStatus()) return;// return 1 when motor driver should be called
 	MotorUpdateVelocity();
 	MotorDriver();
 	MotorSetPWM();
@@ -286,7 +287,7 @@ void MotorFindParams(float previousV, float* v, float dist, float acc, int* time
 
 void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 {		
-	MotorFindParams(motors.previousV, &vel, 0.5f*(left+right), MOTOR_ACC_V, &motors.tv);
+	MotorFindParams(motors.previousV, &vel, 0.5f*(left+right), MOTOR_ACC_V, &motors.timev);
 	motors.targetV = vel;
 	
 	// calc W speed
@@ -294,7 +295,7 @@ void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 	{
 		float a = 0.5f*(left-right)/HALF_WHEELBASE; // rad
 		float w = a * vel * 2.f / (abs(left)+abs(right)); // [rad/s] = rad * [mm/s] / mm
-		MotorFindParams(motors.previousW, &w, a, MOTOR_ACC_W, &motors.tw);
+		MotorFindParams(motors.previousW, &w, a, MOTOR_ACC_W, &motors.timew);
 		motors.targetW = w;
 	}
 	else
@@ -318,10 +319,20 @@ void MotorTurnA(int angle, int r, float vel)
 {
 	//int dist = r+HALF_WHEELBASE + r-HALF_WHEELBASE;
 	motors.targetV = 0;
-	motors.tv = 0;
+	motors.timev = 0;
 	motors.targetW = vel/(abs(r)+HALF_WHEELBASE);
 	
 	MotorUpdateEnc(); // to delete EncChange
+}
+
+void MotorRotR90A()
+{
+	motors.targetV = 0;
+	motors.timev = 0;
+	motors.targetW = 50.f;
+	motors.timew = 3*0.5605f*MOTOR_DRIVER_FREQ;
+	motors.desAlpha = sensorGyroA;
+	MotorUpdateEnc(); // to update start position
 }
 
 
@@ -570,7 +581,6 @@ void MotorTurnA(int angle, int r, float vel)
 	motors.SbreakV = 0;//mmToTicks(2.0f*0.5f*vel*vel/MOTOR_ACC_V);
 	motors.SbreakW = 0;//0.5f*motors.targetW*motors.targetW/MOTOR_ACC_W;
 }*/
->>>>>>> 8d15742f0b5305fb487903967d3ffdfd541991fd
 
 void MotorGo(int left, int right, float vel)
 { 
@@ -649,8 +659,8 @@ void MotorSetPWM()
 //		VL = 30;
 	
 	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN1_Pin, VL>=0 ? GPIO_PIN_SET		: GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, VL>=0 ? GPIO_PIN_RESET : GPIO_PIN_SET);
-	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, VR<=0 ? GPIO_PIN_SET 	: GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, ML_IN2_Pin, VL>=0 ? GPIO_PIN_RESET  : GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN1_Pin, VR<=0 ? GPIO_PIN_SET 	  : GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MOTOR_GPIO, MR_IN2_Pin, VR<=0 ? GPIO_PIN_RESET	: GPIO_PIN_SET);
 
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, abs(VL));

@@ -120,18 +120,18 @@ HAL_TIM_Base_Start_IT(&htim6);
 //	printf_("%d %d\r\n", EncL, EncR);
 //	HAL_Delay(1);
 //}
-printf("\r\n\nCzekam na start\r\n");
+printf("\r\n\nvbat:%dmV\r\nCzekam na start\r\n", UI_BattValue());
 //ENABLE_GYRO();
 //ENABLE_SENSOR();
-//SensorOff();
-//ENABLE_ENCODER();
+SensorOff();
+ENABLE_ENCODER();
 //ENABLE_GYRO();
-//UI_WaitBtnL();
-//HAL_Delay(600);
+UI_WaitBtnL();
+HAL_Delay(600);
+GyroGetAngle(0.001);
+MotorRotR90A();
 //UI_WaitBtnL();
 //MotorGoA(500, 500, 500); //mm mm mm/s
-GyroGetAngle(0.001);
-//MotorSetPWMRaw(200, 200);
 //UI_TimerUs(1e6f*MOTOR_DRIVER_T);
 //		GyroGetAngle(0.001);
 //		adc = TIM7->CNT;
@@ -144,17 +144,22 @@ GyroGetAngle(0.001);
 //adc = TIM7->CNT;
 //printf("Removing pepper noise: %dus\r\n", adc-1);
 extern MotorsV motors; 
-UI_TimerUs(1e6f*MOTOR_DRIVER_T);
   while (1)
-  {		
-		UI_DelayUs(1000);
+  {	
 //		GyroGetAngle(0.001);
 //		MotorTurn(90, 0, 300);
 		//UI_BattControl(); // nie jestem pewny tego sprawdzenia
 //		MotorTurnA(1, 1, 1);
 //		HAL_Delay(1);
-//		GyroGetAngle(0.001);
-//		MotorUpdate();
+		//GyroGetAngle(1e6f*MOTOR_DRIVER_T);
+		//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
+		UI_TimerUs(1e6*MOTOR_DRIVER_T);
+		//GyroGetAngle(MOTOR_DRIVER_T);
+		//printf("Angle: %f\r\n", sensorGyroA);
+		MotorUpdate();
+		while(UI_TimerBusy())
+		{}
+			
 		/*if(SENS_RF + SENS_LF < 160) // gdy sciana z przodu
 		{
 			MotorTurn(-90, 0, 0);
@@ -185,19 +190,7 @@ UI_TimerUs(1e6f*MOTOR_DRIVER_T);
 //				UI_DelayUs(25000);
 //			}
 //		}
-	  printf("%d\t %d\t %d\t %d\t %d\t %d\t\r\n", SENS_LF, SENS_RF, SENS_L, SENS_R, SENS_RS, SENS_LS);
-//		
-//		if(SENS_LF < adc)
-//			adc = SENS_LF;
-//		printf("%d\r\n", adc);
-//		if(motors.t == 1)
-		//while(UI_TimerBusy()){}
-		//UI_LedOffAll();
-		//while(UI_TimerBusy()){}
-		//UI_TimerUs(10000);
-		//MotorUpdate();
-		//UI_LedOnAll();
-		//while(UI_TimerBusy()){}
+	  //printf("%d\t %d\t %d\t %d\t %d\t %d\t\r\n", SENS_LF, SENS_RF, SENS_L, SENS_R, SENS_RS, SENS_LS);
 			
 //		//ADCreadChannel(CH9, &adc);
 //		printf("%d\t %d\t %d\t %d\t %d\t %d\t %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );

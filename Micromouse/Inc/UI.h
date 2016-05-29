@@ -35,6 +35,7 @@ void UI_LedOn(int UI_LED_n);
 void UI_LedOff(int UI_LED_n);
 
 void UI_BattControl(void);
+int UI_BattValue();
 
 void UI_DelayUs(uint16_t us);
 void UI_TimerUs(uint16_t us);

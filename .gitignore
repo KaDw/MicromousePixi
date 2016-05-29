@@ -64,6 +64,7 @@ eagle.epf
 *.l1p
 *.l2p
 *.iex
+*.hex
 .#*
 *.uvguix.*
 

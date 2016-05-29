@@ -66,10 +66,10 @@ typedef enum {
 } CHx;
 
 uint32_t LinADC(uint32_t* sens);
-void ADCreadAmbient();	
+void ADCreadAmbient(void);	
 void ADCreadChannel(uint8_t channel, uint32_t *buf);
 void ADCread2Channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf);
-void SensorOff();
+void SensorOff(void);
 uint32_t Sort(_sensor sensor);
 void Move(_sensor *sensor);
 #endif
