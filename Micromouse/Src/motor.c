@@ -12,8 +12,8 @@ const float 	TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
 const float 	MOTOR_DRIVER_FREQ			= 1000.f; // Hz
 const float 	MOTOR_DRIVER_T				= 1.f/MOTOR_DRIVER_FREQ;
 const float 	MOTOR_EPSILON_W				= 0.08; /* acceptable rotation error in radians*/
-const int 		MOTOR_EPSILON 					= 15; /* acceptable position error - enc tick 15~1mm*/
-const int 		ONE_CELL_DISTANCE				= 2725; // ticks
+const int 		MOTOR_EPSILON 				= 15; /* acceptable position error - enc tick 15~1mm*/
+const int 		ONE_CELL_DISTANCE			= 2725; // ticks
 
 int MotorUpdateStatus(void);
 void MotorUpdateEncoder(void);
@@ -196,7 +196,8 @@ void MotorDriver()
 	if(_motor_flag & FLAG_GYRO)
 	{
 		//rotationalFeedback += (-sensorGyroW)*MOTOR_DRIVER_T*PI*0.00277777777777777777777777777778f; // /360
-		motors.desAlpha += motors.currentW*MOTOR_DRIVER_T*180.f/PI - (-sensorGyroA);
+		motors.desAlpha += motors.currentW*MOTOR_DRIVER_T*180.f/PI; // deg to rad
+		rotationalFeedback += motors.desAlpha - (-sensorGyroA);
 	}
 	
 	if(_motor_flag & FLAG_SENSOR)
@@ -216,12 +217,12 @@ void MotorDriver()
 	// == decrement movement timer ==
 	if(motors.timev > 0)
 		--motors.timev;
-	else
+	else if(motors.targetV != 0)
 		motors.targetV = 0;
 	
 	if(motors.timew > 0)
 		--motors.timew;
-	else
+	else if(motors.targetW != 0)
 		motors.targetW = 0;
 	
 	
@@ -329,7 +330,7 @@ void MotorRotR90A()
 {
 	motors.targetV = 0;
 	motors.timev = 0;
-	motors.targetW = 50.f;
+	motors.targetW = 50.f; 
 	motors.timew = 3*0.5605f*MOTOR_DRIVER_FREQ;
 	motors.desAlpha = sensorGyroA;
 	MotorUpdateEnc(); // to update start position

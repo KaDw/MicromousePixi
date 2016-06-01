@@ -112,21 +112,21 @@ void GyroInit(void){
 void GyroReadData(void){
 		prev_z = raw_z;
 		SpiRead(FXAS21002C_H_OUT_Z_MSB, 2);
-		raw_z = (int16_t)(SpiRxBuffer[0] << 8 | SpiRxBuffer[1]);
+		raw_z = -((int16_t)(SpiRxBuffer[0] << 8 | SpiRxBuffer[1]));
 		sensorGyroW = (float)(raw_z - cal_z);
 }
 /* Take 100 samples and average offset value*/
 void GyroCalibrate(uint32_t dt, uint16_t samples){
 	#ifdef DEBUG_MODE
 		printf_("Calibrating...\r\n");
-	#endif  
+	#endif
+	old_cal_z = cal_z;  
 	for(int i = 0; i < samples; i++){
 		GyroReadData();
-		cal_z += raw_z;
+		cal_z += -raw_z;
 		HAL_Delay(dt);
 	}
 	cal_z = cal_z/samples;
-	cal_z = old_cal_z;
 }
 
 /* Trapezoidal integration */

@@ -60,7 +60,7 @@ typedef enum
 #define MOTOR_VELV_KP					35.1f //20
 #define MOTOR_VELV_KI					6.60f // 11
 #define MOTOR_VELV_KD					0.0f // -0.01676
-#define MOTOR_VELW_KP					1000.0f
+#define MOTOR_VELW_KP					3000.0f
 #define MOTOR_VELW_KI					100.0f
 #define MOTOR_VELW_KD					0.0f
 //#define MOTOR_VELW_KP					8.0f
