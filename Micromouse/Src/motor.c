@@ -256,7 +256,7 @@ void MotorDriver()
 
 void MotorUpdate()
 {
-	GyroGetAngle(MOTOR_DRIVER_T);
+	GyroGetAngle(0.001); // time in secnods
 	MotorUpdateEnc();
 	//if(MotorUpdateStatus()) return;// return 1 when motor driver should be called
 	MotorUpdateVelocity();

@@ -112,8 +112,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
 	GyroInit();
-	GyroCalibrate(1, 100);
-HAL_TIM_Base_Start_IT(&htim6);
+	GyroCalibrate(0.001f, 100);
+//HAL_TIM_Base_Start_IT(&htim6);
 //MotorSetPWMRaw(200, 200);
 //for(int i = 0; i < 5000; ++i)
 //{
@@ -126,10 +126,10 @@ printf("\r\n\nvbat:%dmV\r\nCzekam na start\r\n", UI_BattValue());
 SensorOff();
 ENABLE_ENCODER();
 //ENABLE_GYRO();
-UI_WaitBtnL();
+//UI_WaitBtnL();
 HAL_Delay(600);
-GyroGetAngle(0.001);
-MotorRotR90A();
+//GyroGetAngle(0.001);
+//MotorRotR90A();
 //UI_WaitBtnL();
 //MotorGoA(500, 500, 500); //mm mm mm/s
 //UI_TimerUs(1e6f*MOTOR_DRIVER_T);
@@ -150,15 +150,15 @@ extern MotorsV motors;
 //		MotorTurn(90, 0, 300);
 		//UI_BattControl(); // nie jestem pewny tego sprawdzenia
 //		MotorTurnA(1, 1, 1);
-//		HAL_Delay(1);
-		//GyroGetAngle(1e6f*MOTOR_DRIVER_T);
+		HAL_Delay(1);
+		GyroGetAngle(0.001);
 		//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
-		UI_TimerUs(1e6*MOTOR_DRIVER_T);
+		//UI_TimerUs(1e6*MOTOR_DRIVER_T);
 		//GyroGetAngle(MOTOR_DRIVER_T);
 		//printf("Angle: %f\r\n", sensorGyroA);
-		MotorUpdate();
-		while(UI_TimerBusy())
-		{}
+		//MotorUpdate();
+//		while(UI_TimerBusy())
+//		{}
 			
 		/*if(SENS_RF + SENS_LF < 160) // gdy sciana z przodu
 		{
