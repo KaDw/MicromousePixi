@@ -116,17 +116,20 @@ void GyroReadData(void){
 		sensorGyroW = (float)(raw_z - cal_z);
 }
 /* Take 100 samples and average offset value*/
-void GyroCalibrate(uint32_t dt, uint16_t samples){
+void GyroCalibrate(float dt, uint16_t samples){
+	// for user comfort
+	dt*=1000; // get miliseconds
 	#ifdef DEBUG_MODE
 		printf_("Calibrating...\r\n");
 	#endif
 	old_cal_z = cal_z;  
 	for(int i = 0; i < samples; i++){
 		GyroReadData();
-		cal_z += -raw_z;
-		HAL_Delay(dt);
+		cal_z += raw_z;
+		HAL_Delay((uint32_t)dt);
 	}
 	cal_z = cal_z/samples;
+	old_cal_z = cal_z;
 }
 
 /* Trapezoidal integration */

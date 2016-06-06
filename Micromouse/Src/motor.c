@@ -257,7 +257,7 @@ void MotorDriver()
 
 void MotorUpdate()
 {
-	GyroGetAngle(MOTOR_DRIVER_T);
+	GyroGetAngle(0.001); // time in secnods
 	MotorUpdateEnc();
 	//if(MotorUpdateStatus()) return;// return 1 when motor driver should be called
 	MotorUpdateVelocity();
@@ -566,15 +566,6 @@ void MotorTurnA(int angle, int r, float vel)
 	}
 	MotorStop();
 	//int dist = r+HALF_WHEELBASE + r-HALF_WHEELBASE;
-<<<<<<< HEAD
-//	motors.distLeftV = 0;
-//	motors.distLeftW = angle*PI*0.0056f; // /180
-//	motors.targetV = 0;
-//	motors.targetW = vel/(abs(r)+HALF_WHEELBASE);
-//	motors.SbreakV = 0;//mmToTicks(2.0f*0.5f*vel*vel/MOTOR_ACC_V);
-//	motors.SbreakW = 0;//0.5f*motors.targetW*motors.targetW/MOTOR_ACC_W;
-}
-=======
 	motors.distLeftV = 0;
 	motors.distLeftW = angle*PI*0.00555555555555555555555555555556f; // /180
 	motors.targetV = 0;

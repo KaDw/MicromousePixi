@@ -89,7 +89,7 @@ uint8_t SpiRead(uint8_t address, uint8_t size);
 void SpiWrite(uint8_t address,uint8_t value);
 void GyroInit(void);
 void GyroReadData(void);
-void GyroCalibrate(uint32_t dt, uint16_t samples);
+void GyroCalibrate(float dt, uint16_t samples);
 float GyroIntegrate(float dt);
 float GyroGetAngle(float dt);
 //void GyroSelfTest();
