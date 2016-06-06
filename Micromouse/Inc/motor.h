@@ -60,8 +60,8 @@ typedef enum
 #define MOTOR_VELV_KP					35.1f //20
 #define MOTOR_VELV_KI					6.60f // 11
 #define MOTOR_VELV_KD					0.0f // -0.01676
-#define MOTOR_VELW_KP					3000.0f
-#define MOTOR_VELW_KI					100.0f
+#define MOTOR_VELW_KP					1500.0f
+#define MOTOR_VELW_KI					101.0f
 #define MOTOR_VELW_KD					0.0f
 //#define MOTOR_VELW_KP					8.0f
 //#define MOTOR_VELW_KI					1.0f
@@ -94,7 +94,7 @@ extern float sensorGyroW;
 typedef struct
 {
 	int16_t lastEnc, encChange;
-	int enc;
+	int enc, startEnc; // startEnc is assigned before turn
 	int PWM;
 } _MotorV;
 
@@ -105,7 +105,8 @@ typedef struct
 	float targetW, currentW, previousW; // rad/s
 	float errVP, errVI, errVD;
 	float errWP, errWI, errWD;
-	float desAlpha;
+	float desAlpha, encDiffVel;
+	float encDiff;
 	int timev, timew; // [T]
 	MotorStat status;
 } MotorsV;

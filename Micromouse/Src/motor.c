@@ -12,8 +12,8 @@ const float 	TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
 const float 	MOTOR_DRIVER_FREQ			= 1000.f; // Hz
 const float 	MOTOR_DRIVER_T				= 1.f/MOTOR_DRIVER_FREQ;
 const float 	MOTOR_EPSILON_W				= 0.08; /* acceptable rotation error in radians*/
-const int 		MOTOR_EPSILON 				= 15; /* acceptable position error - enc tick 15~1mm*/
-const int 		ONE_CELL_DISTANCE			= 2725; // ticks
+const int 		MOTOR_EPSILON 					= 15; /* acceptable position error - enc tick 15~1mm*/
+const int 		ONE_CELL_DISTANCE				= 2725; // ticks
 
 int MotorUpdateStatus(void);
 void MotorUpdateEncoder(void);
@@ -87,10 +87,18 @@ void MotorReset()
 	motors.targetW = motors.currentW = motors.errWI = motors.previousW = 0;
 }
 
+void MotorResetEnc(_MotorV* m)
+{
+	m->enc = 0;
+	m->encChange = 0;
+	m->lastEnc = 0;
+	m->PWM = 0;
+}
+
 void MotorInit()
 {
 	//todo: turn on timers
-	__HAL_TIM_PRESCALER(&MOTOR_HTIM, 4);
+	__HAL_TIM_PRESCALER(&MOTOR_HTIM, 3);
 	__HAL_TIM_SetAutoreload(&MOTOR_HTIM, MOTOR_MAX_PWM);
 	//power 0%
 	__HAL_TIM_SetCompare(&MOTOR_HTIM, MOTOR_CH_L, 0);
@@ -170,12 +178,13 @@ void MotorUpdateVelocity()
 	}
 }
 
+int PwmV, PwmW;
 void MotorDriver()
 {
 	float rotationalFeedback = 0; // right+ left-
 	float encoderVFeedback;
 	float errorV, errorW;
-	int PwmV, PwmW;
+	//int PwmV, PwmW;
 	int leftCh = motors.mot[0].encChange;
 	int rightCh = motors.mot[1].encChange;
 	
@@ -185,50 +194,53 @@ void MotorDriver()
 	
 	if(_motor_flag & FLAG_ENCODER)
 	{
-		if(leftCh != rightCh)
-		{
-			float alpha = 0.5f*(leftCh-rightCh)/(TICKS_PER_MM*HALF_WHEELBASE); // rad
-			float encoderWFeedback = alpha;  // rad
-			rotationalFeedback += encoderWFeedback;
-		}
+		if(motors.targetW != 0)
+			motors.encDiff += motors.encDiffVel * MOTOR_DRIVER_T * motors.currentW / motors.targetW; // nie moze byc V, bo jest = 0
+		else
+			motors.encDiff = 0;
+		// 
+				rotationalFeedback += (leftCh - rightCh) / TICKS_PER_MM;
+//		if(motors.targetW != 0)
+//			rotationalFeedback += (leftCh - rightCh) * motors.currentW / motors.targetW / TICKS_PER_MM;//(motors.mot[0].enc-motors.mot[0].startEnc) - (motors.mot[1].enc-motors.mot[1].startEnc) + motors.encDiff;
+//		else if(motors.previousW != 0)
+//			rotationalFeedback += (leftCh - rightCh) * motors.currentW / motors.previousW / TICKS_PER_MM;
+//		if(leftCh != rightCh)
+//		{
+//			float alpha = 0.5f*(leftCh-rightCh)/(TICKS_PER_MM*HALF_WHEELBASE); // rad
+//			float encoderWFeedback = alpha;  // rad
+//			rotationalFeedback += encoderWFeedback;
+//		}
 	}
 	
 	if(_motor_flag & FLAG_GYRO)
 	{
 		//rotationalFeedback += (-sensorGyroW)*MOTOR_DRIVER_T*PI*0.00277777777777777777777777777778f; // /360
-		motors.desAlpha += motors.currentW*MOTOR_DRIVER_T*180.f/PI; // deg to rad
-		rotationalFeedback += motors.desAlpha - (-sensorGyroA);
+		motors.desAlpha += motors.currentW*MOTOR_DRIVER_T*180.f/PI - (-sensorGyroA);
 	}
 	
-	if(_motor_flag & FLAG_SENSOR)
-	{ // 1100 LMiddleValue 920 RMiddleValue
-		float sensorFeedback = 0;//sensorError/a_scale;
-		if(SENS_RS < 60)
-				sensorFeedback = (float)(SENS_RS) - 30;
-//		else if(sens[2] > 1100)
-//			sensorFeedback = 1100 - sens[2];
-//		else if(sens[3] > 920)
-//			sensorFeedback = sens[3] - 920;
-//		else
-//			sensorFeedback = sens[2] - sens[3];
-		rotationalFeedback -= 1*sensorFeedback;
-	}
-
+		
 	// == decrement movement timer ==
 	if(motors.timev > 0)
 		--motors.timev;
 	else if(motors.targetV != 0)
+	{
+		motors.previousV = motors.targetV;
 		motors.targetV = 0;
+	}
 	
 	if(motors.timew > 0)
 		--motors.timew;
 	else if(motors.targetW != 0)
+	{
+		motors.previousW = motors.targetW;
 		motors.targetW = 0;
+		motors.encDiffVel = 0;
+	}
 	
 	
 	// == error calc == 
 	errorV = motors.currentV*MOTOR_DRIVER_T*TICKS_PER_MM - encoderVFeedback; // [mm/s]*T -> imp
-	errorW = motors.currentW*MOTOR_DRIVER_T							 - rotationalFeedback;
+	errorW = motors.encDiffVel*MOTOR_DRIVER_T						 - rotationalFeedback;
 	
 	motors.errVD = errorV - motors.errVP;
 	motors.errWD = errorW - motors.errWP;
@@ -237,34 +249,26 @@ void MotorDriver()
 	motors.errVP = errorV;
 	motors.errWP = errorW;
 	
+	// == pwm calc == 
 	PwmV = (int)(MOTOR_VELV_KP*errorV + MOTOR_VELV_KI*motors.errVI + MOTOR_VELV_KD*motors.errVD);
 	PwmW = (int)(MOTOR_VELW_KP*errorW + MOTOR_VELW_KI*motors.errWI + MOTOR_VELW_KD*motors.errWD);
 	
-	// == I limitation == 
-	//if((PwmV < -MOTOR_MAX_PWM) || (MOTOR_MAX_PWM < PwmV))
-	//	motors.errVI -= errorV;
-	//if((PwmW < -MOTOR_MAX_PWM) || (MOTOR_MAX_PWM < PwmW))
-	//	motors.errWI -= errorW;
-	
-	//printf("%d\t %d\t snes:%f\t feedW:%f\t rot:%f\r\n",SENS_L, SENS_R, sensorFeedback, rotationalFeedback, errorW);
-	//printf("%d\t %d\r\n",SENS_L, SENS_R);
 		
 	motors.mot[0].PWM = PwmV + PwmW;
 	motors.mot[1].PWM = PwmV - PwmW;
-	
-	//printf("tV:%f\t cV:%f\tDV:%d\tDW:%f\tcW:%f\ttW:%f\r\n", motors.targetV, motors.currentV, motors.distLeftV, motors.distLeftW, motors.currentW, motors.targetW);
 }
 
 void MotorUpdate()
 {
-	GyroGetAngle(0.001); // time in secnods
+	GyroGetAngle(MOTOR_DRIVER_T);
 	MotorUpdateEnc();
-	//if(MotorUpdateStatus()) return;// return 1 when motor driver should be called
 	MotorUpdateVelocity();
 	MotorDriver();
 	MotorSetPWM();
 }
 
+
+// movement functions
 void MotorFindParams(float previousV, float* v, float dist, float acc, int* time)
 {
 	float vel = *v;
@@ -289,7 +293,7 @@ void MotorFindParams(float previousV, float* v, float dist, float acc, int* time
 void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 {		
 	MotorFindParams(motors.previousV, &vel, 0.5f*(left+right), MOTOR_ACC_V, &motors.timev);
-	motors.targetV = vel;
+	motors.targetV = vel * (left + right) / (abs(left)+abs(right));
 	
 	// calc W speed
 	if(left != right)
@@ -298,6 +302,12 @@ void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 		float w = a * vel * 2.f / (abs(left)+abs(right)); // [rad/s] = rad * [mm/s] / mm
 		MotorFindParams(motors.previousW, &w, a, MOTOR_ACC_W, &motors.timew);
 		motors.targetW = w;
+		//
+		motors.encDiff = 0;
+		if(abs(left) > abs(right))
+			motors.encDiffVel = (left - right) * vel / abs(left);
+		else 
+			motors.encDiffVel = (left - right) * vel / abs(right);
 	}
 	else
 		motors.targetW = 0;
@@ -328,12 +338,19 @@ void MotorTurnA(int angle, int r, float vel)
 
 void MotorRotR90A()
 {
-	motors.targetV = 0;
+	int left = 100*TICKS_PER_MM;
+	int right = 0*TICKS_PER_MM;
+	int vel = 500;
+	motors.targetV = vel * (left + right) / (abs(left)+abs(right));
 	motors.timev = 0;
-	motors.targetW = 50.f; 
-	motors.timew = 3*0.5605f*MOTOR_DRIVER_FREQ;
+	motors.targetW = 50.f;
+	motors.timew = 0.5605f*MOTOR_DRIVER_FREQ;
 	motors.desAlpha = sensorGyroA;
-	MotorUpdateEnc(); // to update start position
+	motors.encDiff = 0;
+	motors.encDiffVel = vel * (left - right) / (abs(left)>abs(right) ? left : right);
+	MotorUpdateEnc();
+	motors.mot[0].startEnc = motors.mot[0].enc;
+	motors.mot[1].startEnc = motors.mot[1].enc;
 }
 
 
@@ -566,6 +583,15 @@ void MotorTurnA(int angle, int r, float vel)
 	}
 	MotorStop();
 	//int dist = r+HALF_WHEELBASE + r-HALF_WHEELBASE;
+<<<<<<< HEAD
+//	motors.distLeftV = 0;
+//	motors.distLeftW = angle*PI*0.0056f; // /180
+//	motors.targetV = 0;
+//	motors.targetW = vel/(abs(r)+HALF_WHEELBASE);
+//	motors.SbreakV = 0;//mmToTicks(2.0f*0.5f*vel*vel/MOTOR_ACC_V);
+//	motors.SbreakW = 0;//0.5f*motors.targetW*motors.targetW/MOTOR_ACC_W;
+}
+=======
 	motors.distLeftV = 0;
 	motors.distLeftW = angle*PI*0.00555555555555555555555555555556f; // /180
 	motors.targetV = 0;
@@ -610,27 +636,9 @@ void MotorTurn(int angle, int r, float vel)
 	{
 		MotorSetPWMRaw(300, -300);
 	}
-	else if(sensorGyroA > angle)
+	
+	if(sensorGyroA > angle)
 		MotorStop();
-//	motors.status = MOTOR_ELSE;
-//	if(angle > 0)
-//		MotorSetPWMRaw(300, -300);
-//	else
-//		MotorSetPWMRaw(-300, 300);
-//	
-//	UI_DelayUs(55000);
-//	
-//	if(angle > 0)
-//		MotorSetPWMRaw(100, -100);
-//	else
-//		MotorSetPWMRaw(-100, 100);
-//	
-//	UI_DelayUs(60000);
-//	MotorSetPWMRaw(0, 0);
-//	UI_DelayUs(60000);
-//	UI_DelayUs(60000);
-//	MotorStop();
-//	motors.status = MOTOR_STOPPED;
 //	MotorTurnA(angle, r, vel);
 //	while(motors.distLeftV > MOTOR_EPSILON)
 //	{

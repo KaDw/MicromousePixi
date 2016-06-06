@@ -124,18 +124,12 @@ printf("\r\n\nvbat:%dmV\r\nCzekam na start\r\n", UI_BattValue());
 //ENABLE_GYRO();
 //ENABLE_SENSOR();
 SensorOff();
-<<<<<<< HEAD
-//ENABLE_ENCODER();
-ENABLE_GYRO();
-UI_WaitBtnL();
-=======
 ENABLE_ENCODER();
 //ENABLE_GYRO();
-//UI_WaitBtnL();
->>>>>>> 8f3bd8ecea3e4bb6d487dd1c9a4e2741e8df5088
+UI_WaitBtnL();
 HAL_Delay(600);
 //GyroGetAngle(0.001);
-//MotorRotR90A();
+MotorRotR90A();
 //UI_WaitBtnL();
 //MotorGoA(500, 500, 500); //mm mm mm/s
 //UI_TimerUs(1e6f*MOTOR_DRIVER_T);
@@ -156,15 +150,12 @@ extern MotorsV motors;
 //		MotorTurn(90, 0, 300);
 		//UI_BattControl(); // nie jestem pewny tego sprawdzenia
 //		MotorTurnA(1, 1, 1);
-		HAL_Delay(1);
-		GyroGetAngle(0.001);
 		//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
-		//UI_TimerUs(1e6*MOTOR_DRIVER_T);
-		//GyroGetAngle(MOTOR_DRIVER_T);
-		//printf("Angle: %f\r\n", sensorGyroA);
-		//MotorUpdate();
-//		while(UI_TimerBusy())
-//		{}
+		UI_TimerUs(1e6*MOTOR_DRIVER_T);
+		GyroGetAngle(MOTOR_DRIVER_T);
+		MotorUpdate();
+		while(UI_TimerBusy())
+		{}
 			
 		/*if(SENS_RF + SENS_LF < 160) // gdy sciana z przodu
 		{
