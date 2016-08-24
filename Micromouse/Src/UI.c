@@ -8,7 +8,7 @@ void UI_InitDelayUs(void);
 void UI_Init()
 {
 	MX_USART1_UART_Init();
-	UI_InitBeep();
+	//UI_InitBeep();
 	UI_InitLeds();
 	//UI_InitBattControl();
 	UI_InitDelayUs();
@@ -35,9 +35,9 @@ void UI_InitBeep()
 	TIM1->CR1 |= TIM_CR1_DIR | TIM_CR1_OPM; // downcounter, one pulse mode
 	TIM1->CR2 = TIM_CR2_MMS_0; // ENABLE is used as TRGO
 	TIM1->ARR = 5500; // duration*/
-	TIM1->PSC = 168e6/1e3;
+	TIM1->PSC = 84e6/1e3; // 1ms
 	TIM1->SMCR = TIM_SMCR_MSM; // master/slave mode
-	// wlacz UEV interrupt to set TIM2->CNT = 0 albo 0xffff ==> celar SR_UIF
+	// enable UEV interrupt to set TIM2->CNT = 0 or 0xffff ==> celar SR_UIF
 	TIM1->DIER = TIM_DIER_UIE;
 	//NVIC_EnableIRQ(TIM1_UP_TIM10_IRQHandler);
 	
@@ -94,13 +94,14 @@ void UI_InitDelayUs()
 	TIM7->CR1 = TIM_CR1_OPM;
 }
 
-
+/* time in miliseconds */
 void UI_Beep(int time, int freq)
 {
 	//freq to TIM2
 	TIM2->EGR |= TIM_EGR_UG;
 	TIM2->PSC = 14e2 / freq + 1;
 	TIM2->CR1 |= TIM_CR1_CEN;
+	
 	
 	//time to TIM1
 	TIM1->EGR |= TIM_EGR_UG;
@@ -193,6 +194,7 @@ void UI_DelayUs(uint16_t us)
 	TIM7->CNT = 1;
 	TIM7->ARR = us;
 	TIM7->CR1 |= TIM_CR1_CEN;
+	
 	while(TIM7->CNT != 0)
 	{}
 }

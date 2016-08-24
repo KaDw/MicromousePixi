@@ -21,6 +21,15 @@ extern UART_HandleTypeDef huart1;
 #define UI_LED_GREEN	LED1_Pin
 #define UI_LED_YELLOW	LED2_Pin
 
+/* Buzzer music */
+#define  ui_c     261    // 261 Hz 
+#define  ui_d     294   // 294 Hz 
+#define  ui_e     329    // 329 Hz 
+#define  ui_f     349    // 349 Hz 
+#define  ui_g     392    // 392 Hz 
+#define  ui_a     440    // 440 Hz 
+#define  ui_b     493    // 493 Hz 
+#define  ui_C     523    // 523 Hz 
 
 void UI_Init(void);
 void UI_InitBeep(void);

@@ -50,18 +50,20 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+#define TXBUFFERSIZE 20
 
 /* Private variables ---------------------------------------------------------*/
 /* ADC */
 float sum;
 uint32_t adc = 4000;
 uint8_t Tx_buf = 0x0C;
+uint8_t aTxBuffer[] = "abcd\n";
 uint8_t Rx_buf = 0xFF; 
-uint16_t prevL;
-uint16_t prevR;
-uint16_t currL;
-uint16_t currR;
+uint8_t init_flag = 0;
+//uint16_t prevL;
+//uint16_t prevR;
+//uint16_t currL;
+//uint16_t currR;
 uint16_t cnt;
 extern volatile uint8_t count;
 
@@ -75,7 +77,7 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-uint16_t calSensor[4];
+//uint16_t calSensor[4];
 /* USER CODE END 0 */
 
 int main(void)
@@ -106,32 +108,30 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	MotorInit();
   UI_Init();
+	GyroInit();
+	GyroCalibrate(0.001, 100);
+	//HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
-	GyroInit();
-	GyroCalibrate(0.001f, 100);
-//HAL_TIM_Base_Start_IT(&htim6);
-//MotorSetPWMRaw(200, 200);
+//MotorSetPWMRaw(50, 50);
 //for(int i = 0; i < 5000; ++i)
 //{
 //	printf_("%d %d\r\n", EncL, EncR);
 //	HAL_Delay(1);
 //}
-printf("\r\n\nvbat:%dmV\r\nCzekam na start\r\n", UI_BattValue());
+//printf("\r\n\nvbat:%dmV\r\nCzekam na start\r\n", UI_BattValue());
 //ENABLE_GYRO();
 //ENABLE_SENSOR();
 SensorOff();
 ENABLE_ENCODER();
 //ENABLE_GYRO();
-UI_WaitBtnL();
-HAL_Delay(600);
-//GyroGetAngle(0.001);
-MotorRotR90A();
 //UI_WaitBtnL();
-//MotorGoA(500, 500, 500); //mm mm mm/s
+//HAL_Delay(600);
+//MotorRotR90A();
+//UI_WaitBtnL();
+//MotorGoA(500, 500, 50); //mm mm mm/s
 //UI_TimerUs(1e6f*MOTOR_DRIVER_T);
 //		GyroGetAngle(0.001);
 //		adc = TIM7->CNT;
@@ -143,19 +143,22 @@ MotorRotR90A();
 //Sort(&sensor[0]);
 //adc = TIM7->CNT;
 //printf("Removing pepper noise: %dus\r\n", adc-1);
+HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+init_flag = 1;
+
 extern MotorsV motors; 
   while (1)
   {	
-//		GyroGetAngle(0.001);
+		//GyroGetAngle(0.001);
 //		MotorTurn(90, 0, 300);
 		//UI_BattControl(); // nie jestem pewny tego sprawdzenia
 //		MotorTurnA(1, 1, 1);
 		//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
-		UI_TimerUs(1e6*MOTOR_DRIVER_T);
-		GyroGetAngle(MOTOR_DRIVER_T);
-		MotorUpdate();
-		while(UI_TimerBusy())
-		{}
+		//UI_TimerUs(1e6*MOTOR_DRIVER_T);
+		//GyroGetAngle(MOTOR_DRIVER_T);
+		//MotorUpdate();
+		//while(UI_TimerBusy())
+		//{}
 			
 		/*if(SENS_RF + SENS_LF < 160) // gdy sciana z przodu
 		{
@@ -170,10 +173,20 @@ extern MotorsV motors;
 			UI_DelayUs(600);
 			MotorGoA(300, 300, 400);
 		}*/
-		// predkosc spi jest troche powyzej maksymalnej z noty( 2MHz, jest 2,6MHz) ale dziala
-//		UI_DelayUs(1000);
 //		GyroGetAngle(0.001);
-		//printf("%f\r\n", GyroGetAngle(0.001));
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
+		HAL_UART_Transmit_DMA(&huart1, aTxBuffer, 5);
+		//printf("%f\r\n", GyroGetAngle(0.0013));
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+		
+		//UI_LedOnAll();
+		
+		//HAL_Delay(2000);
+		//UI_LedOffAll();
+//		UI_LedOffAll();
+		HAL_Delay(500);
 //		adc = TIM7->CNT;
 //		printf("MotorUpdate: %dus\r\n", adc-1);
 //		if(TIM7->CNT > 30)
@@ -241,6 +254,12 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+//void HAL_SYSTICK_Callback(){
+//	if(init_flag){
+//		GyroGetAngle(0.001);
+//	}
+//}
+
 
 // Bluetooth manual mode
 //void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){

@@ -1,6 +1,7 @@
 #include "spi.h"
 #include "fxas21002c.h"
 #include "gpio.h"
+#include "UI.h"
 
 /*
 TODO:
@@ -41,16 +42,19 @@ uint8_t SpiRead(uint8_t address, uint8_t size){
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_RESET); // CS LOW
 	/* Setup time for SPI_CS_B signal 250ns*/
 	HAL_SPI_TransmitReceive_DMA(&hspi3, &address, SpiRxBuffer, 1);
-  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
-	while ((SPI3->SR & SPI_FLAG_BSY));
+	while (HAL_SPI_GetState(&hspi3) != HAL_SPI_STATE_READY); // fancy HAL way
+	// this is faster
+//  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
+//	while ((SPI3->SR & SPI_FLAG_BSY));
 	// for multi-read mode
 	for(int i = 0; i < size; i++){
 		HAL_SPI_TransmitReceive_DMA(&hspi3, &a, &SpiRxBuffer[i], 1);
-	
-	  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
-		while ((SPI3->SR & SPI_FLAG_BSY)); // shouldnt be here
+	  while (HAL_SPI_GetState(&hspi3) != HAL_SPI_STATE_READY); // fancy HAL way
+		// this is faster
+//	  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
+//		while ((SPI3->SR & SPI_FLAG_BSY)); // shouldnt be here
 	}
-	while ((SPI3->SR & SPI_FLAG_BSY)); // check BUSY flag
+	//while ((SPI3->SR & SPI_FLAG_BSY)); // check BUSY flag
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_SET); // CS HIGH
 	return *SpiRxBuffer;
 }
@@ -62,12 +66,13 @@ void SpiWrite(uint8_t address, uint8_t value){
 	// MSB is 0 + address
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_RESET); // CS LOW
 	HAL_SPI_TransmitReceive_DMA(&hspi3, &address, SpiRxBuffer, 1);
-  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
-	while ((SPI3->SR & SPI_FLAG_BSY));
+  //while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
+	//while ((SPI3->SR & SPI_FLAG_BSY));
+	while (HAL_SPI_GetState(&hspi3) != HAL_SPI_STATE_READY); 
 	HAL_SPI_TransmitReceive_DMA(&hspi3, &value, SpiRxBuffer, 1);
-	
-	while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
-  while ((SPI3->SR & SPI_FLAG_BSY)); // check BUSY flag
+	while (HAL_SPI_GetState(&hspi3) != HAL_SPI_STATE_READY); 
+	//while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
+  //while ((SPI3->SR & SPI_FLAG_BSY)); // check BUSY flag
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_SET); // CS HIGH
 }
 
@@ -98,11 +103,11 @@ void GyroInit(void){
 		//SpiWrite(FXAS21002C_H_CTRL_REG0, (GFS_250DPS | 0x3)); // set Full-scale range, enable high pass filter
 		//SpiWrite(FXAS21002C_H_CTRL_REG1, 0x40); // Reset all registers to POR values
 		//SpiRead(FXAS21002C_H_CTRL_REG1, 1);
-		HAL_Delay(1);
+		UI_DelayUs(1);
 		//SpiWrite(FXAS21002C_H_CTRL_REG2, (1<<3)|(1<<4)); // interrupt active low, enable, INT1
 	  SpiWrite(FXAS21002C_H_CTRL_REG0, (GFS_250DPS)); // set FSR  
 		SpiWrite(FXAS21002C_H_CTRL_REG1, (GODR_800HZ |  MODE_ACTIVE));  // set ODR and switch to active mode  
-		HAL_Delay(50);
+		UI_DelayUs(50);
 
 		#ifdef DEBUG_MODE
 			printf_("Ready\r\n");
@@ -126,7 +131,7 @@ void GyroCalibrate(float dt, uint16_t samples){
 	for(int i = 0; i < samples; i++){
 		GyroReadData();
 		cal_z += raw_z;
-		HAL_Delay((uint32_t)dt);
+		UI_DelayUs((uint16_t)dt);
 	}
 	cal_z = cal_z/samples;
 	old_cal_z = cal_z;
@@ -138,7 +143,8 @@ float GyroIntegrate(float dt){
 	a1 = ((((float)(prev_z-cal_z)+(raw_z-cal_z))*0.5f)*dt*0.0078125f) + a1;
 	return a1;
 }
-/* Call this function to get angle */
+/* Call this function to get angle 
+	This function takes 33us to complete */
 float GyroGetAngle(float dt){
 	GyroReadData();
 	sensorGyroA = GyroIntegrate(dt); 

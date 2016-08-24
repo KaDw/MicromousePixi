@@ -39,6 +39,7 @@
 #include "sensor.h"
 #include "UI.h"
 #include "motor.h"
+#include "fxas21002c.h"
 
 volatile uint16_t count = 0;
 
@@ -50,6 +51,7 @@ extern DMA_HandleTypeDef hdma_spi3_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
 extern TIM_HandleTypeDef htim6;
 extern DMA_HandleTypeDef hdma_usart1_rx;
+extern DMA_HandleTypeDef hdma_usart1_tx;
 extern UART_HandleTypeDef huart1;
 
 /******************************************************************************/
@@ -166,15 +168,15 @@ void EXTI15_10_IRQHandler(void)
 //	HAL_ADC_Start(&hadc1);
 //	bat = HAL_ADC_GetValue(&hadc1);
 //	
-//	//todo: tutaj zczytuje 2 razy to samo
+//	//todo: tutaj zaczytuje 2 razy to samo
 //	//temp
 //	ADC1->SQR3 = ADC_CHANNEL_9; // channel to be converted
 //	HAL_ADC_Start(&hadc1);
 //	temp = HAL_ADC_GetValue(&hadc1);
 //	
 //	printf_("bat:%d  temp:%d\n", bat, temp);
-//  /* USER CODE END EXTI15_10_IRQn 0 */
-//  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
   /* USER CODE END EXTI15_10_IRQn 1 */
@@ -187,6 +189,7 @@ void TIM6_DAC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
+	HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
 		switch(count){
 		case 1: 
 			ADCreadAmbient(); // read ambient light
@@ -258,12 +261,21 @@ void TIM6_DAC_IRQHandler(void)
 			sensor[4].sens = Sort(sensor[4]) - cal[4];
 			sensor[5].sens = Sort(sensor[5]) - cal[5];
 		break;
+		case 20:
+			HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
+			//GyroGetAngle(0.001);
+			HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+		break;
 	}
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 		
 		++count;
 		
-		if(count >= 50)
+		if(count >= 50){
+			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 			count = 0;
+		}
+
 		
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
@@ -298,6 +310,20 @@ void DMA2_Stream2_IRQHandler(void)
   /* USER CODE BEGIN DMA2_Stream2_IRQn 1 */
 
   /* USER CODE END DMA2_Stream2_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA2 stream7 global interrupt.
+*/
+void DMA2_Stream7_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream7_IRQn 0 */
+
+  /* USER CODE END DMA2_Stream7_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_tx);
+  /* USER CODE BEGIN DMA2_Stream7_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream7_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

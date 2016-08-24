@@ -90,8 +90,8 @@
 #define MR_IN2_GPIO_Port GPIOC
 #define BT_TX_Pin GPIO_PIN_9
 #define BT_TX_GPIO_Port GPIOA
-#define BT_TXA10_Pin GPIO_PIN_10
-#define BT_TXA10_GPIO_Port GPIOA
+#define BT_RX_Pin GPIO_PIN_10
+#define BT_RX_GPIO_Port GPIOA
 #define BTN2_Pin GPIO_PIN_15
 #define BTN2_GPIO_Port GPIOA
 #define CS_G_Pin GPIO_PIN_3

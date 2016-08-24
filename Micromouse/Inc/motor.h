@@ -14,7 +14,7 @@
 #define PI  3.1415926535f
 
 // position controller
-#define MOTOR_MAX_PWM					1000
+#define MOTOR_MAX_PWM					250
 #define MAX_ANGULAR_VEL				200.7f //rad/s
 #define WHEEL_DIAMETER 				37.0f /* mm*/
 #define MOTOR_SLOW_TICK				200

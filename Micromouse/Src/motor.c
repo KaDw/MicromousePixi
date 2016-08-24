@@ -1,8 +1,3 @@
-//
-//
-//
-//
-
 #include "motor.h"
 #include "sensor.h"
 #include "fxas21002c.h"
