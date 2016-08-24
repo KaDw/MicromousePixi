@@ -191,13 +191,20 @@ void MotorDriver()
 	{
 		if(motors.targetW != 0)
 			motors.encDiff += motors.encDiffVel * MOTOR_DRIVER_T * motors.currentW / motors.targetW; // nie moze byc V, bo jest = 0
-
-		if(leftCh != rightCh)
-		{
-			float alpha = (leftCh-rightCh)/(TICKS_PER_MM*WHEELBASE); // rad
-			float encoderWFeedback = alpha;  // rad
-			rotationalFeedback += encoderWFeedback;
-		}
+		else
+			motors.encDiff = 0;
+		// 
+				rotationalFeedback += (leftCh - rightCh) / TICKS_PER_MM;
+//		if(motors.targetW != 0)
+//			rotationalFeedback += (leftCh - rightCh) * motors.currentW / motors.targetW / TICKS_PER_MM;//(motors.mot[0].enc-motors.mot[0].startEnc) - (motors.mot[1].enc-motors.mot[1].startEnc) + motors.encDiff;
+//		else if(motors.previousW != 0)
+//			rotationalFeedback += (leftCh - rightCh) * motors.currentW / motors.previousW / TICKS_PER_MM;
+//		if(leftCh != rightCh)
+//		{
+//			float alpha = 0.5f*(leftCh-rightCh)/(TICKS_PER_MM*HALF_WHEELBASE); // rad
+//			float encoderWFeedback = alpha;  // rad
+//			rotationalFeedback += encoderWFeedback;
+//		}
 	}
 	
 	if(_motor_flag & FLAG_GYRO)
@@ -326,13 +333,13 @@ void MotorTurnA(int angle, int r, float vel)
 
 void MotorRotR90A()
 {
-	int left = 100; // mm
-	int right = 0;
+	int left = 100*TICKS_PER_MM;
+	int right = 0*TICKS_PER_MM;
 	int vel = 500;
 	motors.targetV = vel * (left + right) / (abs(left)+abs(right));
 	motors.timev = 0;
-	motors.targetW = 0.1f;//vel * (left - right) / (abs(left)>abs(right) ? left : right) / WHEELBASE;//50.f;
-	motors.timew = PI*0.5f/motors.targetW*MOTOR_DRIVER_FREQ;//0.5605f*MOTOR_DRIVER_FREQ;
+	motors.targetW = 50.f;
+	motors.timew = 0.5605f*MOTOR_DRIVER_FREQ;
 	motors.desAlpha = sensorGyroA;
 	motors.encDiff = 0;
 	motors.encDiffVel = vel * (left - right) / (abs(left)>abs(right) ? left : right);
@@ -597,6 +604,18 @@ void MotorGo(int left, int right, float vel)
 		UI_DelayUs(990);
 	}	
 	MotorStop();
+}
+
+
+
+void Turn90C(){
+	// ang_vel to ticks/ms
+	//float ticks = WHEELBASE*vel*PI*ONE_CELL_DISTANCE/180/180/1000;
+	UI_TimerUs(1e6f*MOTOR_DRIVER_T);
+	if(TIM7->CNT < 180) // T1 + T2
+		motors.targetW = MAX_ANGULAR_VEL;
+	else if(TIM7->CNT > 180) // T3
+		motors.targetW = 0;
 }
 
 void MotorTurn(int angle, int r, float vel)
