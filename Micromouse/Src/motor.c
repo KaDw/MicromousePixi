@@ -255,7 +255,7 @@ void MotorDriver()
 
 void MotorUpdate()
 {
-	GyroGetAngle(MOTOR_DRIVER_T);
+	//GyroGetAngle(MOTOR_DRIVER_T);
 	MotorUpdateEnc();
 	MotorUpdateVelocity();
 	MotorDriver();

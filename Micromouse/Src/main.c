@@ -143,7 +143,7 @@ ENABLE_ENCODER();
 //Sort(&sensor[0]);
 //adc = TIM7->CNT;
 //printf("Removing pepper noise: %dus\r\n", adc-1);
-HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 init_flag = 1;
 
 extern MotorsV motors; 

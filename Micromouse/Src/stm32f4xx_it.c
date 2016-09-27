@@ -260,13 +260,23 @@ void TIM6_DAC_IRQHandler(void)
 			sensor[5].buf[2] = read[3];
 			sensor[4].sens = Sort(sensor[4]) - cal[4];
 			sensor[5].sens = Sort(sensor[5]) - cal[5];
-		break;
+			break;
 		case 20:
-			HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
-			//GyroGetAngle(0.001);
-			HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
-		break;
+			HAL_TIM_Base_Stop(&htim6); // hang up for gyro read
+			// reading form gyro takes 33us
+			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
+			GyroGetAngle(0.001);
+			UI_DelayUs(6);
+			HAL_TIM_Base_Start(&htim6);
+			++count; // we need 2x 20us, counter should be increased by 2
+			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+			break;
+		
+		case 21:
+			
+			break;
 	}
+			
 		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 		
 		++count;
