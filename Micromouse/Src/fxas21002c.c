@@ -5,12 +5,10 @@
 
 /*
 TODO:
-fix sensitivity
 get dt using timer
 */
 
 
-//#define DEBUG_MODE
 // SPI buffers
 uint8_t SpiRxBuffer[2];
 volatile uint16_t dt;
@@ -44,27 +42,28 @@ uint8_t SpiRead(uint8_t address, uint8_t size){
 	HAL_SPI_TransmitReceive_DMA(&hspi3, &address, SpiRxBuffer, 1);
 	while (HAL_SPI_GetState(&hspi3) != HAL_SPI_STATE_READY); // fancy HAL way
 	// this is faster
-//  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
-//	while ((SPI3->SR & SPI_FLAG_BSY));
+	//  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
+	//	while ((SPI3->SR & SPI_FLAG_BSY));
 	// for multi-read mode
+	
+		/* before entering HAL_SPI_Transmit we must esnure that SPI is ready 
+		 (TXE buffer empty, BSY flag). Otherwise HAL will return error and the transmission never happens */
 	for(int i = 0; i < size; i++){
 		HAL_SPI_TransmitReceive_DMA(&hspi3, &a, &SpiRxBuffer[i], 1);
 	  while (HAL_SPI_GetState(&hspi3) != HAL_SPI_STATE_READY); // fancy HAL way
 		// this is faster
-//	  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
-//		while ((SPI3->SR & SPI_FLAG_BSY)); // shouldnt be here
+	//	  while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
+	//		while ((SPI3->SR & SPI_FLAG_BSY)); // shouldnt be here
 	}
-	//while ((SPI3->SR & SPI_FLAG_BSY)); // check BUSY flag
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_SET); // CS HIGH
 	return *SpiRxBuffer;
 }
 
 
 void SpiWrite(uint8_t address, uint8_t value){
-	/* Write: MSB is 0*/
 	/* Setup time for SPI_CS_B signal 250ns*/
-	// MSB is 0 + address
 	HAL_GPIO_WritePin(GPIOB, CS_G_Pin, GPIO_PIN_RESET); // CS LOW
+	/* Write mode mask: 0b0000000 */
 	HAL_SPI_TransmitReceive_DMA(&hspi3, &address, SpiRxBuffer, 1);
   //while (!(SPI3->SR & SPI_FLAG_TXE)); // check if transmit buffer has been shifted out
 	//while ((SPI3->SR & SPI_FLAG_BSY));
@@ -80,22 +79,16 @@ void SpiWrite(uint8_t address, uint8_t value){
 
 void GyroInit(void){
 	/* Gyro is now in Standby mode every register 
-			changes should be made in this mode
-	*/
-	// this shouldnt be here, HAL
+			changes should be made in this mode */
+	
+	// this shouldnt be here, HAL messed up
 	SpiRead(FXAS21002C_H_WHO_AM_I, 1); //  dummy read for clk synchronization
 	
 	// check connection by reading whoami register, it should always be 0xD7
 	if(SpiRead(FXAS21002C_H_WHO_AM_I, 1) != 0xD7){
-		#ifdef DEBUG_MODE
-			printf_("Unable to communicate with gyro\r\n");
-		#endif
 		return;
 	}
-//		I2C_WriteRegister(FXAS21002C_I2C_ADDRESS, GYRO_CTRL_REG1, 0x40);     // Reset all registers to POR values
-//    I2C_WriteRegister(FXAS21002C_I2C_ADDRESS, GYRO_CTRL_REG0, 0x03);     // High-pass filter disabled, +/-250 dps range -> 7.8125 mdps/LSB = 128 LSB/dps
-//    I2C_WriteRegister(FXAS21002C_I2C_ADDRESS, GYRO_CTRL_REG2, 0x0C);     // Enable DRDY interrupt, routed to INT1 - PTA5, push-pull, active low interrupt
-//    I2C_WriteRegister(FXAS21002C_I2C_ADDRESS, GYRO_CTRL_REG1, 0x16);     // ODR = 25Hz, Active mode       
+  
 		//SpiWrite(FXAS21002C_H_CTRL_REG0, 0x03); // High-pass filter disabled, +/-250 dps range -> 7.8125 mdps/LSB = 128 LSB/dps
 		//SpiWrite(FXAS21002C_H_CTRL_REG2, 0x0C); // Enable DRDY interrupt, routed to INT1 - PTA5, push-pull, active low interrupt
 		//SpiWrite(FXAS21002C_H_CTRL_REG1, GODR_200HZ); // set Output Data Rate 
@@ -106,12 +99,8 @@ void GyroInit(void){
 		UI_DelayUs(1);
 		//SpiWrite(FXAS21002C_H_CTRL_REG2, (1<<3)|(1<<4)); // interrupt active low, enable, INT1
 	  SpiWrite(FXAS21002C_H_CTRL_REG0, (GFS_250DPS)); // set FSR  
-		SpiWrite(FXAS21002C_H_CTRL_REG1, (GODR_800HZ |  MODE_ACTIVE));  // set ODR and switch to active mode  
+		SpiWrite(FXAS21002C_H_CTRL_REG1, (GODR_800HZ |  MODE_ACTIVE));  // ODR = 800Hz, switch to active mode  
 		UI_DelayUs(50);
-
-		#ifdef DEBUG_MODE
-			printf_("Ready\r\n");
-		#endif 
 }
 
 void GyroReadData(void){
@@ -124,9 +113,7 @@ void GyroReadData(void){
 void GyroCalibrate(float dt, uint16_t samples){
 	// for user comfort
 	dt*=1000; // get miliseconds
-	#ifdef DEBUG_MODE
-		printf_("Calibrating...\r\n");
-	#endif
+
 	old_cal_z = cal_z;  
 	for(int i = 0; i < samples; i++){
 		GyroReadData();
@@ -143,6 +130,7 @@ float GyroIntegrate(float dt){
 	a1 = ((((float)(prev_z-cal_z)+(raw_z-cal_z))*0.5f)*dt*0.0078125f) + a1;
 	return a1;
 }
+
 /* Call this function to get angle 
 	This function takes 33us to complete */
 float GyroGetAngle(float dt){
@@ -151,63 +139,21 @@ float GyroGetAngle(float dt){
 	return sensorGyroA;
 	
 }
+
+/* not tested yet */
 void GyroResetDrif(){
 	GyroCalibrate(1, 10);
 	cal_z+=old_cal_z;
 }
 
-// w = raw-cal = 10
-// raw-cal = 0
-// get dt
-//void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
-//{
-//  if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3)
-//{
-//    if(uhCaptureIndex == 0)
-//    {
-//      /* Get the 1st Input Capture value */
-//      uwIC2Value1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_3);
-//      uhCaptureIndex = 1;
-//			GyroReadData();
-//		}
-//		
-//    else if(uhCaptureIndex == 1)
-//    {
-//      /* Get the 2nd Input Capture value */
-//      uwIC2Value2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_3); 
 
-//      /* Capture computation */
-//      if (uwIC2Value2 > uwIC2Value1)
-//      {
-//        dt = (uwIC2Value2 - uwIC2Value1); 
-//      }
-//      else if (uwIC2Value2 < uwIC2Value1)
-//      {
-//        dt = ((0xFFFF - uwIC2Value1) + uwIC2Value2); 
-//      }
-//      else
-//      {
-//        /* If capture values are equal, we have reached the limit of frequency
-//           measures */
-//        __BKPT(0);
-//      }
-      /* Frequency computation: for this example TIMx (TIM1) is clocked by
-         2xAPB2Clk */      
-//      uwFrequency = (2*HAL_RCC_GetPCLK2Freq()) / uwDiffCapture;
-//      uhCaptureIndex = 0;
-			///calculate dt
-			
-			//GyroGetAngle(dt);
-//    }
-//  }
-//}
+
+
 /* Non-essentail functions */
 
 //void GyroSelfTest(){
-//	for(uint8_t i = 0; i < 50; i++){
+//	for(uint8_t i = 0; i < 50; i++)
 //		GyroReadData();
-//		printf("%d   %d   %d\r\n", raw.x, raw.y, raw.z);
-//	}
 //	
 //	SpiRead(FXAS21002C_H_CTRL_REG1, 1);
 //	SpiWrite(FXAS21002C_H_CTRL_REG1, SpiRxBuffer[0]|(1<<5));
@@ -215,7 +161,6 @@ void GyroResetDrif(){
 //	
 //	for(uint8_t i = 0; i < 50; i++){
 //		GyroReadData();
-//		printf("%d   %d   %d\r\n", raw.x, raw.y, raw.z);
 //		
 //		if(!(raw.x && raw.y && raw.z > 7000) && (raw.x && raw.y && raw.z < 25000)){
 //			printf("Self-Test failed. Reading is out of 7000-25000 range");

@@ -41,7 +41,8 @@
 #include "motor.h"
 #include "fxas21002c.h"
 
-volatile uint16_t count = 0;
+volatile uint16_t count;
+uint8_t btn_cnt;
 
 /* USER CODE END 0 */
 
@@ -87,6 +88,14 @@ void EXTI2_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI2_IRQn 0 */
 	NVIC_ClearPendingIRQ(EXTI2_IRQn);
+//	for(uint16_t i = 0; i > 60000; i ++){
+//		btn_cnt++;
+//	}
+//	btn_cnt++;
+//	if(btn_cnt > 3){
+//		HAL_UART_Transmit_DMA(&huart1, "abc", 4);
+//		btn_cnt = 0;
+//	}
 //	while(1)
 //	{
 //		printf_("Jestem w guziku z lewej!\n");
@@ -265,7 +274,7 @@ void TIM6_DAC_IRQHandler(void)
 			HAL_TIM_Base_Stop(&htim6); // hang up for gyro read
 			// reading form gyro takes 33us
 			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
-			GyroGetAngle(0.001);
+			GyroGetAngle(MOTOR_DRIVER_T);
 			UI_DelayUs(6);
 			HAL_TIM_Base_Start(&htim6);
 			++count; // we need 2x 20us, counter should be increased by 2
