@@ -91,7 +91,9 @@ void UI_InitDelayUs()
 	__TIM7_CLK_ENABLE();
 	TIM7->PSC = 168/2;
 	TIM7->EGR = TIM_EGR_UG;
-	TIM7->CR1 = TIM_CR1_OPM;
+	//TIM7->CR1 = TIM_CR1_OPM;
+	TIM7->CR1 = TIM_CR1_CEN;
+	TIM7->ARR = UINT16_MAX;
 }
 
 /* time in miliseconds */
@@ -184,6 +186,7 @@ int UI_BattValue()
 	}
 	return vbat;
 }
+
 void UI_Send(uint8_t* m)
 {
 	HAL_UART_Transmit(&UI_UART_Handle, m, strlen((char*)m), 0xFF);
@@ -191,24 +194,20 @@ void UI_Send(uint8_t* m)
 
 void UI_DelayUs(uint16_t us)
 {
-	TIM7->CNT = 1;
-	TIM7->ARR = us;
-	TIM7->CR1 |= TIM_CR1_CEN;
+	uint16_t start = TIM7->CNT;
 	
-	while(TIM7->CNT != 0)
+	while(!UI_TimeElapsed(start, us))
 	{}
 }
 
-void UI_TimerUs(uint16_t us)
+uint16_t UI_TimeUs()
 {
-	TIM7->CNT = 1;
-	TIM7->ARR = us;
-	TIM7->CR1 |= TIM_CR1_CEN;
+	return TIM7->CNT;
 }
 
-int UI_TimerBusy()
+int UI_TimeElapsed(uint16_t start, uint16_t time)
 {
-	return TIM7->CNT != 0;
+	return (UI_TimeUs() - start < time);
 }
 
 void UI_WaitBtnL()
@@ -305,13 +304,17 @@ char* itoa(int num, char* buff, int base)
 	if(minus)
 	{
 		*buff++ = '-';
-		
 	}
 	
 	do
 	{
 		*ptr = num % base;
 		*ptr += *ptr < 10 ? '0' : ('A'-10);
+		if(*ptr == '.')
+		{
+			*ptr += 1;
+			*ptr -= 1;
+		}
 		++ptr;
 		num /= base;
 	}while(num);
@@ -319,10 +322,7 @@ char* itoa(int num, char* buff, int base)
 	strrev(buff, ptr);
 	*ptr = '\0';
 	
-	if(minus)
-		return buff-1;
-	else
-		return buff;
+	return ptr;
 }
 
 

@@ -115,7 +115,6 @@ uint32_t Swap(uint32_t *s1, uint32_t *s2){
 	temp = (*s2);
 	(*s2) = (*s1);
 	(*s1) = temp;
-	
 }
 
 uint32_t Sort(_sensor sensor){

@@ -110,7 +110,7 @@ int main(void)
   UI_Init();
 	GyroInit();
 	GyroCalibrate(0.001, 100);
-	//HAL_TIM_Base_Start_IT(&htim6);
+	HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -126,10 +126,12 @@ int main(void)
 //ENABLE_SENSOR();
 SensorOff();
 ENABLE_ENCODER();
+//MotorRotR90A();
+MotorGoA(500, 500, 200);
+while(1);
 //ENABLE_GYRO();
 //UI_WaitBtnL();
 //HAL_Delay(600);
-//MotorRotR90A();
 //UI_WaitBtnL();
 //MotorGoA(500, 500, 50); //mm mm mm/s
 //UI_TimerUs(1e6f*MOTOR_DRIVER_T);

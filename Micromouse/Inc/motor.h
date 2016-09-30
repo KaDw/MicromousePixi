@@ -14,9 +14,9 @@
 #define PI  3.1415926535f
 
 // position controller
-#define MOTOR_MAX_PWM					250
-#define MAX_ANGULAR_VEL				200.7f //rad/s
-#define WHEEL_DIAMETER 				37.0f /* mm*/
+#define MOTOR_MAX_PWM					999
+#define MAX_ANGULAR_VEL				200.7f /* deg/s */
+#define WHEEL_DIAMETER 				37.0f  /* mm    */
 #define MOTOR_SLOW_TICK				200
 #define MOTOR_SLOW_VEL				200
 #define TICKS_PER_REVOLUTION	1760.0f
@@ -57,11 +57,11 @@ typedef enum
 //========================
 
 // P-imp/T 
-#define MOTOR_VELV_KP					35.1f //20
-#define MOTOR_VELV_KI					6.60f // 11
-#define MOTOR_VELV_KD					0.0f // -0.01676
-#define MOTOR_VELW_KP					1500.0f
-#define MOTOR_VELW_KI					101.0f
+#define MOTOR_VELV_KP					00.1f /*20*/
+#define MOTOR_VELV_KI					320.f /* 11*/
+#define MOTOR_VELV_KD					0.0f /* -0.01676*/
+#define MOTOR_VELW_KP					0.0f
+#define MOTOR_VELW_KI					0.0f
 #define MOTOR_VELW_KD					0.0f
 //#define MOTOR_VELW_KP					8.0f
 //#define MOTOR_VELW_KI					1.0f
@@ -102,12 +102,10 @@ typedef struct
 {
 	_MotorV mot[2];
 	float targetV, currentV, previousV; // mm/s
-	float targetW, currentW, previousW; // rad/s
+	float targetW, currentW, previousW; // deg/s
 	float errVP, errVI, errVD;
 	float errWP, errWI, errWD;
-	float desAlpha, encDiffVel;
-	float encDiff;
-	int timev, timew; // [T]
+	int timev, timew; // [T] in Periods
 	MotorStat status;
 } MotorsV;
 
