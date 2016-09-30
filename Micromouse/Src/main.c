@@ -104,6 +104,8 @@ int main(void)
   MX_TIM12_Init();
   MX_USART1_UART_Init();
   MX_TIM6_Init();
+  MX_TIM1_Init();
+  MX_TIM2_Init();
 
   /* USER CODE BEGIN 2 */
 	MotorInit();
@@ -179,7 +181,7 @@ extern MotorsV motors;
 		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
 		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
-		HAL_UART_Transmit_DMA(&huart1, aTxBuffer, 5);
+		//HAL_UART_Transmit_DMA(&huart1, aTxBuffer, 5);
 		//printf("%f\r\n", GyroGetAngle(0.0013));
 		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 		

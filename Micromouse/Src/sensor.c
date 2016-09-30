@@ -87,7 +87,7 @@ void SensorOff(){
 	GPIOA->PUPDR |= GPIO_PUPDR_PUPDR0_1;
 }
 
-
+/* linearizing sensors*/
 uint32_t LinADC(uint32_t *sens){
 	float x = (float)(*sens);
 	if(*sens < 3400)
