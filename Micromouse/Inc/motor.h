@@ -17,8 +17,6 @@
 #define MOTOR_MAX_PWM					999
 #define MAX_ANGULAR_VEL				200.7f /* deg/s */
 #define WHEEL_DIAMETER 				37.0f  /* mm    */
-#define MOTOR_SLOW_TICK				200
-#define MOTOR_SLOW_VEL				200
 #define TICKS_PER_REVOLUTION	1760.0f
 
 #define MOTOR_GPIO 						GPIOC
@@ -57,15 +55,9 @@ typedef enum
 //========================
 
 // P-imp/T 
-#define MOTOR_VELV_KP					00.1f /*20*/
-#define MOTOR_VELV_KI					320.f /* 11*/
+#define MOTOR_VELV_KP					50.1f /*20*/
+#define MOTOR_VELV_KI					0.f /* 11*/
 #define MOTOR_VELV_KD					0.0f /* -0.01676*/
-#define MOTOR_VELW_KP					0.0f
-#define MOTOR_VELW_KI					0.0f
-#define MOTOR_VELW_KD					0.0f
-//#define MOTOR_VELW_KP					8.0f
-//#define MOTOR_VELW_KI					1.0f
-//#define MOTOR_VELW_KD					0.0f
 
 // ACC_V [mm/s/s] 	ACC_W[rad/s/s]
 #define MOTOR_ACC_V						(1300.0f*2.0f) // double becouse for 2 wheels
@@ -93,19 +85,18 @@ extern float sensorGyroW;
 
 typedef struct
 {
+	int PWM; // [0..MOTOR_MAX_PWM]
+	int vel, targetVel; // mm/s
 	int16_t lastEnc, encChange;
-	int enc, startEnc; // startEnc is assigned before turn
-	int PWM;
+	int enc, idealEnc;
+	int errP, errI, errD;
+	//float KP, KI, KD;
 } _MotorV;
 
 typedef struct
 {
 	_MotorV mot[2];
-	float targetV, currentV, previousV; // mm/s
-	float targetW, currentW, previousW; // deg/s
-	float errVP, errVI, errVD;
-	float errWP, errWI, errWD;
-	int timev, timew; // [T] in Periods
+	int time;
 	MotorStat status;
 } MotorsV;
 

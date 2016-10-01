@@ -273,16 +273,11 @@ void TIM6_DAC_IRQHandler(void)
 		case 20:
 			HAL_TIM_Base_Stop(&htim6); // hang up for gyro read
 			// reading form gyro takes 33us
-			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
-<<<<<<< HEAD
+			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);s
 			uint16_t start = UI_TimeUs();
 			GyroGetAngle(0.001);
 			while(!UI_TimeElapsed(start, 40))
 			{}
-=======
-			GyroGetAngle(MOTOR_DRIVER_T);
-			UI_DelayUs(6);
->>>>>>> 7734434c3a1d956b2e7a6e08d9f5bcc078db0773
 			HAL_TIM_Base_Start(&htim6);
 			++count; // we need 2x 20us, counter should be increased by 2
 			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
