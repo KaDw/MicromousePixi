@@ -234,6 +234,24 @@ void UI_WaitBtnR()
 	}
 }
 
+void MotorPrintData()
+{
+	static uint16_t test_mode = 0;
+	uint8_t buf[20];
+	uint8_t itoa_buf[5];
+	uint32_t enc;
+	_itoa
+	strcat(
+		
+			//_itoa(37, aTxBuffer);
+	enc = EncL;
+	TIM3->CNT = 0;
+	buf[0] = enc >> 8;
+	buf[1] = enc;
+	HAL_UART_Transmit_DMA(&huart1, (uint8_t*)buf, 2);
+	test_mode++;
+}
+
 
 
 #ifdef __GNUC__
@@ -296,55 +314,130 @@ printf_file_t stdout_file = {
 static int __fputc_(int character, printf_file_t *stream);
 static int __vfprintf_(printf_file_t *stream, const char *format, va_list arg);
 
-char* itoa(int num, char* buff, int base)
+char* _itoa(int n, char* s)
 {
-	char *ptr = buff;
-	char minus = num < 0; // bool flag
-	
-	if(minus)
+     int i = 0;
+     int sign = n;
+ 
+     if (sign < 0)  /* record sign */
+         n = -n;          /* make n positive */
+
+     do {       /* generate digits in reverse order */
+         s[i++] = n % 10 + '0';   /* get next digit */
+     } while ((n /= 10) > 0);     /* delete it */
+
+     if (sign < 0)
+         s[i++] = '-';
+     s[i] = '\0';
+     _strrev(s);
+		 return s;
+}
+
+
+
+char* _strrev(char* s)
+{
+     int i, j; // begin, end
+     char temp;
+ 
+     for (i = 0, j = strlen(s)-1; i<j; i++, j--) {
+         temp = s[i];
+         s[i] = s[j];
+         s[j] = temp;
+     }
+		 //printf("%s", s);
+		 return s;
+}
+
+
+char * _ftoa(double f, char * buf, int precision)
+{
+	char * ptr = buf;
+	char * p = ptr;
+	char * p1;
+	char c;
+	long intPart;
+
+	// check precision bounds
+	if (precision > MAX_PRECISION)
+		precision = MAX_PRECISION;
+
+	// sign stuff
+	if (f < 0)
 	{
-		*buff++ = '-';
+		f = -f;
+		*ptr++ = '-';
 	}
-	
-	do
+
+	if (precision < 0)  // negative precision == automatic precision guess
 	{
-		*ptr = num % base;
-		*ptr += *ptr < 10 ? '0' : ('A'-10);
-		if(*ptr == '.')
+		if (f < 1.0) precision = 6;
+		else if (f < 10.0) precision = 5;
+		else if (f < 100.0) precision = 4;
+		else if (f < 1000.0) precision = 3;
+		else if (f < 10000.0) precision = 2;
+		else if (f < 100000.0) precision = 1;
+		else precision = 0;
+	}
+
+	// round value according the precision
+	if (precision)
+		f += rounders[precision];
+
+	// integer part...
+	intPart = f;
+	f -= intPart;
+
+	if (!intPart)
+		*ptr++ = '0';
+	else
+	{
+		// save start pointer
+		p = ptr;
+
+		// convert (reverse order)
+		while (intPart)
 		{
-			*ptr += 1;
-			*ptr -= 1;
+			*p++ = '0' + intPart % 10;
+			intPart /= 10;
 		}
-		++ptr;
-		num /= base;
-	}while(num);
-	
-	strrev(buff, ptr);
-	*ptr = '\0';
-	
-	return ptr;
-}
 
+		// save end pos
+		p1 = p;
 
-char* strrev(char *begin, char *end)
-{
-	char* str = begin;
-	char temp;
-	--end;
-	
-	// reverse string
-	while(begin < end)
-	{
-		temp = *end;
-		*end = *begin;
-		*begin = temp;
-		++begin;
-		--end;
+		// reverse result
+		while (p > ptr)
+		{
+			c = *--p;
+			*p = *ptr;
+			*ptr++ = c;
+		}
+
+		// restore end pos
+		ptr = p1;
 	}
-	
-	return str;
-}
 
+	// decimal part
+	if (precision)
+	{
+		// place decimal point
+		*ptr++ = '.';
+
+		// convert
+		while (precision--)
+		{
+			f *= 10.0;
+			c = f;
+			*ptr++ = '0' + c;
+			f -= c;
+		}
+	}
+
+	// terminating zero
+	*ptr = 0;
+
+	return buf;
+}
 
 #if PRINTF_HAVE_PRINTF == 1
 

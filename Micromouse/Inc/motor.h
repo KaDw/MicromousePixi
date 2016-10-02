@@ -55,9 +55,9 @@ typedef enum
 //========================
 
 // P-imp/T 
-#define MOTOR_VELV_KP					50.1f /*20*/
-#define MOTOR_VELV_KI					0.f /* 11*/
-#define MOTOR_VELV_KD					0.0f /* -0.01676*/
+#define MOTOR_VELV_KP					136.1f /*20*/
+#define MOTOR_VELV_KI					1888.f /* 11*/
+#define MOTOR_VELV_KD					-0.7899f /* -0.01676*/
 
 // ACC_V [mm/s/s] 	ACC_W[rad/s/s]
 #define MOTOR_ACC_V						(1300.0f*2.0f) // double becouse for 2 wheels

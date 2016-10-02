@@ -31,6 +31,23 @@ extern UART_HandleTypeDef huart1;
 #define  ui_b     493    // 493 Hz 
 #define  ui_C     523    // 523 Hz 
 
+// _ftoa
+#define MAX_PRECISION	(10)
+static const double rounders[MAX_PRECISION + 1] =
+{
+	0.5,				// 0
+	0.05,				// 1
+	0.005,				// 2
+	0.0005,				// 3
+	0.00005,			// 4
+	0.000005,			// 5
+	0.0000005,			// 6
+	0.00000005,			// 7
+	0.000000005,		// 8
+	0.0000000005,		// 9
+	0.00000000005		// 10
+};
+
 void UI_Init(void);
 void UI_InitBeep(void);
 void UI_InitLeds(void);
@@ -111,13 +128,13 @@ typedef struct printf_file_s
 
 /// @brief convert int to char[]
 /// @return return pointer to first char
-char* itoa(int num, char* buff, int base);
-
+char* _itoa(int num, char* buff);
+char* _ftoa(double f, char * buf, int precision);
 /// @brief reverse string
 /// @return pointer to first char
 /// @param pointer to first char
 /// @param pointer after last char
-char* strrev(char *begin, char *end);
+char* _strrev(char* s);
 
 #if PRINTF_HAVE_PRINTF == 1
 int printf_(const char *format, ...);

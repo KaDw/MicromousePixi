@@ -129,7 +129,7 @@ int main(void)
 SensorOff();
 ENABLE_ENCODER();
 //MotorRotR90A();
-MotorGoA(500, 500, 200);
+MotorGoA(200, 200, 50);
 while(1);
 //ENABLE_GYRO();
 //UI_WaitBtnL();
