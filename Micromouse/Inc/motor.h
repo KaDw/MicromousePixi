@@ -100,6 +100,8 @@ typedef struct
 	MotorStat status;
 } MotorsV;
 
+void MotorStepResponse(uint16_t PwmL, uint16_t PwmR, uint16_t time);
+
 void MotorInit(void);
 void MotorUpdate(void);
 void MotorStop(void);

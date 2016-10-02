@@ -59,7 +59,27 @@ int MotorTruncPWM(int vel)
 		return vel;
 }
 
-
+void MotorStepResponse(uint16_t PwmL, uint16_t PwmR, uint16_t time)
+{
+		static uint16_t test_mode = 0;
+		uint8_t buf[2];
+		uint32_t enc;
+			
+		if(!test_mode){
+			MotorSetPWMRaw(PwmL, PwmR); // make mouse go straight
+		}
+		if(test_mode > time){
+			MotorSetPWMRaw(0, 0);
+			HAL_UART_DeInit(&huart1); // stop sending data
+		}
+			//_itoa(37, aTxBuffer);
+		enc = EncL;
+		TIM3->CNT = 0;
+		buf[0] = enc >> 8;
+		buf[1] = enc;
+		HAL_UART_Transmit_DMA(&huart1, (uint8_t*)buf, 2);
+		test_mode++;
+}
 //========================
 //====== VELOCITY ========
 //========================
