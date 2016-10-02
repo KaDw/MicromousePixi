@@ -286,7 +286,7 @@ void TIM6_DAC_IRQHandler(void)
 		
 		case 22:
 			//MotorStepResponse(160, 150, 1500);
-			//MotorUpdate();
+			MotorUpdate();
 			break;
 	}
 			
