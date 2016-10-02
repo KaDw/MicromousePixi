@@ -235,6 +235,7 @@ void UI_WaitBtnR()
 }
 
 
+
 #ifdef __GNUC__
 /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
    set to 'Yes') calls __io_putchar() */
@@ -570,7 +571,7 @@ static int __vfprintf_(printf_file_t *stream, const char *format, va_list arg)
 				{
 					int base = (character == 'd' ? 10 : 16);
 
-					buffer_ptr = itoa(va_arg(arg, int), buffer, base);
+					buffer_ptr = _itoa(va_arg(arg, int), buffer);
 				}
 
 				character = *buffer_ptr;
