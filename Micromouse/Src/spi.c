@@ -62,15 +62,18 @@ void MX_SPI3_Init(void)
   hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi3.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
   hspi3.Init.CRCPolynomial = 10;
-  HAL_SPI_Init(&hspi3);
+  if (HAL_SPI_Init(&hspi3) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
 }
 
-void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
+void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(hspi->Instance==SPI3)
+  if(spiHandle->Instance==SPI3)
   {
   /* USER CODE BEGIN SPI3_MspInit 0 */
 
@@ -102,9 +105,12 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
     hdma_spi3_rx.Init.Mode = DMA_NORMAL;
     hdma_spi3_rx.Init.Priority = DMA_PRIORITY_HIGH;
     hdma_spi3_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    HAL_DMA_Init(&hdma_spi3_rx);
+    if (HAL_DMA_Init(&hdma_spi3_rx) != HAL_OK)
+    {
+      Error_Handler();
+    }
 
-    __HAL_LINKDMA(hspi,hdmarx,hdma_spi3_rx);
+    __HAL_LINKDMA(spiHandle,hdmarx,hdma_spi3_rx);
 
     hdma_spi3_tx.Instance = DMA1_Stream5;
     hdma_spi3_tx.Init.Channel = DMA_CHANNEL_0;
@@ -116,9 +122,12 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
     hdma_spi3_tx.Init.Mode = DMA_NORMAL;
     hdma_spi3_tx.Init.Priority = DMA_PRIORITY_HIGH;
     hdma_spi3_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    HAL_DMA_Init(&hdma_spi3_tx);
+    if (HAL_DMA_Init(&hdma_spi3_tx) != HAL_OK)
+    {
+      Error_Handler();
+    }
 
-    __HAL_LINKDMA(hspi,hdmatx,hdma_spi3_tx);
+    __HAL_LINKDMA(spiHandle,hdmatx,hdma_spi3_tx);
 
   /* USER CODE BEGIN SPI3_MspInit 1 */
 
@@ -126,10 +135,10 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
   }
 }
 
-void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
+void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 {
 
-  if(hspi->Instance==SPI3)
+  if(spiHandle->Instance==SPI3)
   {
   /* USER CODE BEGIN SPI3_MspDeInit 0 */
 
@@ -145,8 +154,8 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
     HAL_GPIO_DeInit(GPIOC, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12);
 
     /* Peripheral DMA DeInit*/
-    HAL_DMA_DeInit(hspi->hdmarx);
-    HAL_DMA_DeInit(hspi->hdmatx);
+    HAL_DMA_DeInit(spiHandle->hdmarx);
+    HAL_DMA_DeInit(spiHandle->hdmatx);
   }
   /* USER CODE BEGIN SPI3_MspDeInit 1 */
 

@@ -71,6 +71,7 @@ extern volatile uint8_t count;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void Error_Handler(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -118,18 +119,18 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 //MotorSetPWMRaw(50, 50);
-//for(int i = 0; i < 5000; ++i)
-//{
-//	printf_("%d %d\r\n", EncL, EncR);
-//	HAL_Delay(1);
-//}
 //printf("\r\n\nvbat:%dmV\r\nCzekam na start\r\n", UI_BattValue());
 //ENABLE_GYRO();
 //ENABLE_SENSOR();
 SensorOff();
 ENABLE_ENCODER();
-//MotorRotR90A();
-MotorGoA(200, 200, 50);
+UI_LedOnAll();
+UI_WaitBtnL();
+UI_LedOffAll();
+HAL_Delay(1000);
+MotorGo(-200, -200, 500);
+//MotorTurn(180, HALF_WHEELBASE, 500);
+MotorGo(0, -470, 500);
 while(1);
 //ENABLE_GYRO();
 //UI_WaitBtnL();
@@ -152,9 +153,7 @@ init_flag = 1;
 
 extern MotorsV motors; 
   while (1)
-  {	
-		//GyroGetAngle(0.001);
-//		MotorTurn(90, 0, 300);
+  {
 		//UI_BattControl(); // nie jestem pewny tego sprawdzenia
 //		MotorTurnA(1, 1, 1);
 		//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
@@ -185,11 +184,6 @@ extern MotorsV motors;
 		//printf("%f\r\n", GyroGetAngle(0.0013));
 		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 		
-		//UI_LedOnAll();
-		
-		//HAL_Delay(2000);
-		//UI_LedOffAll();
-//		UI_LedOffAll();
 		HAL_Delay(500);
 //		adc = TIM7->CNT;
 //		printf("MotorUpdate: %dus\r\n", adc-1);
@@ -239,7 +233,10 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLN = 168;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 4;
-  HAL_RCC_OscConfig(&RCC_OscInitStruct);
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -247,7 +244,10 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
-  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
@@ -296,6 +296,21 @@ void SystemClock_Config(void)
 //}
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @param  None
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler */
+  /* User can add his own implementation to report the HAL error return state */
+  while(1) 
+  {
+  }
+  /* USER CODE END Error_Handler */ 
+}
 
 #ifdef USE_FULL_ASSERT
 

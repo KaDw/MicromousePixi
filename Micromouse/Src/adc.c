@@ -63,52 +63,73 @@ void MX_ADC1_Init(void)
   hadc1.Init.NbrOfConversion = 6;
   hadc1.Init.DMAContinuousRequests = ENABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SEQ_CONV;
-  HAL_ADC_Init(&hadc1);
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
     /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
     */
   sConfig.Channel = ADC_CHANNEL_13;
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADC_SAMPLETIME_84CYCLES;
-  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
     /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
     */
   sConfig.Channel = ADC_CHANNEL_12;
   sConfig.Rank = 2;
-  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
     /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
     */
   sConfig.Channel = ADC_CHANNEL_2;
   sConfig.Rank = 3;
-  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
     /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
     */
   sConfig.Channel = ADC_CHANNEL_11;
   sConfig.Rank = 4;
-  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
     /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
     */
   sConfig.Channel = ADC_CHANNEL_3;
   sConfig.Rank = 5;
-  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
     /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
     */
   sConfig.Channel = ADC_CHANNEL_10;
   sConfig.Rank = 6;
-  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
 }
 
-void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
+void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(hadc->Instance==ADC1)
+  if(adcHandle->Instance==ADC1)
   {
   /* USER CODE BEGIN ADC1_MspInit 0 */
 
@@ -152,9 +173,12 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     hdma_adc1.Init.Mode = DMA_CIRCULAR;
     hdma_adc1.Init.Priority = DMA_PRIORITY_HIGH;
     hdma_adc1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    HAL_DMA_Init(&hdma_adc1);
+    if (HAL_DMA_Init(&hdma_adc1) != HAL_OK)
+    {
+      Error_Handler();
+    }
 
-    __HAL_LINKDMA(hadc,DMA_Handle,hdma_adc1);
+    __HAL_LINKDMA(adcHandle,DMA_Handle,hdma_adc1);
 
   /* USER CODE BEGIN ADC1_MspInit 1 */
 
@@ -162,10 +186,10 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
   }
 }
 
-void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
+void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 {
 
-  if(hadc->Instance==ADC1)
+  if(adcHandle->Instance==ADC1)
   {
   /* USER CODE BEGIN ADC1_MspDeInit 0 */
 
@@ -189,7 +213,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     HAL_GPIO_DeInit(ADC_VBAT_GPIO_Port, ADC_VBAT_Pin);
 
     /* Peripheral DMA DeInit*/
-    HAL_DMA_DeInit(hadc->DMA_Handle);
+    HAL_DMA_DeInit(adcHandle->DMA_Handle);
   }
   /* USER CODE BEGIN ADC1_MspDeInit 1 */
 
