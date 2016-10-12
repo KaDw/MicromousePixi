@@ -110,7 +110,7 @@ void Move(_sensor *sensor){ // moving samples in buf
 	ADCread2channel(&hadc1, 2, &sens[3][0]);
 */
 
-uint32_t Swap(uint32_t *s1, uint32_t *s2){
+void Swap(uint32_t *s1, uint32_t *s2){
 	uint32_t temp = 0;
 	temp = (*s2);
 	(*s2) = (*s1);

@@ -51,6 +51,8 @@ extern UART_HandleTypeDef huart1;
 
 /* USER CODE END Private defines */
 
+extern void Error_Handler(void);
+
 void MX_USART1_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */

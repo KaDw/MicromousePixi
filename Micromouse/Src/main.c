@@ -71,6 +71,7 @@ extern volatile uint8_t count;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void Error_Handler(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -117,25 +118,92 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
+//MotorSetPWMRaw(50, 50);
+//printf("\r\n\nvbat:%dmV\r\nCzekam na start\r\n", UI_BattValue());
 //ENABLE_GYRO();
 //ENABLE_SENSOR();
 SensorOff();
 ENABLE_ENCODER();
-//MotorRotR90A();
-MotorGoA(200, 200, 50);
-while(1){
+UI_LedOnAll();
+UI_WaitBtnL();
+UI_LedOffAll();
+HAL_Delay(1000);
+MotorGo(-200, -200, 250);
+HAL_Delay(1000);
+MotorTurn(180, HALF_WHEELBASE, 250);
+
+
+//MotorGo(0, -470, 500);
+while(1);
 //ENABLE_GYRO();
 //UI_WaitBtnL();
-HAL_Delay(600);
-	UI_MotorPrintData();
-}
-
-init_flag = 1;
+//HAL_Delay(600);
+//UI_WaitBtnL();
+//MotorGoA(500, 500, 50); //mm mm mm/s
+//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
+//		GyroGetAngle(0.001);
+//		adc = TIM7->CNT;
+//		printf("MotorUpdate: %dus\r\n", adc-1);
+//sensor[0].sens[0] = 5;
+//sensor[0].sens[1] = 3;
+//sensor[0].sens[2] = 1;
+//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
+//Sort(&sensor[0]);
+//adc = TIM7->CNT;
+//printf("Removing pepper noise: %dus\r\n", adc-1);
+//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 
 extern MotorsV motors; 
   while (1)
-  {	
+  {
+		//UI_BattControl(); // nie jestem pewny tego sprawdzenia
+//		MotorTurnA(1, 1, 1);
+		//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
+		//UI_TimerUs(1e6*MOTOR_DRIVER_T);
+		//GyroGetAngle(MOTOR_DRIVER_T);
+		//MotorUpdate();
+		//while(UI_TimerBusy())
+		//{}
+			
+		/*if(SENS_RF + SENS_LF < 160) // gdy sciana z przodu
+		{
+			MotorTurn(-90, 0, 0);
+			MotorGoA(300, 300, 400);
+		}
+		if(SENS_R > 80) // gdy niema sciany z prawej
+		{
+			UI_DelayUs(60000);
+			MotorTurn(90, 0, 0);
+			MotorSetPWMRaw(300, 300);
+			UI_DelayUs(600);
+			MotorGoA(300, 300, 400);
+		}*/
+//		GyroGetAngle(0.001);
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
+		//HAL_UART_Transmit_DMA(&huart1, aTxBuffer, 5);
+		//printf("%f\r\n", GyroGetAngle(0.0013));
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+		
+		HAL_Delay(500);
+//		adc = TIM7->CNT;
+//		printf("MotorUpdate: %dus\r\n", adc-1);
+//		if(TIM7->CNT > 30)
+//		{
+//			MotorStop();
+//			while(1)
+//			{
+//				UI_LedOnAll();
+//				UI_DelayUs(25000);
+//				UI_LedOffAll();
+//				UI_DelayUs(25000);
+//			}
+//		}
+	  //printf("%d\t %d\t %d\t %d\t %d\t %d\t\r\n", SENS_LF, SENS_RF, SENS_L, SENS_R, SENS_RS, SENS_LS);
+			
+//		//ADCreadChannel(CH9, &adc);
+//		printf("%d\t %d\t %d\t %d\t %d\t %d\t %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
 
   /* USER CODE END WHILE */
 
@@ -167,7 +235,10 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLN = 168;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 4;
-  HAL_RCC_OscConfig(&RCC_OscInitStruct);
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -175,7 +246,10 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
-  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
@@ -224,6 +298,21 @@ void SystemClock_Config(void)
 //}
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @param  None
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler */
+  /* User can add his own implementation to report the HAL error return state */
+  while(1) 
+  {
+  }
+  /* USER CODE END Error_Handler */ 
+}
 
 #ifdef USE_FULL_ASSERT
 
