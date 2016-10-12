@@ -272,6 +272,49 @@ float MotorCalcS(float lastV, float vel, float t)
     else
 			return Sacc;
 }
+		
+
+float _MototorCalcTime(int s, int previuousV, int vel, float acc) // [mm], [mm/s], [mm/s], [mm/s/s]
+{
+	// returns time needed for acceleration+movement with constat velocity
+	float Tacc = abs(previuousV-vel)/(float)(acc);
+	int   Sacc = (previuousV+vel)*Tacc*0.5f;
+	float T = 0;
+	if(vel != 0)
+		T = Tacc + abs(s-Sacc)/(float)(vel);
+	return T;
+}
+
+int _MotorCalcVel(int s, int previousV, float T, float acc) // [mm], [mm/s], [s], [mm/s/s]
+{
+	// rozwiazania rowniania kwadratowego
+	// zapewniajacego spelnienie podanych
+	// warunkow (parametrow)
+	// zakladamy ze vel > previousV
+	float a = 1.f;
+	float b = -2.0f * acc * T;
+	float c = 2.0f * acc * s - previousV*previousV;
+	float delta = b*b - 4.f*a*c;
+	delta = fast_sqrt(delta);
+	float vel = (-b-delta) / (4.f*a*c);
+	if(vel < previousV) // gdy przyjecte zalozenia nie sa spelnjione
+		vel = (-b+delta) / (4.f*a*c);
+	
+	if(vel < previousV) // gdy podane zalozenia dalej nie sa spelnione
+	{ // to zamien znaki w funkcji kwadratowej (abs)
+		a = 1.f;
+		b = 2.f*acc*T;
+		c = -2.f*acc - previousV*previousV;
+		delta = b*b - 4.f*a*c;
+		delta = fast_sqrt(delta);
+		vel = (-b-delta) / (4.f*a*c);
+		if( vel > previousV) // gdy pierwiastek nie spelnia zalozen
+			vel = (-b+delta) / (4.f*a*c);
+	}
+	
+	return vel;
+}
+
 
 float MotorCalcVel(float lastV, float s, float t)
 {
@@ -305,50 +348,6 @@ float MotorCalcVel(float lastV, float s, float t)
 		V = lastV + a*t;
 	
 	return V;
-}
-	
-
-
-float _MototorCalcTime(int s, int previuousV, int vel, float acc) // [mm], [mm/s], [mm/s], [mm/s/s]
-{
-	// returns time needed for acceleration+movement with constat velocity
-	float Tacc = abs(previuousV-vel)/(float)(acc);
-	int   Sacc = (previuousV+vel)*Tacc*0.5f;
-	float T = 0;
-	if(vel != 0)
-		T = Tacc + abs(s-Sacc)/(float)(vel);
-	return T;
-}
-
-
-int _MotorCalcVel(int s, int previousV, float T, float acc) // [mm], [mm/s], [s], [mm/s/s]
-{
-	// rozwiazania rowniania kwadratowego
-	// zapewniajacego spelnienie podanych
-	// warunkow (parametrow)
-	// zakladamy ze vel > previousV
-	float a = 1.f;
-	float b = -2.0f * acc * T;
-	float c = 2.0f * acc * s - previousV*previousV;
-	float delta = b*b - 4.f*a*c;
-	delta = fast_sqrt(delta);
-	float vel = (-b-delta) / (4.f*a*c);
-	if(vel < previousV) // gdy przyjecte zalozenia nie sa spelnjione
-		vel = (-b+delta) / (4.f*a*c);
-	
-	if(vel < previousV) // gdy podane zalozenia dalej nie sa spelnione
-	{ // to zamien znaki w funkcji kwadratowej (abs)
-		a = 1.f;
-		b = 2.f*acc*T;
-		c = -2.f*acc - previousV*previousV;
-		delta = b*b - 4.f*a*c;
-		delta = fast_sqrt(delta);
-		vel = (-b-delta) / (4.f*a*c);
-		if( vel > previousV) // gdy pierwiastek nie spelnia zalozen
-			vel = (-b+delta) / (4.f*a*c);
-	}
-	
-	return vel;
 }
 
 

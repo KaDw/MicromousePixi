@@ -131,10 +131,7 @@ HAL_Delay(1000);
 MotorGo(-200, -200, 250);
 HAL_Delay(1000);
 MotorTurn(180, HALF_WHEELBASE, 250);
-
-
-//MotorGo(0, -470, 500);
-while(1);
+while(1){}; // tak bo warning
 //ENABLE_GYRO();
 //UI_WaitBtnL();
 //HAL_Delay(600);
@@ -153,57 +150,9 @@ while(1);
 //printf("Removing pepper noise: %dus\r\n", adc-1);
 //HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 
-extern MotorsV motors; 
+//extern MotorsV motors; 
   while (1)
   {
-		//UI_BattControl(); // nie jestem pewny tego sprawdzenia
-//		MotorTurnA(1, 1, 1);
-		//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
-		//UI_TimerUs(1e6*MOTOR_DRIVER_T);
-		//GyroGetAngle(MOTOR_DRIVER_T);
-		//MotorUpdate();
-		//while(UI_TimerBusy())
-		//{}
-			
-		/*if(SENS_RF + SENS_LF < 160) // gdy sciana z przodu
-		{
-			MotorTurn(-90, 0, 0);
-			MotorGoA(300, 300, 400);
-		}
-		if(SENS_R > 80) // gdy niema sciany z prawej
-		{
-			UI_DelayUs(60000);
-			MotorTurn(90, 0, 0);
-			MotorSetPWMRaw(300, 300);
-			UI_DelayUs(600);
-			MotorGoA(300, 300, 400);
-		}*/
-//		GyroGetAngle(0.001);
-		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
-		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
-		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
-		//HAL_UART_Transmit_DMA(&huart1, aTxBuffer, 5);
-		//printf("%f\r\n", GyroGetAngle(0.0013));
-		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
-		
-		HAL_Delay(500);
-//		adc = TIM7->CNT;
-//		printf("MotorUpdate: %dus\r\n", adc-1);
-//		if(TIM7->CNT > 30)
-//		{
-//			MotorStop();
-//			while(1)
-//			{
-//				UI_LedOnAll();
-//				UI_DelayUs(25000);
-//				UI_LedOffAll();
-//				UI_DelayUs(25000);
-//			}
-//		}
-	  //printf("%d\t %d\t %d\t %d\t %d\t %d\t\r\n", SENS_LF, SENS_RF, SENS_L, SENS_R, SENS_RS, SENS_LS);
-			
-//		//ADCreadChannel(CH9, &adc);
-//		printf("%d\t %d\t %d\t %d\t %d\t %d\t %d\r\n", sens[0], sens[1], sens[2], sens[3], sens[4], sens[5], vbat%10 );
 
   /* USER CODE END WHILE */
 
