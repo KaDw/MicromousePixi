@@ -166,26 +166,26 @@
 <wire x1="2.936" y1="2.0542" x2="-2.936" y2="2.0542" width="0.0508" layer="21"/>
 <wire x1="-2.936" y1="-2.0542" x2="-2.936" y2="2.0542" width="0.0508" layer="21"/>
 <circle x="-2.2756" y="-1.2192" radius="0.4572" width="0.1524" layer="21"/>
-<smd name="VSS" x="-2.925" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="A" x="-2.275" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="VDDP" x="-1.625" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="B" x="-0.975" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="TEST" x="-0.325" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="AO" x="0.325" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="VDD" x="0.975" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="INDEX" x="1.625" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="NC" x="2.275" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="NC1" x="2.925" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="NC2" x="2.925" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="TEST1" x="2.275" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="TEST2" x="1.625" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="TEST3" x="0.975" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="TEST_GND" x="0.325" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="VDDA" x="-0.325" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="TEST4" x="-0.975" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="TEST5" x="-1.625" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="TEST6" x="-2.275" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="ZPZ" x="-2.925" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
+<smd name="VSS" x="-2.925" y="-3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="A" x="-2.275" y="-3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="VDDP" x="-1.625" y="-3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="B" x="-0.975" y="-3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="TEST" x="-0.325" y="-3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="AO" x="0.325" y="-3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="VDD" x="0.975" y="-3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="INDEX" x="1.625" y="-3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="NC" x="2.275" y="-3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="NC1" x="2.925" y="-3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="NC2" x="2.925" y="3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="TEST1" x="2.275" y="3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="TEST2" x="1.625" y="3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="TEST3" x="0.975" y="3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="TEST_GND" x="0.325" y="3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="VDDA" x="-0.325" y="3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="TEST4" x="-0.975" y="3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="TEST5" x="-1.625" y="3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="TEST6" x="-2.275" y="3.0194" dx="0.3048" dy="1.1938" layer="1"/>
+<smd name="ZPZ" x="-2.925" y="3.0194" dx="0.3048" dy="1.1938" layer="1"/>
 <text x="-3.5456" y="-2.0828" size="1.016" layer="25" ratio="10" rot="R90">&gt;NAME</text>
 <text x="4.5362" y="-2.0828" size="1.016" layer="27" ratio="10" rot="R90">&gt;VALUE</text>
 <rectangle x1="-3.0266" y1="-3.121" x2="-2.8234" y2="-2.2828" layer="51"/>
@@ -6184,19 +6184,19 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <attribute name="NAME" x="29.464" y="-4.699" size="1.778" layer="95"/>
 <attribute name="VALUE" x="29.464" y="-9.779" size="1.778" layer="96"/>
 </instance>
-<instance part="JP1" gate="G$1" x="-53.34" y="19.05"/>
-<instance part="JP2" gate="G$1" x="-53.34" y="3.81"/>
-<instance part="R1" gate="G$1" x="-48.26" y="5.08"/>
-<instance part="R2" gate="G$1" x="-48.26" y="2.54" rot="R180"/>
-<instance part="JP3" gate="G$1" x="-55.88" y="-7.62" rot="R180"/>
-<instance part="JP4" gate="G$1" x="-60.96" y="19.05"/>
-<instance part="JP5" gate="G$1" x="-60.96" y="3.81"/>
-<instance part="JP8" gate="G$1" x="-55.88" y="-12.7" rot="R180"/>
-<instance part="GND3" gate="1" x="-45.72" y="-12.7" rot="R90"/>
-<instance part="GND4" gate="1" x="-60.96" y="15.24"/>
-<instance part="JP6" gate="G$1" x="-68.58" y="3.81"/>
-<instance part="JP7" gate="G$1" x="-68.58" y="19.05"/>
-<instance part="GND5" gate="1" x="-68.58" y="15.24"/>
+<instance part="JP1" gate="G$1" x="-76.2" y="26.67"/>
+<instance part="JP2" gate="G$1" x="-76.2" y="3.81"/>
+<instance part="R1" gate="G$1" x="-71.12" y="5.08"/>
+<instance part="R2" gate="G$1" x="-71.12" y="2.54" rot="R180"/>
+<instance part="JP3" gate="G$1" x="-93.98" y="-12.7" rot="R180"/>
+<instance part="JP4" gate="G$1" x="-83.82" y="26.67"/>
+<instance part="JP5" gate="G$1" x="-83.82" y="3.81"/>
+<instance part="JP8" gate="G$1" x="-93.98" y="-17.78" rot="R180"/>
+<instance part="GND3" gate="1" x="-83.82" y="-17.78" rot="R90"/>
+<instance part="GND4" gate="1" x="-83.82" y="22.86"/>
+<instance part="JP6" gate="G$1" x="-91.44" y="3.81"/>
+<instance part="JP7" gate="G$1" x="-91.44" y="26.67"/>
+<instance part="GND5" gate="1" x="-91.44" y="22.86"/>
 </instances>
 <busses>
 </busses>
@@ -6231,14 +6231,14 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <junction x="27.94" y="-12.7"/>
 </segment>
 <segment>
-<wire x1="-53.34" y1="17.78" x2="-48.26" y2="17.78" width="0.1524" layer="91"/>
-<label x="-48.26" y="17.78" size="1.27" layer="95" xref="yes"/>
+<wire x1="-76.2" y1="25.4" x2="-71.12" y2="25.4" width="0.1524" layer="91"/>
+<label x="-71.12" y="25.4" size="1.27" layer="95" xref="yes"/>
 <pinref part="JP1" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="JP8" gate="G$1" pin="1"/>
 <pinref part="GND3" gate="1" pin="GND"/>
-<wire x1="-53.34" y1="-12.7" x2="-48.26" y2="-12.7" width="0.1524" layer="91"/>
+<wire x1="-91.44" y1="-17.78" x2="-86.36" y2="-17.78" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="JP4" gate="G$1" pin="2"/>
@@ -6257,8 +6257,8 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 </segment>
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
-<wire x1="-43.18" y1="5.08" x2="-40.64" y2="5.08" width="0.1524" layer="91"/>
-<label x="-40.64" y="5.08" size="1.27" layer="95" xref="yes"/>
+<wire x1="-66.04" y1="5.08" x2="-58.42" y2="5.08" width="0.1524" layer="91"/>
+<label x="-58.42" y="5.08" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="CHB" class="0">
@@ -6269,8 +6269,8 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 </segment>
 <segment>
 <pinref part="R2" gate="G$1" pin="1"/>
-<wire x1="-43.18" y1="2.54" x2="-40.64" y2="2.54" width="0.1524" layer="91"/>
-<label x="-40.64" y="2.54" size="1.27" layer="95" xref="yes"/>
+<label x="-58.42" y="2.54" size="1.27" layer="95" xref="yes"/>
+<wire x1="-66.04" y1="2.54" x2="-58.42" y2="2.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VCC" class="0">
@@ -6298,8 +6298,8 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <junction x="27.94" y="0"/>
 </segment>
 <segment>
-<wire x1="-53.34" y1="20.32" x2="-48.26" y2="20.32" width="0.1524" layer="91"/>
-<label x="-48.26" y="20.32" size="1.27" layer="95" xref="yes"/>
+<wire x1="-76.2" y1="27.94" x2="-71.12" y2="27.94" width="0.1524" layer="91"/>
+<label x="-71.12" y="27.94" size="1.27" layer="95" xref="yes"/>
 <pinref part="JP1" gate="G$1" pin="1"/>
 </segment>
 </net>
@@ -6323,8 +6323,8 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 </segment>
 <segment>
 <pinref part="JP3" gate="G$1" pin="1"/>
-<wire x1="-53.34" y1="-7.62" x2="-45.72" y2="-7.62" width="0.1524" layer="91"/>
-<label x="-45.72" y="-7.62" size="1.27" layer="95" xref="yes"/>
+<wire x1="-91.44" y1="-12.7" x2="-83.82" y2="-12.7" width="0.1524" layer="91"/>
+<label x="-83.82" y="-12.7" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 </nets>

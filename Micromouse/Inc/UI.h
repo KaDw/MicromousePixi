@@ -48,6 +48,8 @@ static const double rounders[MAX_PRECISION + 1] =
 	0.00000000005		// 10
 };
 
+
+
 void UI_Init(void);
 void UI_InitBeep(void);
 void UI_InitLeds(void);
@@ -125,6 +127,8 @@ typedef struct printf_file_s
 | global functions' declarations
 +=============================================================================+
 */
+
+void UI_MotorPrintData();
 
 /// @brief convert int to char[]
 /// @return return pointer to first char

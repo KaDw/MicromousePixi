@@ -198,7 +198,6 @@ void TIM6_DAC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
-	HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);
 		switch(count){
 		case 1: 
 			ADCreadAmbient(); // read ambient light
@@ -271,22 +270,22 @@ void TIM6_DAC_IRQHandler(void)
 			sensor[5].sens = Sort(sensor[5]) - cal[5];
 			break;
 		case 20:
-			HAL_TIM_Base_Stop(&htim6); // hang up for gyro read
-			// reading form gyro takes 33us
-			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);s
-			uint16_t start = UI_TimeUs();
-			GyroGetAngle(0.001);
-			while(!UI_TimeElapsed(start, 40))
-			{}
+//			HAL_TIM_Base_Stop(&htim6); // hang up for gyro read
+//			// reading form gyro takes 33us
+//			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);s
+//			uint16_t start = UI_TimeUs();
+//			GyroGetAngle(0.001);
+//			while(!UI_TimeElapsed(start, 40))
+//			{}
 
-			HAL_TIM_Base_Start(&htim6);
-			++count; // we need 2x 20us, counter should be increased by 2
-			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+//			HAL_TIM_Base_Start(&htim6);
+//			++count; // we need 2x 20us, counter should be increased by 2
+//			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 			break;
 		
 		case 22:
 			//MotorStepResponse(160, 150, 1500);
-			MotorUpdate();
+			//MotorUpdate();
 			break;
 	}
 			

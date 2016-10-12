@@ -2,6 +2,7 @@
 #include "gpio_r.h"
 #include "UI.h"
 #include "usart.h"
+#include "motor.h"
 
 void UI_InitDelayUs(void);
 
@@ -235,6 +236,31 @@ void UI_WaitBtnR()
 }
 
 
+char* _strcpy(char *dst, const char *src)
+{
+	char *q = dst;
+	const char *p = src;
+	char ch;
+
+	do {
+		*q++ = ch = *p++;
+	} while (ch);
+
+	return dst;
+}
+
+void UI_MotorPrintData(){
+	char buf[25];
+	char itoa_buf[5];
+	_strcpy(buf, "5515");
+	_itoa(EncL, itoa_buf);
+//	strcat(buf, itoa_buf);
+	strcpy(&buf[4], "hah\r\n");
+	_itoa(EncR, itoa_buf);
+	//strcat(buf, itoa_buf);
+	//strcat(buf, "\r\n");
+	HAL_UART_Transmit_DMA(&huart1, (uint8_t*)buf, 8);
+}
 
 #ifdef __GNUC__
 /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
@@ -569,7 +595,6 @@ static int __vfprintf_(printf_file_t *stream, const char *format, va_list arg)
 					buffer_ptr=va_arg(arg, char*);
 				else						// %d or %x - convert the number to string
 				{
-					int base = (character == 'd' ? 10 : 16);
 
 					buffer_ptr = _itoa(va_arg(arg, int), buffer);
 				}
