@@ -200,7 +200,7 @@ void MotorUpdateVariable()
 
 
 void MotorDriver()
-{	
+{
 	int err;
 	for(int i = 0; i < 2; ++i)
 	{
@@ -256,16 +256,82 @@ void MotorFindParams(float previousV, float* v, float dist, float acc, int* time
 	*time = (Tacc + 0.5f*(dist - Sacc - Sbreak) / vel) * MOTOR_DRIVER_FREQ; // [T]
 }
 
+float _MototorCalcTime(int s, int previuousV, int vel, float acc) // [mm], [mm/s], [mm/s], [mm/s/s]
+{
+	// returns time needed for acceleration+movement with constat velocity
+	float Tacc = abs(previuousV-vel)/(float)(acc);
+	int   Sacc = (previuousV+vel)*Tacc*0.5f;
+	float T = 0;
+	if(vel != 0)
+		T = Tacc + abs(s-Sacc)/(float)(vel);
+	return T;
+}
+
+int _MotorCalcVel(int s, int previousV, float T, float acc) // [mm], [mm/s], [s], [mm/s/s]
+{
+	// rozwiazania rowniania kwadratowego
+	// zapewniajacego spelnienie podanych
+	// warunkow (parametrow)
+	// zakladamy ze vel > previousV
+	float a = 1.f;
+	float b = -2.0f * acc * T;
+	float c = 2.0f * acc * s - previousV*previousV;
+	float delta = b*b - 4.f*a*c;
+	delta = fast_sqrt(delta);
+	float vel = (-b-delta) / (4.f*a*c);
+	if(vel < previousV) // gdy przyjecte zalozenia nie sa spelnjione
+		vel = (-b+delta) / (4.f*a*c);
+	
+	if(vel < previousV) // gdy podane zalozenia dalej nie sa spelnione
+	{ // to zamien znaki w funkcji kwadratowej (abs)
+		a = 1.f;
+		b = 2.f*acc*T;
+		c = -2.f*acc - previousV*previousV;
+		delta = b*b - 4.f*a*c;
+		delta = fast_sqrt(delta);
+		vel = (-b-delta) / (4.f*a*c);
+		if( vel > previousV) // gdy pierwiastek nie spelnia zalozen
+			vel = (-b+delta) / (4.f*a*c);
+	}
+	
+	return vel;
+}
+
 void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 {
-	float time = (abs(left)+abs(right))*0.5f/vel;
-	MOTOR_FREEZE_EN();
-	motors.mot[0].targetVel = (int)(left/time);
-	motors.mot[1].targetVel = (int)(right/time);
+//	float time = (abs(left)+abs(right))*0.5f/vel;
+//	MOTOR_FREEZE_EN();
+//	motors.mot[0].targetVel = (int)(left/time);
+//	motors.mot[1].targetVel = (int)(right/time);
+//	motors.time = (int)(time*MOTOR_DRIVER_FREQ); //convert [s] to [T]
+//	MOTOR_FREEZE_DIS();
+//	// now MotorUpdate polling in interrupt will handle this query
+	float Vl = motors.mot[0].vel;
+	float Vr = motors.mot[1].vel;
+	float Tl = _MototorCalcTime(left,  Vl, vel, MOTOR_ACC_V);
+	float Tr = _MototorCalcTime(right, Vr, vel, MOTOR_ACC_V);
+	float T;
 	
-	motors.time = (int)(time*MOTOR_DRIVER_FREQ); //convert [s] to [T]
+	// wyjustuj do wolniejszego silnika
+	if(Tl > Tr)
+	{
+		T = Tl;
+		Vl = vel;
+		Vr = _MotorCalcVel(right, Vr, T, MOTOR_ACC_V); //wyrownujemy, do dluzszego czasu 
+	}
+	else
+	{
+		T = Tr;
+		Vl = _MotorCalcVel(left, Vl, T, MOTOR_ACC_V);
+		Vr = vel;
+	}
+	
+	// ustaw obliczone parametry ruchu
+	MOTOR_FREEZE_EN();
+	motors.mot[0].vel = Vl;
+	motors.mot[1].vel = Vr;
+	motors.time = T*MOTOR_DRIVER_FREQ;
 	MOTOR_FREEZE_DIS();
-	// now MotorUpdate polling in interrupt will handle this query
 }
 
 void MotorTurnA(int angle, int r, float vel)
