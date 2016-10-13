@@ -85,6 +85,11 @@ extern int _motor_flag;
 #define MOTOR_FREEZE_DIS()		CLR(_motor_flag,FLAG_FREEZE)
 #define MOTOR_FREEZE()				GET(_motor_flag,FLAG_FREEZE)	
 
+extern int motor_error;
+#define MOTOR_ERR_CALC_VEL		1
+#define MOTOR_ERR(x)					SET(motor_error,x)
+
+
 #define EncL									MOTOR_HTIM_ENC_L.Instance->CNT
 #define EncR									MOTOR_HTIM_ENC_R.Instance->CNT
 

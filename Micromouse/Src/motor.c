@@ -67,6 +67,7 @@ int MotorTruncPWM(float vel)
 		return vel;
 }
 
+
 void MotorStepResponse(uint16_t PwmL, uint16_t PwmR, uint16_t time)
 {
 		static uint16_t test_mode = 0;
@@ -95,6 +96,7 @@ void MotorStepResponse(uint16_t PwmL, uint16_t PwmR, uint16_t time)
 
 MotorsV motors;
 int _motor_flag = 0;
+int motor_error = 0;
 
 void MotorReset()
 {
@@ -243,27 +245,31 @@ void MotorUpdate()
 
 float _MotorCalcTime(float lastV, float vel, float s)
 {
-	float Tacc = abs(lastV-vel)/MOTOR_ACC_V;
+	// returns time needed for acceleration+movement with constat velocity
+	float a = MOTOR_ACC_V;
+	float Tacc = _fabs(vel-lastV) / a;
 	float Sacc = (lastV+vel)*0.5f*Tacc;
-	float Tcon = abs((s-Sacc)/vel);
-	float T = 0;
+	float Tcon = _fabs((s-Sacc)/vel); // czas ruchu jednostajnego
+	float T;
 	//gdy tylko przyspieszamy, to czas jest opisany zaleznoscia
 	//t^2 + t*2*v0/a - s*s/a = 0
-	if(abs(Sacc) > abs(s)){
-		s = abs(s);
-		T = (-lastV + fast_sqrt(lastV*lastV+2*s*MOTOR_ACC_V))/MOTOR_ACC_V;
+	if(_fabs(Sacc) > _fabs(s)){
+		s = _fabs(s);
+		T = (-lastV + fast_sqrt(lastV*lastV+2*s*a)) / a;
 	}
 	//gdy przyspieszamy oraz poruszamy sie ze stala predkoscia
 	//T = Tacc + Tconst
 	else if(_fabs(vel) > 0.001f)
-		T = Tacc+Tcon;
+		T = Tacc + Tcon;
 		
 	return T;
 }
 
-float MotorCalcS(float lastV, float vel, float t)
+
+float _MotorCalcS(float lastV, float vel, float t)
 {
-	 float Tacc = abs((vel-lastV)/MOTOR_ACC_V);
+	 float a = MOTOR_ACC_V;
+	 float Tacc = _fabs((vel-lastV) / a);
    float Sacc = (lastV+vel)*0.5f*Tacc;
    float Scon = vel*(t-Tacc);
 		 
@@ -274,65 +280,47 @@ float MotorCalcS(float lastV, float vel, float t)
 }
 		
 
-float _MototorCalcTime(int s, int previuousV, int vel, float acc) // [mm], [mm/s], [mm/s], [mm/s/s]
-{
-	// returns time needed for acceleration+movement with constat velocity
-	float Tacc = abs(previuousV-vel)/(float)(acc);
-	int   Sacc = (previuousV+vel)*Tacc*0.5f;
-	float T = 0;
-	if(vel != 0)
-		T = Tacc + abs(s-Sacc)/(float)(vel);
-	return T;
-}
 
-int _MotorCalcVel(int s, int previousV, float T, float acc) // [mm], [mm/s], [s], [mm/s/s]
+float MotorCalcVel(float lastV, float s, float t) // [mm], [mm/s], [s], [mm/s/s]
 {
-	// rozwiazania rowniania kwadratowego
-	// zapewniajacego spelnienie podanych
-	// warunkow (parametrow)
-	// zakladamy ze vel > previousV
-	float a = 1.f;
-	float b = -2.0f * acc * T;
-	float c = 2.0f * acc * s - previousV*previousV;
-	float delta = b*b - 4.f*a*c;
-	delta = fast_sqrt(delta);
-	float vel = (-b-delta) / (4.f*a*c);
-	if(vel < previousV) // gdy przyjecte zalozenia nie sa spelnjione
-		vel = (-b+delta) / (4.f*a*c);
-	
-	if(vel < previousV) // gdy podane zalozenia dalej nie sa spelnione
-	{ // to zamien znaki w funkcji kwadratowej (abs)
-		a = 1.f;
-		b = 2.f*acc*T;
-		c = -2.f*acc - previousV*previousV;
-		delta = b*b - 4.f*a*c;
-		delta = fast_sqrt(delta);
-		vel = (-b-delta) / (4.f*a*c);
-		if( vel > previousV) // gdy pierwiastek nie spelnia zalozen
-			vel = (-b+delta) / (4.f*a*c);
-	}
-	
-	return vel;
-}
-
-
-float MotorCalcVel(float lastV, float s, float t)
-{
-	//ale gdy mamy rownierz poruszanie sie z predkoscia stala,
-	//to musimy rozwiazac ponizsze rownanie z zalozeniami:
-	float a = MOTOR_ACC_V;	
-		
+	float a = MOTOR_ACC_V;
+	float V, p, S;
+	// sprawdzamy, czy mamy przyspieszac, czy zwalniac
 	if(lastV*t > s)
 		a = -a;
-	//zakladamy, ze v > lastV
+	
+	p = (a*t*t + 2*lastV*t - 2*s) / a;
+	if(p > 0)
+	{
+		p = fast_sqrt(p);
+		V = lastV - a*p + a*t;
+		S = _MotorCalcS(lastV, V, t);
+		if(_fabs(S-s) > 5) // gdy wyilczona predkosc jest zla
+			V = lastV + a*p + a*t; // to probujemy 2 rozwiazanie
+	}
+	else
+	{ // obliczenia nie ida za dobrze
+		// w akcie rozpaczy upraszczamy sobie rownania
+		// doswiadczalnie zostalo dobrane to rownanie
+		// inne opcje to: V = s/t (gdy t!=0), lub cos zupelnie innego
+		MOTOR_ERR(MOTOR_ERR_CALC_VEL);
+		V = lastV + a*t;
+	}
+	return V;
+}
+
+
+float _MotorCalcVel(float lastV, float s, float t)
+{
+	// sprawdz, czy powinienes przyspieszac, czy hamowac
+	float a = lastV*t>s ? MOTOR_ACC_V : -MOTOR_ACC_V;
 	float p = (a*t*t + 2*lastV*t - 2*s)/a;
 	float S = 0;
 	float V;
 	if( p >= 0){
 		p = fast_sqrt(p);
-		float V = lastV - a*p + a*t;
-		S = MotorCalcS(lastV, V, t);
-		
+		V = lastV - a*p + a*t;
+		S = _MotorCalcS(lastV, V, t);
 		
 		if(_fabs(S - s) > 5)
 			V = lastV + a * p + a * t;
@@ -353,34 +341,35 @@ float MotorCalcVel(float lastV, float s, float t)
 
 void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 {
-//	float time = (abs(left)+abs(right))*0.5f/vel;
-//	MOTOR_FREEZE_EN();
-//	motors.mot[0].targetVel = (int)(left/time);
-//	motors.mot[1].targetVel = (int)(right/time);
-//	motors.time = (int)(time*MOTOR_DRIVER_FREQ); //convert [s] to [T]
-//	MOTOR_FREEZE_DIS();
-//	// now MotorUpdate polling in interrupt will handle this query
-	float Vl = motors.mot[0].vel;
-	float Vr = motors.mot[1].vel;
-	float Tl = _MototorCalcTime(left,  Vl, vel, MOTOR_ACC_V);
-	float Tr = _MototorCalcTime(right, Vr, vel, MOTOR_ACC_V);
+	float lVl = motors.mot[0].vel; //last vel left
+	float lVr = motors.mot[1].vel;
+	vel = _fabs(vel);
+	float Vl = vel;
+	float Vr = vel;
 	float T;
 	
-	// wyjustuj do wolniejszego silnika
-	if(Tl > Tr)
-	{
-		T = Tl;
-		Vl = vel;
-		Vr = _MotorCalcVel(right, Vr, T, MOTOR_ACC_V); //wyrownujemy, do dluzszego czasu 
-	}
-	else
-	{
-		T = Tr;
-		Vl = _MotorCalcVel(left, Vl, T, MOTOR_ACC_V);
-		Vr = vel;
-	}
+	if(vel == 0)
+			return;
+	if(left < 0)
+			Vl = -vel;
+	if(right < 0)
+			Vr = - vel;
 	
-	// ustaw obliczone parametry ruchu
+	// oczlicz czas potrzebny na ruch kazdego z kol
+	// i wybierz to ktore potrzebuje go wiecej
+	// jako czas calego ruchu
+	float Tl = _MotorCalcTime(lVl, Vl, left);
+	float Tr = _MotorCalcTime(lVr, Vr, right);
+	if(Tl > Tr)
+			T = Tl;
+	else
+			T = Tr;
+	
+	// gdy juz znasz czas, to dopasuj predkosci kazdego z kol
+	// i wpisz rezultaty do struktury, aby zaczely byc obslugiwane
+	// przez MotorDriver()
+	Vl = _MotorCalcVel(lVl, left,  T);
+	Vr = _MotorCalcVel(lVr, right, T);
 	MOTOR_FREEZE_EN();
 	motors.mot[0].vel = Vl;
 	motors.mot[1].vel = Vr;
