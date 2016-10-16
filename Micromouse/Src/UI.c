@@ -235,6 +235,15 @@ void UI_WaitBtnR()
 }
 
 
+void UI_PrintData(){
+	char buf[25];
+	strcpy(buf, "test");
+	strcpy(&buf[4], "53456");
+	
+	HAL_UART_Transmit_DMA(&huart1, (uint8_t*)buf, strlen(buf));
+	
+}
+
 
 #ifdef __GNUC__
 /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf

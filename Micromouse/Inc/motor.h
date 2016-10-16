@@ -115,6 +115,7 @@ typedef struct
 } MotorsV;
 
 void MotorStepResponse(uint16_t PwmL, uint16_t PwmR, uint16_t time);
+void MotorPrintData();
 
 void MotorInit(void);
 void MotorUpdate(void);

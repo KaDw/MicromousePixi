@@ -68,6 +68,8 @@ int  UI_TimeElapsed(uint16_t start, uint16_t time);
 void UI_DelayUs(uint16_t us);
 void UI_WaitBtnL(void);
 void UI_WaitBtnR(void);
+
+void UI_PrintData();
 /*
 +=============================================================================+
 | printf_()

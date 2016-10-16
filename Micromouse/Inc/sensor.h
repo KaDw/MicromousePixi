@@ -50,7 +50,7 @@ extern uint32_t cal[7];
 extern uint32_t sens[6];
 extern uint32_t fuzzy[6];
 extern uint32_t read[4];
-extern uint32_t vbat;
+extern volatile uint32_t vbat;
 extern uint8_t batError;
 
 

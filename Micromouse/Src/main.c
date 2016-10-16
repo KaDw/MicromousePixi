@@ -31,6 +31,7 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
+#include "main.h"
 #include "stm32f4xx_hal.h"
 #include "adc.h"
 #include "dma.h"
@@ -50,22 +51,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-#define TXBUFFERSIZE 20
 
 /* Private variables ---------------------------------------------------------*/
 /* ADC */
-float sum;
-uint32_t adc = 4000;
-uint8_t Tx_buf = 0x0C;
-uint8_t aTxBuffer[] = "abcd\n";
-uint8_t Rx_buf = 0xFF; 
-uint8_t init_flag = 0;
-//uint16_t prevL;
-//uint16_t prevR;
-//uint16_t currL;
-//uint16_t currR;
-uint16_t cnt;
-extern volatile uint8_t count;
 
 /* USER CODE END PV */
 
@@ -78,7 +66,6 @@ void Error_Handler(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-//uint16_t calSensor[4];
 /* USER CODE END 0 */
 
 int main(void)
@@ -113,52 +100,33 @@ int main(void)
   UI_Init();
 	GyroInit();
 	GyroCalibrate(0.001, 100);
-	HAL_TIM_Base_Start_IT(&htim6);
+	//HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-//MotorSetPWMRaw(50, 50);
-//printf("\r\n\nvbat:%dmV\r\nCzekam na start\r\n", UI_BattValue());
 //ENABLE_GYRO();
 //ENABLE_SENSOR();
-SensorOff();
+uint16_t start = 0;
+//SensorOff();
 ENABLE_ENCODER();
 UI_LedOnAll();
-UI_WaitBtnL();
+//UI_WaitBtnL();
 UI_LedOffAll();
 HAL_Delay(1000);
-MotorGo(-200, -200, 250);
-HAL_Delay(1000);
-MotorTurn(180, HALF_WHEELBASE, 250);
-while(1){}; // tak bo warning
-//ENABLE_GYRO();
-//UI_WaitBtnL();
-//HAL_Delay(600);
-//UI_WaitBtnL();
-//MotorGoA(500, 500, 50); //mm mm mm/s
-//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
-//		GyroGetAngle(0.001);
-//		adc = TIM7->CNT;
-//		printf("MotorUpdate: %dus\r\n", adc-1);
-//sensor[0].sens[0] = 5;
-//sensor[0].sens[1] = 3;
-//sensor[0].sens[2] = 1;
-//UI_TimerUs(1e6f*MOTOR_DRIVER_T);
-//Sort(&sensor[0]);
-//adc = TIM7->CNT;
-//printf("Removing pepper noise: %dus\r\n", adc-1);
-//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
-
-//extern MotorsV motors; 
-  while (1)
-  {
-
+MotorGoA(150, 150, 150);
+//MotorTurn(180, HALF_WHEELBASE, 250);
+while (1)
+{
+	start = UI_TimeUs();
+	MotorUpdate();
+	//MotorPrintData();
+	while(!UI_TimeElapsed(start, 1000));
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
 	
-  }
+}
 
   /* USER CODE END 3 */
 
@@ -172,10 +140,14 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
 
+    /**Configure the main internal regulator output voltage 
+    */
   __HAL_RCC_PWR_CLK_ENABLE();
 
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
+    /**Initializes the CPU, AHB and APB busses clocks 
+    */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -189,19 +161,26 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 
+    /**Initializes the CPU, AHB and APB busses clocks 
+    */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
   {
     Error_Handler();
   }
 
+    /**Configure the Systick interrupt time 
+    */
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
+    /**Configure the Systick 
+    */
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
   /* SysTick_IRQn interrupt configuration */
@@ -210,9 +189,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 //void HAL_SYSTICK_Callback(){
-//	if(init_flag){
-//		GyroGetAngle(0.001);
-//	}
+
 //}
 
 

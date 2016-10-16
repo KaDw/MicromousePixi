@@ -1,6 +1,7 @@
 #include "motor.h"
 #include "sensor.h"
 #include "fxas21002c.h"
+#include <math.h>
 const float 	WHEELBASE							= 66;
 const float 	HALF_WHEELBASE				= (WHEELBASE/2); /* mm*/
 const float 	TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
@@ -22,33 +23,41 @@ int abs(int x)
 		return x;
 }
 
-float _fabs(float x)
-{
-	if(x < 0)
-		return -x;
-	else
-		return x;
-}
+//float _fabs(float x)
+//{
+//	if(x < 0)
+//		return -x;
+//	else
+//		return x;
+//}
 
 int sgn(int x)
 {
 	return (x>0)-(x<0);
 }
 
-float fast_sqrt(float x)
-{
-	// Heron from Alexandria
-	float p = 0.5f*x;
-	float lastP = x;
-	
-	while(lastP-p > 0.1f)
-	{
-		lastP = p;
-		p = 0.5f*(x/p+p);
-	}
-	
-	return p;
-}
+//int round(float x)
+//{
+//	if(x < 0)
+//		return (int)(x+0.5f);
+//	else
+//		return (int)(x+0.5f);
+//}
+
+//float fast_sqrt(float x)
+//{
+//	// Heron from Alexandria
+//	float p = 0.5f*x;
+//	float lastP = x;
+//	
+//	while(lastP-p > 0.1f)
+//	{
+//		lastP = p;
+//		p = 0.5f*(x/p+p);
+//	}
+//	
+//	return p;
+//}
 
 
 int mmToTicks(int mm)
@@ -88,6 +97,18 @@ void MotorStepResponse(uint16_t PwmL, uint16_t PwmR, uint16_t time)
 		buf[1] = enc;
 		HAL_UART_Transmit_DMA(&huart1, (uint8_t*)buf, 2);
 		test_mode++;
+}
+
+void MotorPrintData()
+{
+		uint8_t buf[2];
+		uint32_t enc;
+		//_itoa(37, aTxBuffer);
+		enc = EncL;
+		TIM3->CNT = 0;
+		buf[0] = enc >> 8;
+		buf[1] = enc;
+		HAL_UART_Transmit_DMA(&huart1, (uint8_t*)buf, 2);
 }
 
 //========================
@@ -161,8 +182,7 @@ void MotorUpdateEnc()
 
 int MotorUpdateStatus()
 {
-	if(_fabs(motors.mot[0].vel) > 0.0001f || _fabs(motors.mot[0].targetVel) > 0.0001f ||
-		_fabs(motors.mot[1].vel) > 0.0001f || _fabs(motors.mot[1].targetVel) > 0.0001f)
+	if(fabs(motors.mot[0].targetVel) > 0.1f || fabs(motors.mot[1].targetVel) > 0.01f)
 		return 0; // motor running
 	else
 		return 1; // motor stopped
@@ -204,8 +224,8 @@ void MotorUpdateVariable()
 	}
 	
 	// position
-	motors.mot[0].idealEnc += (int)(motors.mot[0].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
-	motors.mot[1].idealEnc += (int)(motors.mot[1].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
+	motors.mot[0].idealEnc += roundf(motors.mot[0].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
+	motors.mot[1].idealEnc += roundf(motors.mot[1].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
 }
 
 
@@ -245,23 +265,28 @@ void MotorUpdate()
 
 float _MotorCalcTime(float lastV, float vel, float s)
 {
+	
+	if(fabs(vel) < 0.001)
+		return 0;
 	// returns time needed for acceleration+movement with constat velocity
 	float a = MOTOR_ACC_V;
-	float Tacc = _fabs(vel-lastV) / a;
+	float Tacc = fabs(vel-lastV) / a;
 	float Sacc = (lastV+vel)*0.5f*Tacc;
-	float Tcon = _fabs((s-Sacc)/vel); // czas ruchu jednostajnego
+	float Tcon = fabs((s-Sacc)/vel); // czas ruchu jednostajnego
 	float T;
 	//gdy tylko przyspieszamy, to czas jest opisany zaleznoscia
 	//t^2 + t*2*v0/a - s*s/a = 0
-	if(_fabs(Sacc) > _fabs(s)){
-		s = _fabs(s);
-		T = (-lastV + fast_sqrt(lastV*lastV+2*s*a)) / a;
-	}
+	if(fabs(Sacc) > fabs(s)){
+		s = fabs(s);
+		T = (-lastV + sqrtf(lastV*lastV+2*s*a)) / a;
+		if(T < 0)
+			T = (lastV + sqrtf(lastV*lastV+2*s*a)) / a;
 	//gdy przyspieszamy oraz poruszamy sie ze stala predkoscia
 	//T = Tacc + Tconst
-	else if(_fabs(vel) > 0.001f)
+	}
+	else
 		T = Tacc + Tcon;
-		
+	
 	return T;
 }
 
@@ -269,7 +294,7 @@ float _MotorCalcTime(float lastV, float vel, float s)
 float _MotorCalcS(float lastV, float vel, float t)
 {
 	 float a = MOTOR_ACC_V;
-	 float Tacc = _fabs((vel-lastV) / a);
+	 float Tacc = fabs((vel-lastV) / a);
    float Sacc = (lastV+vel)*0.5f*Tacc;
    float Scon = vel*(t-Tacc);
 		 
@@ -278,24 +303,26 @@ float _MotorCalcS(float lastV, float vel, float t)
     else
 			return Sacc;
 }
-		
 
 
-float MotorCalcVel(float lastV, float s, float t) // [mm], [mm/s], [s], [mm/s/s]
+float _MotorCalcVel(float lastV, float s, float t) // [mm], [mm/s], [s]
 {
-	float a = MOTOR_ACC_V;
-	float V, p, S;
 	// sprawdzamy, czy mamy przyspieszac, czy zwalniac
-	if(lastV*t > s)
-		a = -a;
+	float a = (lastV*t)>s ? -MOTOR_ACC_V : MOTOR_ACC_V;
+	float V, p;
+	float S = 0;
 	
-	p = (a*t*t + 2*lastV*t - 2*s) / a;
-	if(p > 0)
+	p = (a*t*t + 2*lastV*t -2*s) / a;
+	if(p < 0){
+		p = (a*t*t + 2*lastV*t + 2*s)/a;
+    p = sqrtf(p);
+	}
+	if(p >= 0)
 	{
-		p = fast_sqrt(p);
-		V = lastV - a*p + a*t;
+		p = sqrtf(p);
+		V = lastV - (a*p) + (a*t);
 		S = _MotorCalcS(lastV, V, t);
-		if(_fabs(S-s) > 5) // gdy wyilczona predkosc jest zla
+		if(fabs(S-s) > 5) // gdy wyilczona predkosc jest zla
 			V = lastV + a*p + a*t; // to probujemy 2 rozwiazanie
 	}
 	else
@@ -310,57 +337,26 @@ float MotorCalcVel(float lastV, float s, float t) // [mm], [mm/s], [s], [mm/s/s]
 }
 
 
-float _MotorCalcVel(float lastV, float s, float t)
-{
-	// sprawdz, czy powinienes przyspieszac, czy hamowac
-	float a = lastV*t>s ? MOTOR_ACC_V : -MOTOR_ACC_V;
-	float p = (a*t*t + 2*lastV*t - 2*s)/a;
-	float S = 0;
-	float V;
-	if( p >= 0){
-		p = fast_sqrt(p);
-		V = lastV - a*p + a*t;
-		S = _MotorCalcS(lastV, V, t);
-		
-		if(_fabs(S - s) > 5)
-			V = lastV + a * p + a * t;
-	}
-	// w akcie rozpaczy (gdy nie idzie liczenie tego) - to uprosc
-	// obliczenia dobrane metoda doswiadczalna
-	// inne opcje to:
-	// a) V = s/t //gdy t!=0
-	// b) p = math.sqrt(a*t*t + 2*lastV*t + 2*s)/a)
-	//    V = lastV + a * p + a * t
-	// c) wesola tworczosc
-	else
-		V = lastV + a*t;
-	
-	return V;
-}
-
-
 void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 {
 	float lVl = motors.mot[0].vel; //last vel left
 	float lVr = motors.mot[1].vel;
-	vel = _fabs(vel);
+	vel = fabs(vel);
 	float Vl = vel;
 	float Vr = vel;
 	float T;
 	
-	if(vel == 0)
-			return;
 	if(left < 0)
 			Vl = -vel;
 	if(right < 0)
-			Vr = - vel;
+			Vr = -vel;
 	
 	// oczlicz czas potrzebny na ruch kazdego z kol
 	// i wybierz to ktore potrzebuje go wiecej
 	// jako czas calego ruchu
 	float Tl = _MotorCalcTime(lVl, Vl, left);
 	float Tr = _MotorCalcTime(lVr, Vr, right);
-	if(Tl > Tr)
+	if(Tl > Tr) // takie same jesli jedziemy prosto
 			T = Tl;
 	else
 			T = Tr;
@@ -376,6 +372,7 @@ void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 	motors.time = T*MOTOR_DRIVER_FREQ;
 	MOTOR_FREEZE_DIS();
 }
+
 
 void MotorTurnA(int angle, int r, float vel)
 {
@@ -422,7 +419,7 @@ void MotorSetPWM()
 	int VR = MotorTruncPWM(motors.mot[1].PWM);
 	
 	// power limiter
-	int thres = 500;
+	int thres = 250;
 	if(VL*VL > thres*thres)
 		VL = thres*sgn(VL);
 	if(VR*VR > thres*thres)

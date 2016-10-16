@@ -21,7 +21,7 @@ uint32_t cal[7];
 uint32_t sens[6];
 uint32_t read[4];
 uint32_t fuzzy[6] = {4, 2, 3, 4, 5, 6};
-uint32_t vbat;
+volatile uint32_t vbat;
 uint8_t batError;
 /*
 sens[0] - LF - Left
@@ -51,23 +51,25 @@ void ADCreadAmbient(){
 	ADC1->SQR2 = CH9;
 	//CH3, CH10
 	HAL_ADC_Start_DMA(&hadc1, cal, 7);
-	vbat = (cal[6]*0.0025)+0.067; // *0.0025 i dodac 0,067
+	vbat = cal[6]; // *0.0025 i dodac 0,067
 	if(cal[6] < 2884 && cal[6] > 2650){ // 7,4-6,8
 		batError = 1;
-		UI_LedOnAll();
+		//UI_LedOnAll();
 	}
 }
 
 void ADCreadChannel(uint8_t CHx, uint32_t *buf){
 	ADC1->SQR1 &= ~ADC_SQR1_L; // 1 conversion
 	ADC1->SQR3 = CHx; // channel to be converted
-	HAL_ADC_Start_DMA(&hadc1, buf, 1);
+	if(HAL_ADC_Start_DMA(&hadc1, buf, 1) != HAL_OK)
+		UI_LedOnAll();
 }
 
 void ADCread2Channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf){
 	ADC1->SQR1 = ADC_SQR1_L_0;
 	ADC1->SQR3 = (CHx1)|(CHx2<<5);
-	HAL_ADC_Start_DMA(&hadc1, buf, 2);
+	if(HAL_ADC_Start_DMA(&hadc1, buf, 2) != HAL_OK)
+		UI_LedOnAll();
 }
 
 

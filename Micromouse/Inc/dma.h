@@ -41,6 +41,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
+#include "main.h"
 
 /* DMA memory to memory transfer handles -------------------------------------*/
 extern void Error_Handler(void);
