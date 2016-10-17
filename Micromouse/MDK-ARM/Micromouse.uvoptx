@@ -196,34 +196,34 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>72</LineNumber>
+          <LineNumber>302</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134218724</Address>
+          <Address>134233984</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Src\sensor.c</Filename>
+          <Filename>..\Src\motor.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Micromouse\../Src/sensor.c\72</Expression>
+          <Expression>\\Micromouse\../Src/motor.c\302</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>65</LineNumber>
+          <LineNumber>373</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134218842</Address>
+          <Address>134229396</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Src\sensor.c</Filename>
+          <Filename>..\Src\motor.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Micromouse\../Src/sensor.c\65</Expression>
+          <Expression>\\Micromouse\../Src/motor.c\373</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>

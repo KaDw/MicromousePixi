@@ -5,8 +5,8 @@
 const float 	WHEELBASE							= 66;
 const float 	HALF_WHEELBASE				= (WHEELBASE/2); /* mm*/
 const float 	TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
-const float 	MOTOR_DRIVER_FREQ			= 1000.f; // Hz
-const float 	MOTOR_DRIVER_T				= 1.f/MOTOR_DRIVER_FREQ;
+float const 	MOTOR_DRIVER_FREQ			= 1000.f; // Hz
+float					MOTOR_DRIVER_T				= 1.f/MOTOR_DRIVER_FREQ;
 const float 	MOTOR_EPSILON_W				= 0.08; /* acceptable rotation error in radians*/
 const int 		MOTOR_EPSILON 					= 15; /* acceptable position error - enc tick 15~1mm*/
 const int 		ONE_CELL_DISTANCE				= 2725; // ticks
@@ -36,13 +36,20 @@ int sgn(int x)
 	return (x>0)-(x<0);
 }
 
-//int round(float x)
-//{
-//	if(x < 0)
-//		return (int)(x+0.5f);
-//	else
-//		return (int)(x+0.5f);
-//}
+int _roundf(float x)
+{
+	// zaszumianie
+	static float szum = 0;
+	szum += 0.013f;
+	if(szum > 0.5f)
+		szum = -0.5f;
+	x += szum;
+	
+	if(x < 0)
+		return (int)(x+0.5f);
+	else
+		return (int)(x+0.5f);
+}
 
 //float fast_sqrt(float x)
 //{
@@ -224,8 +231,13 @@ void MotorUpdateVariable()
 	}
 	
 	// position
-	motors.mot[0].idealEnc += roundf(motors.mot[0].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
-	motors.mot[1].idealEnc += roundf(motors.mot[1].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
+	if(!motors.mot[0].vel){
+		motors.mot[0].vel++;
+		motors.mot[0].vel--;
+	}
+	
+	motors.mot[0].idealEnc += _roundf(motors.mot[0].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
+	motors.mot[1].idealEnc += _roundf(motors.mot[1].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
 }
 
 
@@ -367,8 +379,8 @@ void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 	Vl = _MotorCalcVel(lVl, left,  T);
 	Vr = _MotorCalcVel(lVr, right, T);
 	MOTOR_FREEZE_EN();
-	motors.mot[0].vel = Vl;
-	motors.mot[1].vel = Vr;
+	motors.mot[0].targetVel = Vl;
+	motors.mot[1].targetVel = Vr;
 	motors.time = T*MOTOR_DRIVER_FREQ;
 	MOTOR_FREEZE_DIS();
 }
