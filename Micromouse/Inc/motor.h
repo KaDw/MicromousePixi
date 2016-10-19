@@ -61,7 +61,7 @@ typedef enum
 #define MOTOR_VELV_KD					0.8f /* -0.7899f */
 
 // ACC_V [mm/s/s] 	ACC_W[rad/s/s]
-#define MOTOR_ACC_V						(1300.0f)
+#define MOTOR_ACC_V						(1000.0f)
 #define MOTOR_ACC_W						5.0f // 174.532925 rad/s/s = 10000 deg/s/s
 
 // flags determine sensor int turn
@@ -99,7 +99,7 @@ extern float sensorGyroW;
 typedef struct
 {
 	int PWM; // [0..MOTOR_MAX_PWM]
-	float vel;
+	float vel, a;
 	float targetVel; // mm/s
 	int16_t lastEnc, encChange;
 	unsigned int enc, idealEnc;
@@ -116,7 +116,7 @@ typedef struct
 } MotorsV;
 
 void MotorStepResponse(uint16_t PwmL, uint16_t PwmR, uint16_t time);
-void MotorPrintData();
+void MotorPrintData(void);
 
 void MotorInit(void);
 void MotorUpdate(void);
@@ -128,6 +128,5 @@ void MotorGo(int left, int right, float vel); // [mm] [mm] [mm/s]
 void MotorGoA(int left, int right, float vel); // [mm] [mm] [mm/s]
 void MotorTurn(int angle, int r, float vel);
 void MotorTurnA(int angle, int r, float vel);
-void MotorRotR90A(void);
 
 #endif

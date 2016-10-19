@@ -51,10 +51,10 @@ void ADCreadAmbient(){
 	ADC1->SQR2 = CH9;
 	//CH3, CH10
 	HAL_ADC_Start_DMA(&hadc1, cal, 7);
-	vbat = cal[6]; // *0.0025 i dodac 0,067
-	if(cal[6] < 2884 && cal[6] > 2650){ // 7,4-6,8
+	//vbat = cal[6]; // *0.0025 i dodac 0,067
+	if(cal[6] < 2900 && cal[6] > 2650){ // 7,4-6,8
 		batError = 1;
-		//UI_LedOnAll();
+		UI_LedOnAll();
 	}
 }
 

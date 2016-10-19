@@ -137,7 +137,6 @@ if __name__ == "__main__":
     t  = [0]
 
     for i in range(0,5):
-        print("\n")
         left = int(input("lewe kolo: "))
         right = int(input("prawe kolo: "))
         vel = int(input("predkosc: "))
@@ -154,6 +153,8 @@ if __name__ == "__main__":
             t.append(t[-1]+1)
             motors.time = motors.time - 1
         print("droga na koniec: ", Sl[-1], Sr[-1], sep=', ');
+        print("droga na koniec: ", Sl[-1]*30.28, Sr[-1]*30.28, sep=', ');
+        print("\n")
         #wyswietl wyniki
         pl.subplot(2, 1, 1)
         pl.plot(t, Sl)

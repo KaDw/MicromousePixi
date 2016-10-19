@@ -42,7 +42,7 @@ int _roundf(float x)
 	static float szum = 0;
 	szum += 0.013f;
 	if(szum > 0.5f)
-		szum = -0.5f;
+		szum -= 1.0f;
 	x += szum;
 	
 	if(x < 0)
@@ -138,10 +138,12 @@ void MotorReset()
 
 void MotorResetEnc(_MotorV* m)
 {
+	MOTOR_FREEZE_EN();
 	m->enc = 0;
 	m->encChange = 0;
 	m->lastEnc = 0;
 	m->idealEnc = 0;
+	MOTOR_FREEZE_DIS();
 }
 
 void MotorInit()
@@ -196,20 +198,26 @@ int MotorUpdateStatus()
 }
 
 
+/// update accelerate and velocity
 /// increase/decrease 'temp' by 'by' to get closer to 'to'
-void _stepTo(float* temp, float to, float step)
+void _MotorUpdateAV(_MotorV* mot)
 {
-	if(*temp < to) // accelerate
+	if(mot->vel < mot->targetVel) // accelerate
 	{
-		*temp += step;
-		if(*temp > to)
-			*temp = to;
+		mot->a = MOTOR_ACC_V;
+		mot->vel += mot->a*MOTOR_DRIVER_T;
+		if(mot->vel > mot->targetVel)
+			mot->vel = mot->targetVel;
 	}
-	else if(*temp > to) // deccelerate
+	else if(mot->vel > mot->targetVel) // deccelerate
 	{
-		*temp -= step;
-		if(*temp < to)
-			*temp = to;
+		mot->a = -MOTOR_ACC_V;
+		mot->vel += mot->a*MOTOR_DRIVER_T;
+		if(mot->vel < mot->targetVel)
+			mot->vel = mot->targetVel;
+	}
+	else{ 
+		mot->a = 0;
 	}
 }
 
@@ -217,8 +225,8 @@ void _stepTo(float* temp, float to, float step)
 void MotorUpdateVariable()
 {
 	// velocity
-	_stepTo(&motors.mot[0].vel, motors.mot[0].targetVel, MOTOR_ACC_V*MOTOR_DRIVER_T);
-	_stepTo(&motors.mot[1].vel, motors.mot[1].targetVel, MOTOR_ACC_V*MOTOR_DRIVER_T);
+	_MotorUpdateAV(&motors.mot[0]);
+	_MotorUpdateAV(&motors.mot[1]);
 	
 	// timing
 	if(motors.time > 1) // decrement translation velocity timer
@@ -232,8 +240,8 @@ void MotorUpdateVariable()
 	
 	// position
 	if(!motors.mot[0].vel){
-		motors.mot[0].vel++;
-		motors.mot[0].vel--;
+		++motors.mot[0].vel;
+		--motors.mot[0].vel;
 	}
 	
 	motors.mot[0].idealEnc += _roundf(motors.mot[0].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
@@ -252,16 +260,17 @@ void MotorDriver()
 		motors.mot[i].errI+= err;
 		motors.mot[i].errP = err;
 		// sprzezenie od bledu pozycji
-		motors.mot[i].PWM = (int)(5.f*(float)(motors.mot[i].errP) // 500
-														+ 0.f*(float)(motors.mot[i].errI) // 1000
-														+ 0.8f*(float)(motors.mot[i].errD)); // 56
+		motors.mot[i].PWM = (int)(3.f*((float)(motors.mot[i].errP) // 500
+														+ 0.0f*(float)(motors.mot[i].errI) // 1000
+														+ 0.5f*(float)(motors.mot[i].errD))); // 56
 		// sprzezenie od zadanej predkosci
-		motors.mot[i].PWM += (int)(0.15f*motors.mot[i].vel);
+		motors.mot[i].PWM += (int)(0.17f*(motors.mot[i].vel
+														+ 0.3f*motors.mot[i].a)); // 0.03
 	}
 	
 	// sprzezenie od bledu pozycji 2. silnika
-//	motors.mot[0].PWM += -(int)(3.f*motors.mot[1].errP);
-//	motors.mot[1].PWM += -(int)(3.f*motors.mot[0].errP);
+	//motors.mot[0].PWM += -(int)(3.f*motors.mot[1].errP);
+	//motors.mot[1].PWM += -(int)(3.f*motors.mot[0].errP);
 }
 
 
@@ -351,9 +360,9 @@ float _MotorCalcVel(float lastV, float s, float t) // [mm], [mm/s], [s]
 
 void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 {
+	vel = fabs(vel);
 	float lVl = motors.mot[0].vel; //last vel left
 	float lVr = motors.mot[1].vel;
-	vel = fabs(vel);
 	float Vl = vel;
 	float Vr = vel;
 	float T;
@@ -388,18 +397,34 @@ void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 
 void MotorTurnA(int angle, int r, float vel)
 {
-	int left  = PI*(r+HALF_WHEELBASE)*angle/180;
-	int right = PI*(r-HALF_WHEELBASE)*angle/180;
+	int left, right;
 	
-	MotorResetEnc(&motors.mot[0]);
-	MotorResetEnc(&motors.mot[1]);
+	if(angle < 0 && r > 0) // left forward
+	{
+		left  = -PI*(r-HALF_WHEELBASE)*angle/180;
+		right = -PI*(r+HALF_WHEELBASE)*angle/180;
+	}
+	else if( angle > 0 && r > 0) // right forward
+	{
+		left  = PI*(r+HALF_WHEELBASE)*angle/180;
+		right = PI*(r-HALF_WHEELBASE)*angle/180;
+	}
+	else if( angle < 0 && r < 0) // left backward
+	{
+		left  = -PI*(r+HALF_WHEELBASE)*angle/180;
+		right = -PI*(r-HALF_WHEELBASE)*angle/180;
+	}
+	else // right backward
+	{
+		left  = PI*(r-HALF_WHEELBASE)*angle/180;
+		right = PI*(r+HALF_WHEELBASE)*angle/180;
+	}
+	
+	//MotorResetEnc(&motors.mot[0]);
+	//MotorResetEnc(&motors.mot[1]);
 	MotorGoA(left, right, vel);
 }
 
-void MotorRotR90A()
-{
-	MotorTurnA(90, 0, 500);
-}
 
 void MotorSetVel(int velocity, int omega)
 {
@@ -411,18 +436,31 @@ void MotorSetVel(int velocity, int omega)
 
 void MotorGo(int left, int right, float vel)
 { 
+	int32_t end;
 	MotorGoA(left, right, vel);
 	while(!MotorUpdateStatus())
 	{
+		end = UI_Timestamp();
+		MotorUpdate();
+		ADCreadAmbient();
+		//MotorPrintData();
+		while(UI_TimeElapsedUs(end) < MOTOR_DRIVER_T*1000000);
 	}
+	MotorSetPWMRaw(0,0);
 }
 
 void MotorTurn(int angle, int r, float vel)
 {
+	int32_t end;
 	MotorTurnA(angle, r, vel);
 	while(!MotorUpdateStatus())
 	{
+		end = UI_Timestamp();
+		MotorUpdate();
+		ADCreadAmbient();
+		while(UI_TimeElapsedUs(end) < MOTOR_DRIVER_T*1000000);
 	}
+	MotorSetPWMRaw(0,0);
 }
 
 void MotorSetPWM()

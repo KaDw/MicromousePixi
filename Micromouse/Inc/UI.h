@@ -59,17 +59,18 @@ void UI_LedOffAll(void);
 void UI_LedOnAll(void);
 void UI_LedOn(int UI_LED_n);
 void UI_LedOff(int UI_LED_n);
+void UI_LedToggle(int UI_LED_n);
 
 void UI_BattControl(void);
 int  UI_BattValue(void);
 
-uint16_t UI_TimeUs(void);
-int  UI_TimeElapsed(uint16_t start, uint16_t time);
-void UI_DelayUs(uint16_t us);
+int32_t UI_Timestamp(void);
+int32_t UI_TimeElapsedUs(int32_t timestamp);
+void UI_DelayUs(int32_t us);
 void UI_WaitBtnL(void);
 void UI_WaitBtnR(void);
 
-void UI_PrintData();
+void UI_PrintData(void);
 /*
 +=============================================================================+
 | printf_()

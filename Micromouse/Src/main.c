@@ -107,21 +107,34 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 //ENABLE_GYRO();
 //ENABLE_SENSOR();
-uint16_t start = 0;
-//SensorOff();
+int32_t end;
+SensorOff();
 ENABLE_ENCODER();
-UI_LedOnAll();
+//UI_LedOnAll();
 //UI_WaitBtnL();
 UI_LedOffAll();
 HAL_Delay(1000);
-MotorGoA(150, 150, 150);
+MotorTurn(90, 33, 200);
+HAL_Delay(1000);
+MotorTurn(90, -33, 200);
+HAL_Delay(1000);
+MotorTurn(-90, 33, 200);
+HAL_Delay(1000);
+MotorTurn(-90, -33, 200);/*
+MotorGo(50, 50, 100);
+HAL_Delay(1000);
+MotorGo(50, 50, 150);
+HAL_Delay(1000);
+*/
 //MotorTurn(180, HALF_WHEELBASE, 250);
 while (1)
 {
-	start = UI_TimeUs();
+	end = UI_Timestamp();
 	MotorUpdate();
+	ADCreadAmbient();
 	//MotorPrintData();
-	while(!UI_TimeElapsed(start, 1000));
+	UI_LedToggle(UI_LED_YELLOW);
+	while(UI_TimeElapsedUs(end) < 1000);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */

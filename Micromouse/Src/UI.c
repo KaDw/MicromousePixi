@@ -3,6 +3,7 @@
 #include "UI.h"
 #include "usart.h"
 
+int _microsDivider;
 void UI_InitDelayUs(void);
 
 void UI_Init()
@@ -88,12 +89,19 @@ void UI_InitBattControl()
 
 void UI_InitDelayUs()
 {
-	__TIM7_CLK_ENABLE();
-	TIM7->PSC = 168/2;
-	TIM7->EGR = TIM_EGR_UG;
-	//TIM7->CR1 = TIM_CR1_OPM;
-	TIM7->CR1 = TIM_CR1_CEN;
-	TIM7->ARR = UINT16_MAX;
+	//__TIM7_CLK_ENABLE();
+	//TIM7->PSC = 168/2;
+	//TIM7->EGR = TIM_EGR_UG;
+	//TIM7->CR1 = TIM_CR1_CEN;
+	//TIM7->ARR = UINT16_MAX;
+	
+	if (!(CoreDebug->DEMCR & CoreDebug_DEMCR_TRCENA_Msk)) 
+  {
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    DWT->CYCCNT = 0;
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+		_microsDivider = SystemCoreClock / 1000000;
+  }
 }
 
 /* time in miliseconds */
@@ -151,6 +159,21 @@ void UI_LedOff(int UI_LED_n)
 	}
 }
 
+
+void UI_LedToggle(int UI_LED_n)
+{
+	
+	if(UI_LED_n != LED4_Pin)
+	{
+		GPIOB->ODR ^= UI_LED_n;
+	}
+	else
+	{
+		GPIOA->ODR ^= UI_LED_n;
+	}
+}
+
+
 void UI_BattControl()
 {
 	static uint32_t battValue = 0;
@@ -192,22 +215,24 @@ void UI_Send(uint8_t* m)
 	HAL_UART_Transmit(&UI_UART_Handle, m, strlen((char*)m), 0xFF);
 }
 
-void UI_DelayUs(uint16_t us)
+void UI_DelayUs(int32_t us)
 {
-	uint16_t start = TIM7->CNT;
+	uint32_t end = UI_Timestamp() + us * _microsDivider - 76;
 	
-	while(!UI_TimeElapsed(start, us))
+	while(DWT->CYCCNT < end)
 	{}
 }
 
-uint16_t UI_TimeUs()
+__inline
+int32_t UI_Timestamp()
 {
-	return TIM7->CNT;
+	return DWT->CYCCNT;
 }
 
-int UI_TimeElapsed(uint16_t start, uint16_t time)
+__inline
+int32_t UI_TimeElapsedUs(int32_t timestamp)
 {
-	return (UI_TimeUs() - start < time);
+	return (UI_Timestamp() - timestamp) / _microsDivider;
 }
 
 void UI_WaitBtnL()
