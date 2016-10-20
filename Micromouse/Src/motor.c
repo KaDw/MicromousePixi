@@ -45,8 +45,9 @@ int _roundf(float x)
 		szum -= 1.0f;
 	x += szum;
 	
+	// zaokraglanie
 	if(x < 0)
-		return (int)(x+0.5f);
+		return (int)(x-0.5f);
 	else
 		return (int)(x+0.5f);
 }
@@ -191,17 +192,18 @@ void MotorUpdateEnc()
 
 int MotorUpdateStatus()
 {
-	if(fabs(motors.mot[0].targetVel) > 0.1f || fabs(motors.mot[1].targetVel) > 0.01f)
+	if(motors.time > 0)
 		return 0; // motor running
 	else
 		return 1; // motor stopped
 }
 
 
-/// update accelerate and velocity
-/// increase/decrease 'temp' by 'by' to get closer to 'to'
+
 void _MotorUpdateAV(_MotorV* mot)
 {
+	/// update accelerate and velocity
+	/// increase/decrease 'temp' by 'by' to get closer to 'to'
 	if(mot->vel < mot->targetVel) // accelerate
 	{
 		mot->a = MOTOR_ACC_V;
@@ -239,11 +241,6 @@ void MotorUpdateVariable()
 	}
 	
 	// position
-	if(!motors.mot[0].vel){
-		++motors.mot[0].vel;
-		--motors.mot[0].vel;
-	}
-	
 	motors.mot[0].idealEnc += _roundf(motors.mot[0].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
 	motors.mot[1].idealEnc += _roundf(motors.mot[1].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
 }
@@ -286,7 +283,6 @@ void MotorUpdate()
 
 float _MotorCalcTime(float lastV, float vel, float s)
 {
-	
 	if(fabs(vel) < 0.001)
 		return 0;
 	// returns time needed for acceleration+movement with constat velocity
@@ -344,7 +340,7 @@ float _MotorCalcVel(float lastV, float s, float t) // [mm], [mm/s], [s]
 		V = lastV - (a*p) + (a*t);
 		S = _MotorCalcS(lastV, V, t);
 		if(fabs(S-s) > 5) // gdy wyilczona predkosc jest zla
-			V = lastV + a*p + a*t; // to probujemy 2 rozwiazanie
+			V = lastV + a*(p+t); // to probujemy 2 rozwiazanie
 	}
 	else
 	{ // obliczenia nie ida za dobrze
@@ -442,12 +438,12 @@ void MotorGo(int left, int right, float vel)
 	{
 		end = UI_Timestamp();
 		MotorUpdate();
-		ADCreadAmbient();
-		//MotorPrintData();
+		//ADCreadAmbient();
 		while(UI_TimeElapsedUs(end) < MOTOR_DRIVER_T*1000000);
 	}
 	MotorSetPWMRaw(0,0);
 }
+
 
 void MotorTurn(int angle, int r, float vel)
 {
@@ -457,8 +453,13 @@ void MotorTurn(int angle, int r, float vel)
 	{
 		end = UI_Timestamp();
 		MotorUpdate();
+		UI_LedToggle(UI_LED_YELLOW);
 		ADCreadAmbient();
+		UI_LedOn(UI_LED_L);
+		UI_LedOff(UI_LED_R);
 		while(UI_TimeElapsedUs(end) < MOTOR_DRIVER_T*1000000);
+		UI_LedOn(UI_LED_R);
+		UI_LedOff(UI_LED_L);
 	}
 	MotorSetPWMRaw(0,0);
 }

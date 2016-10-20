@@ -64,8 +64,8 @@ void UI_LedToggle(int UI_LED_n);
 void UI_BattControl(void);
 int  UI_BattValue(void);
 
-int32_t UI_Timestamp(void);
-int32_t UI_TimeElapsedUs(int32_t timestamp);
+uint32_t UI_Timestamp(void);
+uint32_t UI_TimeElapsedUs(uint32_t timestamp);
 void UI_DelayUs(int32_t us);
 void UI_WaitBtnL(void);
 void UI_WaitBtnR(void);

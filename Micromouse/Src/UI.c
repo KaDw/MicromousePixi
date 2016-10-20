@@ -224,15 +224,15 @@ void UI_DelayUs(int32_t us)
 }
 
 __inline
-int32_t UI_Timestamp()
+uint32_t UI_Timestamp()
 {
 	return DWT->CYCCNT;
 }
 
 __inline
-int32_t UI_TimeElapsedUs(int32_t timestamp)
+uint32_t UI_TimeElapsedUs(uint32_t timestamp)
 {
-	return (UI_Timestamp() - timestamp) / _microsDivider;
+	return (uint32_t)(UI_Timestamp() - timestamp) / _microsDivider;
 }
 
 void UI_WaitBtnL()

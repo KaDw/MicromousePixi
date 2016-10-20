@@ -3,7 +3,7 @@
 import math
 import matplotlib.pyplot as pl
 
-MOTOR_ACC_V = 1300
+MOTOR_ACC_V = 1000
 MOTOR_DRIVER_T = 0.001
 
 class motors_t:

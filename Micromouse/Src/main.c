@@ -111,16 +111,14 @@ int32_t end;
 SensorOff();
 ENABLE_ENCODER();
 //UI_LedOnAll();
-//UI_WaitBtnL();
+UI_LedOn(UI_LED_GREEN);
+UI_WaitBtnL();
 UI_LedOffAll();
 HAL_Delay(1000);
-MotorTurn(90, 33, 200);
+MotorTurn(90, 33, 200); // MotorGoA(103, 0 200); //-> 3139 ticks
 HAL_Delay(1000);
 MotorTurn(90, -33, 200);
-HAL_Delay(1000);
-MotorTurn(-90, 33, 200);
-HAL_Delay(1000);
-MotorTurn(-90, -33, 200);/*
+HAL_Delay(1000);/*
 MotorGo(50, 50, 100);
 HAL_Delay(1000);
 MotorGo(50, 50, 150);
