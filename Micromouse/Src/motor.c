@@ -245,7 +245,7 @@ void MotorUpdateVariable()
 	motors.mot[1].idealEnc += _roundf(motors.mot[1].vel*MOTOR_DRIVER_T*TICKS_PER_MM);
 }
 
-
+float Kp = 2.f, Ki = 0.01f, Kd = 0.01f;
 void MotorDriver()
 {
 	int err;
@@ -256,18 +256,36 @@ void MotorDriver()
 		motors.mot[i].errD = motors.mot[i].errP - err;
 		motors.mot[i].errI+= err;
 		motors.mot[i].errP = err;
+		
+		// nasycenie czlonu I
+		const int errIMax = 800;
+		if(motors.mot[i].errI > errIMax)
+			motors.mot[i].errI = errIMax;
+		else if(motors.mot[i].errI < -errIMax)
+			motors.mot[i].errI = -errIMax;
+		
 		// sprzezenie od bledu pozycji
-		motors.mot[i].PWM = (int)(3.f*((float)(motors.mot[i].errP) // 500
-														+ 0.0f*(float)(motors.mot[i].errI) // 1000
-														+ 0.5f*(float)(motors.mot[i].errD))); // 56
+		motors.mot[i].PWM = (int)(Kp*((float)(motors.mot[i].errP) // 500
+														+ Ki*(float)(motors.mot[i].errI) // 1000
+														+ Kd*(float)(motors.mot[i].errD))); // 56
 		// sprzezenie od zadanej predkosci
 		motors.mot[i].PWM += (int)(0.17f*(motors.mot[i].vel
 														+ 0.3f*motors.mot[i].a)); // 0.03
 	}
-	
+		// zapalaj LED'y
+		if(abs(motors.mot[0].errP) > 15)
+			UI_LedOn(UI_LED_L);
+		else
+			UI_LedOff(UI_LED_L);
+		
+		if(abs(motors.mot[1].errP) > 15)
+			UI_LedOn(UI_LED_R);
+		else
+			UI_LedOff(UI_LED_R);
+		
 	// sprzezenie od bledu pozycji 2. silnika
-	//motors.mot[0].PWM += -(int)(3.f*motors.mot[1].errP);
-	//motors.mot[1].PWM += -(int)(3.f*motors.mot[0].errP);
+	//motors.mot[0].PWM += -(int)(0.1f*Kp*motors.mot[1].errP);
+	//motors.mot[1].PWM += -(int)(0.1f*Kp*motors.mot[0].errP);
 }
 
 

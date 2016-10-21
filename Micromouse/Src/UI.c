@@ -89,19 +89,20 @@ void UI_InitBattControl()
 
 void UI_InitDelayUs()
 {
-	//__TIM7_CLK_ENABLE();
-	//TIM7->PSC = 168/2;
+	__TIM5_CLK_ENABLE();
+	TIM5->PSC = 0;
 	//TIM7->EGR = TIM_EGR_UG;
-	//TIM7->CR1 = TIM_CR1_CEN;
-	//TIM7->ARR = UINT16_MAX;
+	TIM5->ARR = UINT32_MAX;
+	TIM5->CR1 = TIM_CR1_CEN;
+	_microsDivider = 84;
 	
-	if (!(CoreDebug->DEMCR & CoreDebug_DEMCR_TRCENA_Msk)) 
-  {
-    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-    DWT->CYCCNT = 0;
-    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
-		_microsDivider = SystemCoreClock / 1000000;
-  }
+	//if (!(CoreDebug->DEMCR & CoreDebug_DEMCR_TRCENA_Msk)) 
+  //{
+  //  CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+  //  DWT->CYCCNT = 0;
+  //  DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+	//	_microsDivider = SystemCoreClock / 1000000;
+  //}
 }
 
 /* time in miliseconds */
@@ -217,16 +218,17 @@ void UI_Send(uint8_t* m)
 
 void UI_DelayUs(int32_t us)
 {
-	uint32_t end = UI_Timestamp() + us * _microsDivider - 76;
+	uint32_t timestamp = UI_Timestamp();
+	uint32_t delta = us * _microsDivider - 1;
 	
-	while(DWT->CYCCNT < end)
+	while(UI_Timestamp() - timestamp < delta)
 	{}
 }
 
 __inline
 uint32_t UI_Timestamp()
 {
-	return DWT->CYCCNT;
+	return TIM5->CNT;
 }
 
 __inline

@@ -51,6 +51,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+#define RX_BUF_SIZE 100
+char Rx_buf[RX_BUF_SIZE];
 
 /* Private variables ---------------------------------------------------------*/
 /* ADC */
@@ -70,7 +72,6 @@ void Error_Handler(void);
 
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
   /* USER CODE END 1 */
 
@@ -94,6 +95,7 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
+	HAL_UART_Receive_DMA(&huart1, (uint8_t*)&Rx_buf, 1);
 
   /* USER CODE BEGIN 2 */
 	MotorInit();
@@ -105,39 +107,31 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-//ENABLE_GYRO();
-//ENABLE_SENSOR();
-int32_t end;
-SensorOff();
-ENABLE_ENCODER();
-//UI_LedOnAll();
-UI_LedOn(UI_LED_GREEN);
-UI_WaitBtnL();
-UI_LedOffAll();
-HAL_Delay(1000);
-MotorTurn(90, 33, 200); // MotorGoA(103, 0 200); //-> 3139 ticks
-HAL_Delay(1000);
-MotorTurn(90, -33, 200);
-HAL_Delay(1000);/*
-MotorGo(50, 50, 100);
-HAL_Delay(1000);
-MotorGo(50, 50, 150);
-HAL_Delay(1000);
-*/
-//MotorTurn(180, HALF_WHEELBASE, 250);
-while (1)
-{
-	end = UI_Timestamp();
-	MotorUpdate();
-	ADCreadAmbient();
-	//MotorPrintData();
-	UI_LedToggle(UI_LED_YELLOW);
-	while(UI_TimeElapsedUs(end) < 1000);
-  /* USER CODE END WHILE */
+	//ENABLE_GYRO();
+	//ENABLE_SENSOR();
+	uint32_t end;
+	SensorOff();
+	ENABLE_ENCODER();
+	UI_LedOn(UI_LED_GREEN);
+	UI_WaitBtnL();
+	UI_LedOffAll();
+	HAL_Delay(1000);
 
-  /* USER CODE BEGIN 3 */
-	
-}
+	//MotorTurn(180, HALF_WHEELBASE, 250);
+	while (1)
+	{
+		end = UI_Timestamp();
+		MotorUpdate();
+		ADCreadAmbient();
+		//MotorPrintData();
+		UI_LedToggle(UI_LED_YELLOW);
+		UI_DelayUs(1000);
+		while(UI_TimeElapsedUs(end) < 1000);
+		/* USER CODE END WHILE */
+
+		/* USER CODE BEGIN 3 */
+		
+	}
 
   /* USER CODE END 3 */
 
@@ -205,34 +199,66 @@ void SystemClock_Config(void)
 
 
 // Bluetooth manual mode
-//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-//	if('a' <= Rx_buf && Rx_buf <= 'z')
-//		Rx_buf += 'A'-'a';
-//	
-//	switch(Rx_buf){
-//		
-//		case 'W':
-//		case 'F':
-//			//MotorSetPWMRaw(600, 600);
-//		break;
-//		
-//		case 'S':
-//			//MotorSetPWMRaw(-400, -400);
-//		break;
-//		
-//		case 'D':
-//		case 'R': 
-//			//MotorSetPWMRaw(600, 300);
-//		break;
-//			
-//		case 'A':
-//		case 'L':
-//			//MotorSetPWMRaw(300, 600);
-//		break;
-//		}
-//			
-
-//}
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+	extern float Kp, Ki, Kd;
+	if('a' <= *Rx_buf && *Rx_buf <= 'z')
+		*Rx_buf += 'A'-'a';
+	
+	switch(*Rx_buf){
+		case 'W':
+		case 'F':
+			MotorGoA(300, 300, 200);
+		break;
+		
+		case 'S':
+			MotorGoA(-300, -300, 200);
+		break;
+		
+		case 'D':
+		//case 'R': 
+			MotorTurnA(45, 33, 200);
+		break;
+			
+		case 'A':
+		//case 'L':
+			MotorTurnA(-45, 33, 200);
+		break;
+		
+		case 'Z':
+			MotorStop();
+		break;
+		
+		case 'Q':
+			MotorGoA(300, 300, 100);
+		break;
+		case 'E':
+			MotorGoA(300, 300, 300);
+		break;
+		case 'R':
+			MotorGoA(300, 300, 400);
+		break;
+		
+		case 'P':
+			Kp += 0.5f;
+		break;
+		case 'L':
+			Kp -= 0.5f;
+		
+		case 'I':
+			Ki += 0.02f;
+		break;
+		case 'J':
+			Ki -= 0.02f;
+		break;
+		
+		case 'Y':
+			Kd += 0.01f;
+		break;
+		case 'G':
+			Kd -= 0.01f;
+		break;
+		}
+}
 
 /* USER CODE END 4 */
 

@@ -2,7 +2,7 @@ Tim1(168MHz) - buzzer (master, one pulse mode)
 Tim2(84MHz) - buzzer (slave, pwm)
 Tim3(84MHz) - EncL
 Tim4(84MHz) - EncR
-Tim5(84MHz)
+Tim5(84MHz) - WaitUs
 Tim6(84MHz) - ADC trigger
 Tim7(84MHz)
 Tim8(168MHz)
