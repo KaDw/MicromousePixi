@@ -61,7 +61,7 @@ typedef enum
 #define MOTOR_VELV_KD					0.8f /* -0.7899f */
 
 // ACC_V [mm/s/s] 	ACC_W[rad/s/s]
-#define MOTOR_ACC_V						(1000.0f)
+#define MOTOR_ACC_V						(2500.0f)
 #define MOTOR_ACC_W						5.0f // 174.532925 rad/s/s = 10000 deg/s/s
 
 // flags determine sensor int turn

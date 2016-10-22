@@ -40,16 +40,16 @@ LS----		 ---- RS
 
 
 // calibration
-typedef struct{
-	uint32_t sens;
-	uint32_t buf[3];
-} _sensor;
-extern _sensor sensor[6];
+//typedef struct{
+//	uint32_t sens;
+//	uint32_t buf[3];
+//} _sensor;
+//extern _sensor sensor[6];
 extern uint32_t cal[7];
 // sensor data
 extern uint32_t sens[6];
-extern uint32_t fuzzy[6];
-extern uint32_t read[4];
+//extern uint32_t fuzzy[6];
+extern uint32_t read[6];
 extern volatile uint32_t vbat;
 extern uint8_t batError;
 
@@ -66,10 +66,10 @@ typedef enum {
 } CHx;
 
 uint32_t LinADC(uint32_t* sens);
-void ADCreadAmbient(void);	
+void ADCreadAmbient();	
 void ADCreadChannel(uint8_t channel, uint32_t *buf);
 void ADCread2Channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf);
-void SensorOff(void);
-uint32_t Sort(_sensor sensor);
-void Move(_sensor *sensor);
+void SensorOff();
+//uint32_t Sort(_sensor sensor);
+//void Move(_sensor *sensor);
 #endif

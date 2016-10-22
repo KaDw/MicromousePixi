@@ -200,7 +200,7 @@ void UI_BattControl()
 int UI_BattValue()
 {
 	extern ADC_HandleTypeDef hadc1;
-	HAL_ADC_Start_DMA(&hadc1, &vbat, 1);
+	//HAL_ADC_Start_DMA(&hadc1, &vbat, 1);
 	UI_DelayUs(50);
 	//vbat = HAL_ADC_Start(&hadc1);
 	//vbat = (vbat*0.0025f)+0.067f; // *0.0025 i dodac 0,067

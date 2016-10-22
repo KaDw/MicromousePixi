@@ -72,6 +72,7 @@ void Error_Handler(void);
 
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
   /* USER CODE END 1 */
 
@@ -95,7 +96,6 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
-	HAL_UART_Receive_DMA(&huart1, (uint8_t*)&Rx_buf, 1);
 
   /* USER CODE BEGIN 2 */
 	MotorInit();
@@ -109,27 +109,29 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	//ENABLE_GYRO();
 	//ENABLE_SENSOR();
-	uint32_t end;
+	uint32_t end = 0;
+	
 	SensorOff();
 	ENABLE_ENCODER();
-	UI_LedOn(UI_LED_GREEN);
+	//UI_LedOn(UI_LED_GREEN);
 	UI_WaitBtnL();
 	UI_LedOffAll();
-	HAL_Delay(1000);
-
+	HAL_Delay(2000);
+	//ADCreadAmbient();
 	//MotorTurn(180, HALF_WHEELBASE, 250);
+	MotorGoA(300, 300, 250);
+	HAL_TIM_Base_Start_IT(&htim6);
 	while (1)
 	{
-		end = UI_Timestamp();
-		MotorUpdate();
-		ADCreadAmbient();
-		//MotorPrintData();
-		UI_LedToggle(UI_LED_YELLOW);
-		UI_DelayUs(1000);
-		while(UI_TimeElapsedUs(end) < 1000);
-		/* USER CODE END WHILE */
+//		end = UI_Timestamp();
+//		MotorUpdate();
+//		//MotorPrintData();
+//		//UI_LedToggle(UI_LED_YELLOW);
+//		UI_DelayUs(1000);
+//		while(UI_TimeElapsedUs(end) < 1000);
+  /* USER CODE END WHILE */
 
-		/* USER CODE BEGIN 3 */
+  /* USER CODE BEGIN 3 */
 		
 	}
 

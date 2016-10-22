@@ -16,20 +16,21 @@
 //uint32_t sens5[3];
 //uint32_t sens6[3];
 
-_sensor sensor[6];
+uint8_t batcnt;
+//_sensor sensor[6];
 uint32_t cal[7]; 
 uint32_t sens[6];
-uint32_t read[4];
-uint32_t fuzzy[6] = {4, 2, 3, 4, 5, 6};
+uint32_t read[6];
+//uint32_t fuzzy[6] = {4, 2, 3, 4, 5, 6};
 volatile uint32_t vbat;
 uint8_t batError;
 /*
 sens[0] - LF - Left
 sens[1] - RF - Right
-sens[3] - L - Left Front
-sens[4] - R - Right Front
-sens[5] - LS - Left Side
-sens[6] - RS - Right Side
+sens[2] - L - Left Front
+sens[3] - R - Right Front
+sens[4] - LS - Left Side
+sens[5] - RS - Right Side
 
 	L		LF	RF		R
 	\		|		|   /
@@ -52,13 +53,30 @@ void ADCreadAmbient(){
 	//CH3, CH10
 	HAL_ADC_Start_DMA(&hadc1, cal, 7);
 	//vbat = cal[6]; // *0.0025 i dodac 0,067
-	if(cal[6] < 2900 && cal[6] > 2650){ // 7,4-6,8
-		batError = 1;
-		UI_LedOnAll();
+	if(cal[6] < 3408 && cal[6] > 2650){ // 7,4-6,8
+		vbat += cal[6];
+		batcnt++;
+		if(vbat){
+			batcnt = 0;
+			UI_LedOnAll();
+			batError = 1;
+		}
 	}
 }
 
 void ADCreadChannel(uint8_t CHx, uint32_t *buf){
+	/*
+	ADC_ChannelConfTypeDef sConfig;
+	
+	sConfig.Channel = ADC_CHANNEL_2;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+	
+	*/
 	ADC1->SQR1 &= ~ADC_SQR1_L; // 1 conversion
 	ADC1->SQR3 = CHx; // channel to be converted
 	if(HAL_ADC_Start_DMA(&hadc1, buf, 1) != HAL_OK)
@@ -102,41 +120,41 @@ void ADCcalibrate(){
 	
 }
 
-void Move(_sensor *sensor){ // moving samples in buf
-	sensor->buf[0] = sensor->buf[1];
-	sensor->buf[1] = sensor->buf[2];
-}
-/*Pepper noise filtering
-	Correct value will be stored in sensor.sens[1]
-	sens[3][6];
-	ADCread2channel(&hadc1, 2, &sens[3][0]);
-*/
+//void Move(_sensor *sensor){ // moving samples in buf
+//	sensor->buf[0] = sensor->buf[1];
+//	sensor->buf[1] = sensor->buf[2];
+//}
+///*Pepper noise filtering
+//	Correct value will be stored in sensor.sens[1]
+//	sens[3][6];
+//	ADCread2channel(&hadc1, 2, &sens[3][0]);
+//*/
 
-void Swap(uint32_t *s1, uint32_t *s2){
-	uint32_t temp = 0;
-	temp = (*s2);
-	(*s2) = (*s1);
-	(*s1) = temp;
-}
+//void Swap(uint32_t *s1, uint32_t *s2){
+//	uint32_t temp = 0;
+//	temp = (*s2);
+//	(*s2) = (*s1);
+//	(*s1) = temp;
+//}
 
-uint32_t Sort(_sensor sensor){
-	// faster bubble sort
-	if (sensor.buf[0] > sensor.buf[1]) Swap(&sensor.buf[0], &sensor.buf[1]);
-	if (sensor.buf[1] > sensor.buf[2]) Swap(&sensor.buf[1], &sensor.buf[2]);
-	if (sensor.buf[0] > sensor.buf[1]) Swap(&sensor.buf[0], &sensor.buf[1]);
-	// bubble sort
-//	for(uint8_t i = 0; i < 3; i++){ // size
-//		for(uint8_t j = 0; j < 2; j++){ // size -1
-//			if(sensor.buf[j] > sensor.buf[j+1]){
-//				temp = sensor.buf[j+1];
-//				sensor.buf[j+1] = sensor.buf[j];
-//				sensor.buf[j] = temp;
-//			}
-//		}
-//	}
-	
-	return sensor.buf[1]; // filtered value, sens[3] = {bad, good, bad};
-}
+//uint32_t Sort(_sensor sensor){
+//	// faster bubble sort
+//	if (sensor.buf[0] > sensor.buf[1]) Swap(&sensor.buf[0], &sensor.buf[1]);
+//	if (sensor.buf[1] > sensor.buf[2]) Swap(&sensor.buf[1], &sensor.buf[2]);
+//	if (sensor.buf[0] > sensor.buf[1]) Swap(&sensor.buf[0], &sensor.buf[1]);
+//	// bubble sort
+////	for(uint8_t i = 0; i < 3; i++){ // size
+////		for(uint8_t j = 0; j < 2; j++){ // size -1
+////			if(sensor.buf[j] > sensor.buf[j+1]){
+////				temp = sensor.buf[j+1];
+////				sensor.buf[j+1] = sensor.buf[j];
+////				sensor.buf[j] = temp;
+////			}
+////		}
+////	}
+//	
+//	return sensor.buf[1]; // filtered value, sens[3] = {bad, good, bad};
+//}
 	
 
 uint8_t FingerStart(){ // calibrate after finger start

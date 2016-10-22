@@ -199,90 +199,57 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
 	//static int COUNTER_MAX = MOTOR_DRIVER_T/0.00002;
-	//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, CS_A_Pin, GPIO_PIN_SET);
 		switch(count){
 		case 0: 
 			ADCreadAmbient(); // read ambient light
 			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_SET); 
 			break;
 		case 1: // case 3: // 40us 
-			Move(&sensor[0]);
-			ADCreadChannel(CH2, &sensor[0].buf[2]); // LF read
+			ADCreadChannel(CH2, &sens[0]); // LF read
 			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_RESET); 
 			break;
 		case 2: //120us case 6: // 100us 
 			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET);
-			sensor[0].sens = Sort(sensor[0]) - cal[0];
-			//read[0] = ((read[0] - cal[0]) + 7*fuzzy[0])/8;
-			//sens[0] = read[0];
-			//sens[0] = LinADC(&read[0]);
-			//fuzzy[0] = read[0];
-			//sens[1]-=cal[1];
+			if(sens[0] > cal[0])
+				sens[0]-=cal[0];
 			break;
 		case 4: //160us case 8: // 140us
-			Move(&sensor[1]);
-			ADCreadChannel(CH11, &sensor[1].buf[2]); // RF read
+			ADCreadChannel(CH11, &sens[1]); // RF read
 			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET);
-//			ADCread2Channel(CH13, CH12, &sens[2]); // L, R read
-//			sens[2]-=cal[2];
-//			sens[3]-=cal[3];
 			break;
 		case 6: // 240us case 11: // 200us 
 			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
 			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
-			sensor[1].sens = Sort(sensor[1]) - cal[1];
-			//read[1] = ((read[1] - cal[1]) + 7*fuzzy[1])/8;
-			//sens[1] = read[1];
-			//sens[1] = LinADC(&read[1]);
-			//fuzzy[1] = read[1];
+			if(sens[1] > cal[1])
+				sens[1]-=cal[1];
 			break;
 		case 7: // 280us case 13: // 240us 
-			Move(&sensor[2]);
-			Move(&sensor[3]);
-			ADCread2Channel(CH13, CH12, &read[0]); // L, R read
+			ADCread2Channel(CH13, CH12, &sens[2]); // L, R read
 			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
 			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET); 
 			break;
 		case 9: // 360us case 16: // 300us 
 			HAL_GPIO_WritePin(GPIOC, D_LS_Pin, GPIO_PIN_SET); 
 			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_SET);
-			// no DMA in fact
-			sensor[2].buf[2] = read[0];
-			sensor[3].buf[2] = read[1];
-			sensor[2].sens = Sort(sensor[2]) - cal[2];
-			sensor[3].sens = Sort(sensor[3]) - cal[3];
-
+			if(sens[2] > cal[2])
+				sens[2]-=cal[2];
+			if(sens[3] > cal[3])
+				sens[3]-=cal[3];
 			break;
 		case 10: // case 18: // 340us
-			Move(&sensor[4]);
-			Move(&sensor[5]);
-			ADCread2Channel(CH3, CH10, &read[2]); // LS, RS read
-//			read[0]-=cal[4];
-//			read[1]-=cal[5];
-//			sens[4] = read[0];
-//			sens[5] = read[1];
+			ADCread2Channel(CH3, CH10, &sens[4]); // LS, RS read
 			HAL_GPIO_WritePin(GPIOC, D_LS_Pin, GPIO_PIN_RESET); // side sensors off
 			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_RESET);
 			break;
 		case 11: 
-			// no DMA in fact
-			sensor[4].buf[2] = read[2];
-			sensor[5].buf[2] = read[3];
-			sensor[4].sens = Sort(sensor[4]) - cal[4];
-			sensor[5].sens = Sort(sensor[5]) - cal[5];
+			if(sens[4] > cal[4])
+				sens[4]-=cal[4];
+			if(sens[5] > cal[5])
+				sens[5]-=cal[5];
 			break;
 		case 12:
-			//HAL_TIM_Base_Stop(&htim6); // hang up for gyro read
-			// reading form gyro takes 33us
-			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 0);s
-			//uint16_t start = UI_TimeUs();
 			GyroGetAngle(0.001);
-//			while(!UI_TimeElapsed(start, 40))
-//			{}
-
-			//HAL_TIM_Base_Start(&htim6);
-			//++count; // we need 2x 20us, counter should be increased by 2
-			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
 			break;
 		
 		case 13:
@@ -299,7 +266,7 @@ void TIM6_DAC_IRQHandler(void)
 			count = 0;
 		}
 
-		
+		HAL_GPIO_WritePin(GPIOB, CS_A_Pin, GPIO_PIN_RESET);
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
@@ -313,7 +280,6 @@ void TIM6_DAC_IRQHandler(void)
 void DMA2_Stream0_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
-
   /* USER CODE END DMA2_Stream0_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_adc1);
   /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
