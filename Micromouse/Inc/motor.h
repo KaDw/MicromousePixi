@@ -29,11 +29,9 @@
 #define MOTOR_HTIM_ENC_R 			htim4
 
 
+// motors provide
 //extern const float MOTOR_DRIVER_T;
 extern const float HALF_WHEELBASE;
-
-extern TIM_HandleTypeDef MOTOR_HTIM, MOTOR_HTIM_ENC_L, MOTOR_HTIM_ENC_R;
-
 
 int abs(int);
 int sgn(int);

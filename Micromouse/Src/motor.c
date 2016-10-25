@@ -2,14 +2,21 @@
 #include "sensor.h"
 #include "fxas21002c.h"
 #include <math.h>
+
 const float 	WHEELBASE							= 66;
 const float 	HALF_WHEELBASE				= (WHEELBASE/2); /* mm*/
 const float 	TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
-float const 	MOTOR_DRIVER_FREQ			= 1000.f; // Hz
-float					MOTOR_DRIVER_T				= 1.f/MOTOR_DRIVER_FREQ;
+const float 	MOTOR_DRIVER_FREQ			= 1000.f; // Hz
+const float		MOTOR_DRIVER_T				= 1.f/MOTOR_DRIVER_FREQ;
 const float 	MOTOR_EPSILON_W				= 0.08; /* acceptable rotation error in radians*/
 const int 		MOTOR_EPSILON 					= 15; /* acceptable position error - enc tick 15~1mm*/
 const int 		ONE_CELL_DISTANCE				= 2725; // ticks
+
+
+// needed for motors
+extern TIM_HandleTypeDef MOTOR_HTIM, MOTOR_HTIM_ENC_L, MOTOR_HTIM_ENC_R;
+extern uint32_t sens[];
+
 
 int MotorUpdateStatus(void);
 void MotorUpdateEncoder(void);
@@ -137,14 +144,15 @@ void MotorReset()
 	memset(&motors.mot[1], 0, sizeof(_MotorV));
 }
 
-void MotorResetEnc(_MotorV* m)
+void MotorResetEnc()
 {
-	MOTOR_FREEZE_EN();
-	m->enc = 0;
-	m->encChange = 0;
-	m->lastEnc = 0;
-	m->idealEnc = 0;
-	MOTOR_FREEZE_DIS();
+	//m->enc = 0;
+	//m->encChange = 0;
+	motors.mot[0].lastEnc = 0;
+	EncL = 0;
+	motors.mot[1].lastEnc = 0;
+	EncR = 0;
+	//m->idealEnc = 0;
 }
 
 void MotorInit()
@@ -253,12 +261,12 @@ void MotorDriver()
 	{
 		// oblicz uchyba jako roznice pomiedzy pozycja idelana i ta rzeczywista
 		err = motors.mot[i].idealEnc - motors.mot[i].enc;
-		motors.mot[i].errD = motors.mot[i].errP - err;
+		motors.mot[i].errD = err - motors.mot[i].errP;
 		motors.mot[i].errI+= err;
 		motors.mot[i].errP = err;
 		
 		// nasycenie czlonu I
-		const int errIMax = 800;
+		const int errIMax = 1200;
 		if(motors.mot[i].errI > errIMax)
 			motors.mot[i].errI = errIMax;
 		else if(motors.mot[i].errI < -errIMax)
@@ -272,20 +280,27 @@ void MotorDriver()
 		motors.mot[i].PWM += (int)(0.17f*(motors.mot[i].vel
 														+ 0.3f*motors.mot[i].a)); // 0.03
 	}
-		// zapalaj LED'y
-		if(abs(motors.mot[0].errP) > 15)
-			UI_LedOn(UI_LED_L);
-		else
-			UI_LedOff(UI_LED_L);
-		
-		if(abs(motors.mot[1].errP) > 15)
-			UI_LedOn(UI_LED_R);
-		else
-			UI_LedOff(UI_LED_R);
 		
 	// sprzezenie od bledu pozycji 2. silnika
 	//motors.mot[0].PWM += -(int)(0.1f*Kp*motors.mot[1].errP);
 	//motors.mot[1].PWM += -(int)(0.1f*Kp*motors.mot[0].errP);
+	
+	if(_motor_flag & FLAG_SENSOR)
+	{
+		float errS = SENS_LS - SENS_RS;
+		
+	}
+	
+	// zapalaj LED'y
+	if(abs(motors.mot[0].errP) > 15)
+		UI_LedOn(UI_LED_L);
+	else
+		UI_LedOff(UI_LED_L);
+	
+	if(abs(motors.mot[1].errP) > 15)
+		UI_LedOn(UI_LED_R);
+	else
+		UI_LedOff(UI_LED_R);
 }
 
 
@@ -434,8 +449,9 @@ void MotorTurnA(int angle, int r, float vel)
 		right = PI*(r+HALF_WHEELBASE)*angle/180;
 	}
 	
-	//MotorResetEnc(&motors.mot[0]);
-	//MotorResetEnc(&motors.mot[1]);
+	MOTOR_FREEZE_EN();
+	MotorResetEnc();
+	MOTOR_FREEZE_DIS();
 	MotorGoA(left, right, vel);
 }
 

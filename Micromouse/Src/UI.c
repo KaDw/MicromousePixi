@@ -351,7 +351,7 @@ char* _itoa(int n, char* s, int base)
          s[i++] = '-';
      s[i] = '\0';
      _strrev(s);
-		 return s;
+		 return s+i;
 }
 
 
@@ -457,7 +457,7 @@ char * _ftoa(double f, char * buf, int precision)
 	// terminating zero
 	*ptr = 0;
 
-	return buf;
+	return ptr;
 }
 
 #if PRINTF_HAVE_PRINTF == 1
@@ -610,7 +610,8 @@ static int __vfprintf_(printf_file_t *stream, const char *format, va_list arg)
 				{
 					int base = (character == 'd' ? 10 : 16);
 
-					buffer_ptr = _itoa(va_arg(arg, int), buffer, base);
+					_itoa(va_arg(arg, int), buffer, base);
+					buffer_ptr = buffer;
 				}
 
 				character = *buffer_ptr;

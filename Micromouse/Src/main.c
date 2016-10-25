@@ -53,6 +53,7 @@
 /* USER CODE BEGIN PV */
 #define RX_BUF_SIZE 100
 char Rx_buf[RX_BUF_SIZE];
+char Tx_buf[50];
 
 /* Private variables ---------------------------------------------------------*/
 /* ADC */
@@ -102,6 +103,7 @@ int main(void)
   UI_Init();
 	GyroInit();
 	GyroCalibrate(0.001, 100);
+	HAL_UART_Receive_DMA(&huart1, (uint8_t*)Rx_buf, 1);
 	//HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END 2 */
 
@@ -109,11 +111,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	//ENABLE_GYRO();
 	//ENABLE_SENSOR();
-	uint32_t end = 0;
 	
 	SensorOff();
 	ENABLE_ENCODER();
-	//UI_LedOn(UI_LED_GREEN);
+	UI_LedOn(UI_LED_GREEN);
 	UI_WaitBtnL();
 	UI_LedOffAll();
 	HAL_Delay(2000);
@@ -123,16 +124,9 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim6);
 	while (1)
 	{
-//		end = UI_Timestamp();
-//		MotorUpdate();
-//		//MotorPrintData();
-//		//UI_LedToggle(UI_LED_YELLOW);
-//		UI_DelayUs(1000);
-//		while(UI_TimeElapsedUs(end) < 1000);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-		
 	}
 
   /* USER CODE END 3 */
@@ -259,6 +253,18 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 		case 'G':
 			Kd -= 0.01f;
 		break;
+		}
+	
+		if(*Rx_buf == 'Y' || *Rx_buf == 'G')
+		{
+			char * ptr = Tx_buf;
+			ptr = strcpy(ptr, "Kp:");
+			ptr = _ftoa(Kp, ptr, 2);
+			ptr = strcpy(ptr, " Ki: ");
+			ptr = _ftoa(Ki, ptr, 2);
+			ptr = strcpy(ptr, " Kd: ");
+			ptr = _ftoa(Kd, ptr, 2);
+			HAL_UART_Transmit_DMA(&huart1, (uint8_t*)Tx_buf, ptr-Tx_buf);
 		}
 }
 
