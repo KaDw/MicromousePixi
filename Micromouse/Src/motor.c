@@ -8,9 +8,7 @@ const float 	HALF_WHEELBASE				= (WHEELBASE/2); /* mm*/
 const float 	TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
 const float 	MOTOR_DRIVER_FREQ			= 1000.f; // Hz
 const float		MOTOR_DRIVER_T				= 1.f/MOTOR_DRIVER_FREQ;
-const float 	MOTOR_EPSILON_W				= 0.08; /* acceptable rotation error in radians*/
-const int 		MOTOR_EPSILON 					= 15; /* acceptable position error - enc tick 15~1mm*/
-const int 		ONE_CELL_DISTANCE				= 2725; // ticks
+//const int 		ONE_CELL_DISTANCE			= 5450; // ticks, 180*30,28
 
 
 // needed for motors
@@ -30,13 +28,7 @@ int abs(int x)
 		return x;
 }
 
-//float _fabs(float x)
-//{
-//	if(x < 0)
-//		return -x;
-//	else
-//		return x;
-//}
+
 
 int sgn(int x)
 {
@@ -73,12 +65,6 @@ int _roundf(float x)
 //	
 //	return p;
 //}
-
-
-int mmToTicks(int mm)
-{
-	return mm*TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER);
-}
 
 
 int MotorTruncPWM(float vel)
@@ -284,6 +270,18 @@ void MotorDriver()
 	// sprzezenie od bledu pozycji 2. silnika
 	//motors.mot[0].PWM += -(int)(0.1f*Kp*motors.mot[1].errP);
 	//motors.mot[1].PWM += -(int)(0.1f*Kp*motors.mot[0].errP);
+	
+	
+	int errVP = motors.mot[0].errP + motors.mot[1].errP;
+	int errWP = motors.mot[0].errP - motors.mot[1].errP;
+	int errVD = motors.mot[0].errD + motors.mot[1].errD;
+	int errWD = motors.mot[0].errD - motors.mot[1].errD;
+	
+	errVP = errVP + 5*errVD;
+	errWP = errWP + 5*errWD;
+	
+	motors.mot[0].PWM = errVP + errWP;
+	motors.mot[1].PWM = errVP - errWP;
 	
 	if(_motor_flag & FLAG_SENSOR)
 	{

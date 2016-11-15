@@ -17,7 +17,8 @@
 #define MOTOR_MAX_PWM					999
 #define MAX_ANGULAR_VEL				200.7f /* deg/s */
 #define WHEEL_DIAMETER 				37.0f  /* mm    */
-#define TICKS_PER_REVOLUTION	3520.0f
+#define TICKS_PER_REVOLUTION	3520.0f 
+#define ONE_CELL_DISTANCE		  5450; /* ticks, 180*30,28 */
 
 
 #define MOTOR_GPIO 						GPIOC
@@ -35,7 +36,6 @@ extern const float HALF_WHEELBASE;
 
 int abs(int);
 int sgn(int);
-float fast_sqrt(float x);
 
 
 typedef enum
@@ -106,12 +106,15 @@ typedef struct
 	//float KP, KI, KD;
 } _MotorV;
 
+
 typedef struct
 {
 	_MotorV mot[2];
 	unsigned int time;
 	MotorStat status;
 } MotorsV;
+
+extern MotorsV motors;
 
 void MotorStepResponse(uint16_t PwmL, uint16_t PwmR, uint16_t time);
 void MotorPrintData(void);

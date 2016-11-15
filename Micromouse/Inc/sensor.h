@@ -38,6 +38,10 @@ LS----		 ---- RS
 #define SENS_RS sens[5]
 
 
+#define HAS_LEFT_WALL 2000
+#define HAS_RIGHT_WALL 2000
+#define HAS_FRONT_WALL 2000
+
 
 // calibration
 //typedef struct{

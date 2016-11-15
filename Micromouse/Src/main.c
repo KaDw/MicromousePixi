@@ -54,7 +54,6 @@
 #define RX_BUF_SIZE 100
 char Rx_buf[RX_BUF_SIZE];
 char Tx_buf[50];
-
 /* Private variables ---------------------------------------------------------*/
 /* ADC */
 
@@ -112,7 +111,7 @@ int main(void)
 	//ENABLE_GYRO();
 	//ENABLE_SENSOR();
 	
-	SensorOff();
+	//SensorOff();
 	ENABLE_ENCODER();
 	UI_LedOn(UI_LED_GREEN);
 	UI_WaitBtnL();
@@ -120,7 +119,9 @@ int main(void)
 	HAL_Delay(2000);
 	//ADCreadAmbient();
 	//MotorTurn(180, HALF_WHEELBASE, 250);
-	MotorGoA(300, 300, 250);
+	MotorGo(100, 100, 250);
+	MotorTurn(-90,0,150);
+	MotorTurn(180, 50, 300);
 	HAL_TIM_Base_Start_IT(&htim6);
 	while (1)
 	{

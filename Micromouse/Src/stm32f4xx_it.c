@@ -205,68 +205,63 @@ void TIM6_DAC_IRQHandler(void)
 			ADCreadAmbient(); // read ambient light
 			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_SET); 
 			break;
-		case 1: // case 3: // 40us 
-			ADCreadChannel(CH2, &sens[0]); // LF read
+		case 2: // case 3: // 40us 
+			ADCreadChannel(CH2, &read[0]); // LF read
 			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_RESET); 
 			break;
-		case 2: //120us case 6: // 100us 
+		case 3: //120us case 6: // 100us 
 			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET);
-			if(sens[0] > cal[0])
-				sens[0]-=cal[0];
 			break;
-		case 4: //160us case 8: // 140us
-			ADCreadChannel(CH11, &sens[1]); // RF read
+		case 5: //160us case 8: // 140us
+			ADCreadChannel(CH11, &read[1]); // RF read
 			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET);
 			break;
-		case 6: // 240us case 11: // 200us 
+		case 7: // 240us case 11: // 200us 
 			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
 			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
-			if(sens[1] > cal[1])
-				sens[1]-=cal[1];
 			break;
-		case 7: // 280us case 13: // 240us 
-			ADCread2Channel(CH13, CH12, &sens[2]); // L, R read
+		case 8: // 280us case 13: // 240us 
+			ADCread2Channel(CH13, CH12, &read[2]); // L, R read
 			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
 			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET); 
 			break;
-		case 9: // 360us case 16: // 300us 
+		case 10: // 360us case 16: // 300us 
 			HAL_GPIO_WritePin(GPIOC, D_LS_Pin, GPIO_PIN_SET); 
 			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_SET);
-			if(sens[2] > cal[2])
-				sens[2]-=cal[2];
-			if(sens[3] > cal[3])
-				sens[3]-=cal[3];
 			break;
-		case 10: // case 18: // 340us
-			ADCread2Channel(CH3, CH10, &sens[4]); // LS, RS read
+		case 11: // case 18: // 340us
+			ADCread2Channel(CH3, CH10, &read[4]); // LS, RS read
 			HAL_GPIO_WritePin(GPIOC, D_LS_Pin, GPIO_PIN_RESET); // side sensors off
 			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_RESET);
 			break;
-		case 11: 
-			if(sens[4] > cal[4])
-				sens[4]-=cal[4];
-			if(sens[5] > cal[5])
-				sens[5]-=cal[5];
+		case 12: 
+			for(int i = 0; i < 6; ++i)
+			{
+				// sprawdz czy naswietlona sciana nie jest jasniejsza od nienaswietlonej
+				if(read[i] < cal[i])
+					read[i] = cal[i];
+				sens[i] = (sens[i]*7 + read[i]) * 0.125f; // dzielone na 8
+			}
 			break;
-		case 12:
+		case 13:
 			GyroGetAngle(0.001);
 			break;
 		
-		case 13:
+		case 14:
 			//MotorStepResponse(160, 150, 1500);
 			MotorUpdate();
 			break;
 	}
 			
 		
-		++count;
-		
-		if(count >= 25){
-			//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
-			count = 0;
-		}
+	++count;
+	
+	if(count >= 25){
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+		count = 0;
+	}
 
-		HAL_GPIO_WritePin(GPIOB, CS_A_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, CS_A_Pin, GPIO_PIN_RESET);
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */

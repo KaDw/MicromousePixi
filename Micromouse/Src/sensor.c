@@ -6,6 +6,7 @@
 #include "usart.h"
 #include "gpio.h"
 #include "sensor.h"
+#include "motor.h"
 #include "UI.h"
 
 
@@ -117,6 +118,24 @@ uint32_t LinADC(uint32_t *sens){
 }
 // To be continued    vvvvv
 void ADCcalibrate(){
+	
+}
+
+/*
+
+
+*/
+void UpdateCell(){
+	//uint8_t cell_x = motors.mot[0].enc/ONE_CELL_DISTANCE;
+	uint16_t pos = (EncL+EncR)/2;
+	if(SENS_RS < HAS_RIGHT_WALL){
+		
+	}
+	else if(SENS_LS < HAS_LEFT_WALL){
+		
+	}
+	//else if(SENS_LF 
+	
 	
 }
 
