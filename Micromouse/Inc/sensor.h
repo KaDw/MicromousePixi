@@ -54,6 +54,7 @@ extern uint32_t cal[7];
 extern uint32_t sens[6];
 //extern uint32_t fuzzy[6];
 extern uint32_t read[6];
+extern uint32_t distance[6];
 extern volatile uint32_t vbat;
 extern uint8_t batError;
 
@@ -69,11 +70,14 @@ typedef enum {
 	CH13
 } CHx;
 
+void LinLEDs(void);
 uint32_t LinADC(uint32_t* sens);
 void ADCreadAmbient(void);	
 void ADCreadChannel(uint8_t channel, uint32_t *buf);
 void ADCread2Channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf);
 void SensorOff(void);
+void SensorCallback(void);
+int  SensorFeedback(void); // return offset between walls
 //uint32_t Sort(_sensor sensor);
 //void Move(_sensor *sensor);
 #endif

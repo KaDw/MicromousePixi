@@ -113,20 +113,22 @@ int main(void)
 	
 	//SensorOff();
 	ENABLE_ENCODER();
+	ENABLE_SENSOR();
 	UI_LedOn(UI_LED_GREEN);
 	UI_WaitBtnL();
 	UI_LedOffAll();
 	HAL_Delay(2000);
 	//ADCreadAmbient();
-	//MotorTurn(180, HALF_WHEELBASE, 250);
-	MotorGo(100, 100, 250);
-	MotorTurn(-90,0,150);
-	MotorTurn(180, 50, 300);
+//	MotorGo(100, 100, 250);
+//	MotorTurn(-90,0,150);
+//	MotorTurn(180, 50, 300);
 	HAL_TIM_Base_Start_IT(&htim6);
 	while (1)
 	{
   /* USER CODE END WHILE */
-
+		if(distance[5] < 60)
+			MotorGo(180, 180, 200);
+		HAL_Delay(3000);
   /* USER CODE BEGIN 3 */
 	}
 

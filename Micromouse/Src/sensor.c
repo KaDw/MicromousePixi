@@ -6,6 +6,7 @@
 #include "usart.h"
 #include "gpio.h"
 #include "sensor.h"
+#include "fxas21002c.h"
 #include "motor.h"
 #include "UI.h"
 
@@ -17,11 +18,16 @@
 //uint32_t sens5[3];
 //uint32_t sens6[3];
 
+#define SENS_COUNT 6
+
 uint8_t batcnt;
 //_sensor sensor[6];
-uint32_t cal[7]; 
+uint32_t cal[7];
+uint32_t distance[6];
 uint32_t sens[6];
 uint32_t read[6];
+uint32_t read_buf[2][SENS_COUNT];
+uint32_t sens_buf[2][SENS_COUNT];
 //uint32_t fuzzy[6] = {4, 2, 3, 4, 5, 6};
 volatile uint32_t vbat;
 uint8_t batError;
@@ -45,6 +51,152 @@ LS----		 ---- RS
 	@note WARNING 
 		@arg1 DONT USE ADC_CHANNEL_XX, USE CHx INSTEAD
 		*/
+
+
+void LinLEDs(void)
+{
+	const float c[5] = {-3.89448230619322e-12,	2.39320612601111e-08,	-4.09318457411115e-05,	-0.0106170510758770,	115.341914847137};
+	float x;
+	float d;
+	
+	x = SENS_LS;
+	d = 0;
+	for(int i = 4; i >= 0; --i)
+		d = d*x + c[i];
+	distance[4] = d;
+	
+	x = SENS_RS;
+	d = 0;
+	for(int i = 4; i >= 0; --i)
+		d = d*x + c[i];
+	distance[5] = d;
+}
+
+void LinLEDleft(void)
+{
+	double x = SENS_LS; // aktualnie brana pod uwage dioda
+	//distance[4] = ((-1.4161e-8*x + 8.2094e-5)*x - 0.16098)*x + 172.52; // ma zero gdzies w srodku skali :/
+	distance[4] = (4210426483214.32	-194895074894.817/(x*x)) / (3469.50589670008 + 	102173560.704401*x) * 1.1364; //1.3
+}
+
+void LinLEDright(void)
+{	
+	float x = SENS_RS; // aktualnie brana pod uwage dioda
+	//distance[5] = (-439491.665036219/x/x + 9850.39739591126/x  + 46.2900271020770 -0.00738785453539922*x  ); // calkiem dobrze dziala, ale dla duzych odl sie malo zmienia
+	distance[5] = (4210426483214.32	-194895074894.817/(x*x)) / (3469.50589670008 + 	102173560.704401*x) *  0.6250; // 0.7
+}
+
+
+int SensorFeedback(void)
+{
+	int l = distance[4];
+	int r = distance[5];
+	int offset;
+	
+	// todo:
+	if(l > 60)
+		offset = r > 60 ? 0 : r - (162-WHEELBASE)/2;
+	else if(r > 60)
+		offset = (162-WHEELBASE)/2 - l; // tutaj juz wiemy, ze l <= 60
+	else
+		offset = r - l;
+	return offset;
+}
+
+
+void SensorCallback(void)
+{
+	static int count = 0;
+	
+	//static int COUNTER_MAX = MOTOR_DRIVER_T/0.00002;
+	HAL_GPIO_WritePin(GPIOB, CS_A_Pin, GPIO_PIN_SET);
+		switch(count){
+		case 0: 
+			ADCreadAmbient(); // read ambient light
+			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_SET); 
+			break;
+		case 2: // case 3: // 40us 
+			ADCreadChannel(CH2, &read[0]); // LF read
+			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_RESET); 
+			break;
+		case 3: //120us case 6: // 100us 
+			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET);
+			break;
+		case 5: //160us case 8: // 140us
+			ADCreadChannel(CH11, &read[1]); // RF read
+			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET);
+			break;
+		case 7: // 240us case 11: // 200us 
+			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
+			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
+			break;
+		case 8: // 280us case 13: // 240us 
+			ADCread2Channel(CH13, CH12, &read[2]); // L, R read
+			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
+			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET); 
+			break;
+		case 10: // 360us case 16: // 300us 
+			HAL_GPIO_WritePin(GPIOC, D_LS_Pin, GPIO_PIN_SET); 
+			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_SET);
+			break;
+		case 11: // case 18: // 340us
+			ADCread2Channel(CH3, CH10, &read[4]); // LS, RS read
+			HAL_GPIO_WritePin(GPIOC, D_LS_Pin, GPIO_PIN_RESET); // side sensors off
+			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_RESET);
+			break;
+		case 12: 
+			for(int i = 0; i < SENS_COUNT; ++i)
+			{
+				// sprawdz czy naswietlona sciana nie jest jasniejsza od nienaswietlonej
+				if(read[i] < cal[i])
+					read[i] = cal[i];
+				
+				//odejmij skladowa stala od sygnalu
+				sens[i] = read[i] - cal[i];
+				
+				// oblicz licznik i mianownik do wyjscia
+				// butter 100Hz/1000Hz, 2 stopnia
+				float num = 0.00554271721028068 * read[i] - 177863177782459 * read_buf[0][i] + 0.800802646665708 * read_buf[1][i];
+				float den = 0.00554271721028068 * sens[i] + 0.0110854344205614 * sens_buf[0][i] + 0.00554271721028068 * sens_buf[1][i];
+				
+				// sprawdz czy mozesz bezpiecznie dzielic
+//				if(den != 0)
+//					sens[i] = num/den;
+//				else
+					sens[i] = (sens_buf[1][i] + read[i] + 2*read_buf[0][i] + 4*read_buf[1][i]) * 0.125f;
+				
+				// zaktualizuj bufory
+				read_buf[1][i]=read_buf[0][i]; read_buf[0][i]=read[i];
+				sens_buf[1][i]=sens_buf[0][i]; sens_buf[1][i]=sens[i];
+				
+				// zlinearyzuj led'y
+				LinLEDleft();
+				LinLEDright();
+				//LinLEDs();
+			}
+			
+			break;
+		case 13:
+			GyroGetAngle(0.001);
+			break;
+		
+		case 14:
+			//MotorStepResponse(160, 150, 1500);
+			MotorUpdate();
+			break;
+	}
+			
+		
+	++count;
+	
+	if(count >= 25){
+		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
+		count = 0;
+	}
+	
+	HAL_GPIO_WritePin(GPIOB, CS_A_Pin, GPIO_PIN_RESET);
+}
+
 
 void ADCreadAmbient(){
 	ADC1->SQR1 = (ADC_SQR1_L_2|ADC_SQR1_L_1); // 7 conversions (0x06, count from 0)

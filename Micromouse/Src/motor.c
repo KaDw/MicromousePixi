@@ -1,9 +1,5 @@
 #include "motor.h"
-#include "sensor.h"
-#include "fxas21002c.h"
-#include <math.h>
 
-const float 	WHEELBASE							= 66;
 const float 	HALF_WHEELBASE				= (WHEELBASE/2); /* mm*/
 const float 	TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
 const float 	MOTOR_DRIVER_FREQ			= 1000.f; // Hz
@@ -258,36 +254,40 @@ void MotorDriver()
 		else if(motors.mot[i].errI < -errIMax)
 			motors.mot[i].errI = -errIMax;
 		
-		// sprzezenie od bledu pozycji
-		motors.mot[i].PWM = (int)(Kp*((float)(motors.mot[i].errP) // 500
-														+ Ki*(float)(motors.mot[i].errI) // 1000
-														+ Kd*(float)(motors.mot[i].errD))); // 56
-		// sprzezenie od zadanej predkosci
-		motors.mot[i].PWM += (int)(0.17f*(motors.mot[i].vel
-														+ 0.3f*motors.mot[i].a)); // 0.03
+//		// sprzezenie od bledu pozycji
+//		motors.mot[i].PWM = (int)(Kp*((float)(motors.mot[i].errP) // 500
+//														+ Ki*(float)(motors.mot[i].errI) // 1000
+//														+ Kd*(float)(motors.mot[i].errD))); // 56
+//		// sprzezenie od zadanej predkosci
+//		motors.mot[i].PWM += (int)(0.17f*(motors.mot[i].vel
+//														+ 0.3f*motors.mot[i].a)); // 0.03
 	}
-		
-	// sprzezenie od bledu pozycji 2. silnika
-	//motors.mot[0].PWM += -(int)(0.1f*Kp*motors.mot[1].errP);
-	//motors.mot[1].PWM += -(int)(0.1f*Kp*motors.mot[0].errP);
 	
 	
 	int errVP = motors.mot[0].errP + motors.mot[1].errP;
-	int errWP = motors.mot[0].errP - motors.mot[1].errP;
 	int errVD = motors.mot[0].errD + motors.mot[1].errD;
+	int errWP = motors.mot[0].errP - motors.mot[1].errP;
 	int errWD = motors.mot[0].errD - motors.mot[1].errD;
 	
-	errVP = errVP + 5*errVD;
-	errWP = errWP + 5*errWD;
-	
-	motors.mot[0].PWM = errVP + errWP;
-	motors.mot[1].PWM = errVP - errWP;
-	
-	if(_motor_flag & FLAG_SENSOR)
+	int errV = errVP + 5*errVD;
+	int errW = errWP + 5*errWD;
+	 
+	// sprzezenie od czujnikow
+	// tylko gdy dzies jedziesz
+	static int i = 0;
+	if(motors.time > 0 && ++i>200)
 	{
-		float errS = SENS_LS - SENS_RS;
-		
+		i = 0;
+		if(_motor_flag & FLAG_SENSOR)
+		{
+			int sF = SensorFeedback();
+			motors.mot[0].idealEnc += sF;
+			motors.mot[1].idealEnc -= sF;
+		}
 	}
+	
+	motors.mot[0].PWM = errV + errW;
+	motors.mot[1].PWM = errV - errW;
 	
 	// zapalaj LED'y
 	if(abs(motors.mot[0].errP) > 15)
@@ -468,10 +468,10 @@ void MotorGo(int left, int right, float vel)
 	MotorGoA(left, right, vel);
 	while(!MotorUpdateStatus())
 	{
-		end = UI_Timestamp();
-		MotorUpdate();
+		//end = UI_Timestamp();
+		//MotorUpdate();
 		//ADCreadAmbient();
-		while(UI_TimeElapsedUs(end) < MOTOR_DRIVER_T*1000000);
+		//while(UI_TimeElapsedUs(end) < MOTOR_DRIVER_T*1000000);
 	}
 	MotorSetPWMRaw(0,0);
 }
@@ -483,15 +483,10 @@ void MotorTurn(int angle, int r, float vel)
 	MotorTurnA(angle, r, vel);
 	while(!MotorUpdateStatus())
 	{
-		end = UI_Timestamp();
-		MotorUpdate();
-		UI_LedToggle(UI_LED_YELLOW);
-		ADCreadAmbient();
-		UI_LedOn(UI_LED_L);
-		UI_LedOff(UI_LED_R);
-		while(UI_TimeElapsedUs(end) < MOTOR_DRIVER_T*1000000);
-		UI_LedOn(UI_LED_R);
-		UI_LedOff(UI_LED_L);
+//		end = UI_Timestamp();
+//		MotorUpdate();
+//		ADCreadAmbient();
+//		while(UI_TimeElapsedUs(end) < MOTOR_DRIVER_T*1000000);
 	}
 	MotorSetPWMRaw(0,0);
 }

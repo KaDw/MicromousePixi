@@ -9,7 +9,9 @@
 
 #include "stm32f4xx_hal.h"
 #include "UI.h"
-//#include "tinylib.h"
+#include "sensor.h"
+#include "fxas21002c.h"
+#include <math.h>
 
 #define PI  3.1415926535f
 
@@ -17,6 +19,7 @@
 #define MOTOR_MAX_PWM					999
 #define MAX_ANGULAR_VEL				200.7f /* deg/s */
 #define WHEEL_DIAMETER 				37.0f  /* mm    */
+#define WHEELBASE							66 /* mm */
 #define TICKS_PER_REVOLUTION	3520.0f 
 #define ONE_CELL_DISTANCE		  5450; /* ticks, 180*30,28 */
 

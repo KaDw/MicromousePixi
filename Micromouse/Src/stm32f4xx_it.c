@@ -41,7 +41,6 @@
 #include "motor.h"
 #include "fxas21002c.h"
 
-volatile uint16_t count;
 uint8_t btn_cnt;
 
 /* USER CODE END 0 */
@@ -198,70 +197,8 @@ void TIM6_DAC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
-	//static int COUNTER_MAX = MOTOR_DRIVER_T/0.00002;
-	HAL_GPIO_WritePin(GPIOB, CS_A_Pin, GPIO_PIN_SET);
-		switch(count){
-		case 0: 
-			ADCreadAmbient(); // read ambient light
-			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_SET); 
-			break;
-		case 2: // case 3: // 40us 
-			ADCreadChannel(CH2, &read[0]); // LF read
-			HAL_GPIO_WritePin(GPIOC, D_LF_Pin, GPIO_PIN_RESET); 
-			break;
-		case 3: //120us case 6: // 100us 
-			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_SET);
-			break;
-		case 5: //160us case 8: // 140us
-			ADCreadChannel(CH11, &read[1]); // RF read
-			HAL_GPIO_WritePin(GPIOC, D_RF_Pin, GPIO_PIN_RESET);
-			break;
-		case 7: // 240us case 11: // 200us 
-			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_SET); 
-			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_SET); 
-			break;
-		case 8: // 280us case 13: // 240us 
-			ADCread2Channel(CH13, CH12, &read[2]); // L, R read
-			HAL_GPIO_WritePin(GPIOA, D_L_Pin, GPIO_PIN_RESET); 
-			HAL_GPIO_WritePin(GPIOC, D_R_Pin, GPIO_PIN_RESET); 
-			break;
-		case 10: // 360us case 16: // 300us 
-			HAL_GPIO_WritePin(GPIOC, D_LS_Pin, GPIO_PIN_SET); 
-			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_SET);
-			break;
-		case 11: // case 18: // 340us
-			ADCread2Channel(CH3, CH10, &read[4]); // LS, RS read
-			HAL_GPIO_WritePin(GPIOC, D_LS_Pin, GPIO_PIN_RESET); // side sensors off
-			HAL_GPIO_WritePin(GPIOC, D_RS_Pin, GPIO_PIN_RESET);
-			break;
-		case 12: 
-			for(int i = 0; i < 6; ++i)
-			{
-				// sprawdz czy naswietlona sciana nie jest jasniejsza od nienaswietlonej
-				if(read[i] < cal[i])
-					read[i] = cal[i];
-				sens[i] = (sens[i]*7 + read[i]) * 0.125f; // dzielone na 8
-			}
-			break;
-		case 13:
-			GyroGetAngle(0.001);
-			break;
-		
-		case 14:
-			//MotorStepResponse(160, 150, 1500);
-			MotorUpdate();
-			break;
-	}
-			
-		
-	++count;
 	
-	if(count >= 25){
-		//HAL_GPIO_WritePin(GPIOB, CS_A_Pin, 1);
-		count = 0;
-	}
-
-	HAL_GPIO_WritePin(GPIOB, CS_A_Pin, GPIO_PIN_RESET);
+	SensorCallback();
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
