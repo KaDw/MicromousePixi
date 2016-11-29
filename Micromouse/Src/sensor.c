@@ -77,6 +77,10 @@ void LinLEDleft(void)
 	double x = SENS_LS; // aktualnie brana pod uwage dioda
 	//distance[4] = ((-1.4161e-8*x + 8.2094e-5)*x - 0.16098)*x + 172.52; // ma zero gdzies w srodku skali :/
 	distance[4] = (4210426483214.32	-194895074894.817/(x*x)) / (3469.50589670008 + 	102173560.704401*x) * 1.1364; //1.3
+
+	//zlinearyzuj tez przod
+	x = SENS_LF;
+	distance[0] = (4210426483214.32	-194895074894.817/(x*x)) / (3469.50589670008 + 	102173560.704401*x);
 }
 
 void LinLEDright(void)

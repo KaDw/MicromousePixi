@@ -275,7 +275,7 @@ void MotorDriver()
 	// sprzezenie od czujnikow
 	// tylko gdy dzies jedziesz
 	static int i = 0;
-	if(motors.time > 0 && ++i>200)
+	if(motors.time > 0 && ++i>2)
 	{
 		i = 0;
 		if(_motor_flag & FLAG_SENSOR)

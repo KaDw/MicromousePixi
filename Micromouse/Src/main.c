@@ -127,7 +127,7 @@ int main(void)
 	{
   /* USER CODE END WHILE */
 		if(distance[5] < 60)
-			MotorGo(180, 180, 200);
+			MotorGo(500, 500, 200);
 		HAL_Delay(3000);
   /* USER CODE BEGIN 3 */
 	}
