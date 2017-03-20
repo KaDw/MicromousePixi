@@ -46,6 +46,7 @@
 #include "fxas21002c.h"
 #include "motor.h"
 #include "UI.h"
+#include "queue.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -111,24 +112,32 @@ int main(void)
 	//ENABLE_GYRO();
 	//ENABLE_SENSOR();
 	
-	//SensorOff();
+	SensorOff();
 	ENABLE_ENCODER();
-	ENABLE_SENSOR();
+	//ENABLE_SENSOR();
 	UI_LedOn(UI_LED_GREEN);
-	UI_WaitBtnL();
+	//UI_WaitBtnL();
 	UI_LedOffAll();
 	HAL_Delay(2000);
+	
+	q_push(&queue, MotorTurnA, 180, 0, 100);
+	q_push(&queue, MotorGoA, 200, 200, 100);
+	q_push(&queue, MotorTurnA, -180, 0, 100);
+	q_push(&queue, MotorGoA, 200, 200, 100);
 	//ADCreadAmbient();
-//	MotorGo(100, 100, 250);
-//	MotorTurn(-90,0,150);
-//	MotorTurn(180, 50, 300);
+	MotorGoA(200, 200, 100);
+//	MotorTurnA(180, 0, 250);
+//	MotorGoA(200, 200, 250);
+//	MotorTurnA(-180, 0, 250);
+//	MotorGoA(200, 200, 250)
+
 	HAL_TIM_Base_Start_IT(&htim6);
 	while (1)
 	{
   /* USER CODE END WHILE */
-		if(distance[5] < 60)
-			MotorGo(500, 500, 200);
-		HAL_Delay(3000);
+//		if(distance[5] < 60)
+//			MotorGo(500, 500, 200);
+//		HAL_Delay(3000);
   /* USER CODE BEGIN 3 */
 	}
 

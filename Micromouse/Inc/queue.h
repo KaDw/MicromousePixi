@@ -1,24 +1,34 @@
-// author: Karol Trzcinski
-// date: 26-03-2016
-
-// read:
-// -There is only one instance of queue!
-// -Queue has limited (constant) size!
-
 #ifndef __QUEUE_H__
 #define __QUEUE_H__
-#include <assert.h>
 
-// four times lab_size
-#define QUEUE_BUFF_SIZE 16*4
+#include <stdbool.h>
+#include "stm32f4xx.h"
 
-typedef unsigned short int	queue_t;
-typedef queue_t*			queue_iterator;
 
-void		queue_push(queue_t val);
-queue_t		queue_pop();
-unsigned char queue_size();
-char		queue_empty(); // return 0 (false) or 1 (true)
-void		queue_delete();
+#define LEN 10
+
+
+typedef struct{
+	void (*f_ptr)(int, int, float); // pointer to function
+	int a; // function arguments
+	int b;
+	float c;
+} _queue_elem;
+
+
+typedef struct{
+	uint8_t head;
+	uint8_t tail;
+	_queue_elem queue_buf[LEN];
+} _queue;
+
+
+extern void (*f_ptr)(int, int, float);
+extern _queue queue;
+
+void q_push(_queue* queue, void (*f_ptr)(int, int, float), int _a, int _b, float _c);
+bool q_empty(_queue* queue);
+_queue_elem* q_pop(_queue* queue);
+
 
 #endif

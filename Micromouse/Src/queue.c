@@ -1,41 +1,36 @@
+//#include <stdbool.h>
+//#include "stm32f4xx.h"
 #include "queue.h"
 
-queue_t buffor[QUEUE_BUFF_SIZE];
-unsigned short int _tail = 0;
-unsigned short int _head = 0;
+_queue queue;
 
-void queue_push(queue_t val)
-{
-	// czy ogon nie dogonil glowy
-	assert( (_head + 1) % QUEUE_BUFF_SIZE != _tail); 
-	_head = (_head + 1) % QUEUE_BUFF_SIZE;
-	buffor[_head] = val;
+void q_push(_queue* queue, void (*_f_ptr)(int, int, float), int _a, int _b, float _c){
+	if((queue->head + 1) % LEN == queue->tail)
+		return; // queue error flag
+	queue->head = (queue->head + 1) % LEN;
+	
+	queue->queue_buf[queue->head].f_ptr = _f_ptr;
+	queue->queue_buf[queue->head].a = _a;
+	queue->queue_buf[queue->head].b = _b;
+	queue->queue_buf[queue->head].c = _c;
+	
 }
 
-queue_t queue_pop()
-{
-	// czy ogon nie dogonil glowy
-	assert( (_head + 1) % QUEUE_BUFF_SIZE != _tail);
-	_tail = (_tail + 1) % QUEUE_BUFF_SIZE;
-	return buffor[_tail];
+bool q_empty(_queue* queue){
+	if(queue->head == queue->tail)
+		return true;
+	return false;
 }
 
-unsigned char queue_size()
-{
-	if (_head > _tail)
-		return _head - _tail;
-	else
-		return QUEUE_BUFF_SIZE - (_tail - _head);
+_queue_elem* q_pop(_queue* queue){
+	if((queue->head + 1) % LEN == queue->tail)
+		return NULL; // TODO fix this
+	queue->tail = (queue->tail + 1) % LEN;
+	return &(queue->queue_buf[queue->tail]);
 }
 
-char queue_empty()
-{
-	return _tail == _head;
-}
 
-void queue_delete()
-{
-	_tail = _head;
-}
-
+//uint8_t q_size(_queue* queue){
+//	return queue->head - queue->tail;
+//}
 

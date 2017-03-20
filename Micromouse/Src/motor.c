@@ -1,4 +1,5 @@
 #include "motor.h"
+#include "queue.h"
 
 const float 	HALF_WHEELBASE				= (WHEELBASE/2); /* mm*/
 const float 	TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
@@ -228,6 +229,8 @@ void MotorUpdateVariable()
 		--motors.time;
 		motors.mot[0].targetVel = 0;
 		motors.mot[1].targetVel = 0;
+		if(!q_empty(&queue))
+			q_pop(&queue)->f_ptr(queue.queue_buf[queue.tail].a, queue.queue_buf[queue.tail].b, queue.queue_buf[queue.tail].c);
 	}
 	
 	// position
