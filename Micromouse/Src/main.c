@@ -52,8 +52,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-#define RX_BUF_SIZE 100
-char Rx_buf[RX_BUF_SIZE];
+char Rx_buf[100];
 char Tx_buf[50];
 /* Private variables ---------------------------------------------------------*/
 /* ADC */
@@ -112,20 +111,24 @@ int main(void)
 	//ENABLE_GYRO();
 	//ENABLE_SENSOR();
 	
-	SensorOff();
+	//SensorOff();
 	ENABLE_ENCODER();
-	//ENABLE_SENSOR();
+	ENABLE_SENSOR();
 	UI_LedOn(UI_LED_GREEN);
 	//UI_WaitBtnL();
 	UI_LedOffAll();
+	UI_Beep(50, 450);
 	HAL_Delay(2000);
-	
-	q_push(&queue, MotorTurnA, 180, 0, 100);
-	q_push(&queue, MotorGoA, 200, 200, 100);
-	q_push(&queue, MotorTurnA, -180, 0, 100);
-	q_push(&queue, MotorGoA, 200, 200, 100);
+	//q_push(&queue, MotorGoA, 50, 50, 100);
+//	q_push(&queue, MotorGoA, 200, 200, 100);
+//	q_push(&queue, MotorGoA, 200, 200, 100);
+//	q_push(&queue, MotorGoA, 200, 200, 100);
+//	q_push(&queue, MotorTurnA, 90, 0, 100);
+//	q_push(&queue, MotorGoA, 200, 200, 100);
+//	q_push(&queue, MotorTurnA, 90, 0, 100);
+//	q_push(&queue, MotorGoA, 200, 200, 100);
 	//ADCreadAmbient();
-	MotorGoA(200, 200, 100);
+	MotorGoA(180, 180, 100);
 //	MotorTurnA(180, 0, 250);
 //	MotorGoA(200, 200, 250);
 //	MotorTurnA(-180, 0, 250);

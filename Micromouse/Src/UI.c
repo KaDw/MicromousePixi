@@ -9,7 +9,7 @@ void UI_InitDelayUs(void);
 void UI_Init()
 {
 	MX_USART1_UART_Init();
-	//UI_InitBeep();
+	UI_InitBeep();
 	UI_InitLeds();
 	//UI_InitBattControl();
 	UI_InitDelayUs();
@@ -108,16 +108,23 @@ void UI_InitDelayUs()
 /* time in miliseconds */
 void UI_Beep(int time, int freq)
 {
+	TIM14->PSC = 8399; // 100us
+	TIM14->CR1 |= TIM_CR1_OPM; //one pulse mode
+	TIM14->ARR = 10 * time - 1;
+	TIM14->DIER = TIM_DIER_UIE; // enable interrupts
+	TIM14->CR1 = TIM_CR1_CEN; // enable timer
+	HAL_GPIO_WritePin(BUZZER_GPIO_Port, BUZZER_Pin, 1);
+	
 	//freq to TIM2
-	TIM2->EGR |= TIM_EGR_UG;
-	TIM2->PSC = 14e2 / freq + 1;
-	TIM2->CR1 |= TIM_CR1_CEN;
-	
-	
-	//time to TIM1
-	TIM1->EGR |= TIM_EGR_UG;
-	TIM1->CNT = time;
-	TIM1->CR1 |= TIM_CR1_CEN;
+//	TIM2->EGR |= TIM_EGR_UG;
+//	TIM2->PSC = 14e2 / freq + 1;
+//	TIM2->CR1 |= TIM_CR1_CEN;
+//	
+//	
+//	//time to TIM1
+//	TIM1->EGR |= TIM_EGR_UG;
+//	TIM1->CNT = time;
+//	TIM1->CR1 |= TIM_CR1_CEN;
 }
 
 void UI_LedOffAll()
@@ -183,7 +190,7 @@ void UI_BattControl()
 	if(battValue == 0)
 		battValue = lastValue;
 	else
-		battValue = ((battValue << 2) + lastValue) / 5; // alpha-blending
+		battValue = ((battValue * 4) + lastValue) / 5; // alpha-blending
 	
 	ADCreadChannel(CH9, &lastValue);
 	 //1080LSB/2.7V

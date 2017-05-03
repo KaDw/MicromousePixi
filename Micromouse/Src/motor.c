@@ -1,5 +1,6 @@
 #include "motor.h"
 #include "queue.h"
+#include "map.h"
 
 const float 	HALF_WHEELBASE				= (WHEELBASE/2); /* mm*/
 const float 	TICKS_PER_MM					= (TICKS_PER_REVOLUTION/(PI*WHEEL_DIAMETER));
@@ -229,6 +230,8 @@ void MotorUpdateVariable()
 		--motors.time;
 		motors.mot[0].targetVel = 0;
 		motors.mot[1].targetVel = 0;
+		
+		run();
 		if(!q_empty(&queue))
 			q_pop(&queue)->f_ptr(queue.queue_buf[queue.tail].a, queue.queue_buf[queue.tail].b, queue.queue_buf[queue.tail].c);
 	}
@@ -312,7 +315,8 @@ void MotorUpdate()
 	MotorUpdateEnc();
 	MotorUpdateVariable();
 	MotorDriver();
-	MotorSetPWM();
+	//MotorSetPWM();
+	//updateMap();
 }
 
 float _MotorCalcTime(float lastV, float vel, float s)
@@ -428,7 +432,13 @@ void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 void MotorTurnA(int angle, int r, float vel)
 {
 	int left, right;
+	// direction we are heading
+	direction = angle/45;
 	
+	if(angle < 0){
+		direction+=8;
+	}
+		
 	if(angle < 0 && r > 0) // left forward
 	{
 		left  = -PI*(r-HALF_WHEELBASE)*angle/180;

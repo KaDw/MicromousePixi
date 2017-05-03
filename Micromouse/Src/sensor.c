@@ -32,12 +32,12 @@ uint32_t sens_buf[2][SENS_COUNT];
 volatile uint32_t vbat;
 uint8_t batError;
 /*
-sens[0] - LF - Left
-sens[1] - RF - Right
-sens[2] - L - Left Front
-sens[3] - R - Right Front
-sens[4] - LS - Left Side
-sens[5] - RS - Right Side
+CH2 sens[0] - LF - Left
+CH11 sens[1] - RF - Right
+CH13 sens[2] - L - Left Front
+CH12 sens[3] - R - Right Front
+CH3 sens[4] - LS - Left Side
+CH10 sens[5] - RS - Right Side
 
 	L		LF	RF		R
 	\		|		|   /
@@ -152,8 +152,8 @@ void SensorCallback(void)
 			for(int i = 0; i < SENS_COUNT; ++i)
 			{
 				// sprawdz czy naswietlona sciana nie jest jasniejsza od nienaswietlonej
-				if(read[i] < cal[i])
-					read[i] = cal[i];
+//				if(read[i] < cal[i])
+//					read[i] = cal[i];
 				
 				//odejmij skladowa stala od sygnalu
 				sens[i] = read[i] - cal[i];
@@ -210,6 +210,7 @@ void ADCreadAmbient(){
 	//CH3, CH10
 	HAL_ADC_Start_DMA(&hadc1, cal, 7);
 	//vbat = cal[6]; // *0.0025 i dodac 0,067
+	// battery
 	if(cal[6] < 3408 && cal[6] > 2650){ // 7,4-6,8
 		vbat += cal[6];
 		batcnt++;
@@ -281,20 +282,6 @@ void ADCcalibrate(){
 
 
 */
-void UpdateCell(){
-	//uint8_t cell_x = motors.mot[0].enc/ONE_CELL_DISTANCE;
-	uint16_t pos = (EncL+EncR)/2;
-	if(SENS_RS < HAS_RIGHT_WALL){
-		
-	}
-	else if(SENS_LS < HAS_LEFT_WALL){
-		
-	}
-	//else if(SENS_LF 
-	
-	
-}
-
 //void Move(_sensor *sensor){ // moving samples in buf
 //	sensor->buf[0] = sensor->buf[1];
 //	sensor->buf[1] = sensor->buf[2];
