@@ -75,10 +75,10 @@ extern int _motor_flag;
 #define FLAG_SENSOR						4
 #define FLAG_ENCODER					8
 #define FLAG_FREEZE						16
-#define ENABLE_PID()					(_motor_flag|=FLAG_PID)
-#define ENABLE_GYRO() 				(_motor_flag|=FLAG_GYRO)
-#define ENABLE_SENSOR() 			(_motor_flag|=FLAG_SENSOR)
-#define ENABLE_ENCODER() 			(_motor_flag|=FLAG_ENCODER)
+#define ENABLE_PID						(_motor_flag|=FLAG_PID)
+#define ENABLE_GYRO						(_motor_flag|=FLAG_GYRO)
+#define ENABLE_SENSOR					(_motor_flag|=FLAG_SENSOR)
+#define ENABLE_ENCODER 				(_motor_flag|=FLAG_ENCODER)
 #define DISABLE_PID 					(_motor_flag&=~FLAG_PID)
 #define DISABLE_GYRO 					(_motor_flag&=~FLAG_GYRO)
 #define DISABLE_SENSOR 				(_motor_flag&=~FLAG_SENSOR)

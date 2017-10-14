@@ -5,6 +5,9 @@
 
 int _microsDivider;
 void UI_InitDelayUs(void);
+char Rx_buf[100];
+char Tx_buf[50];
+
 
 void UI_Init()
 {

@@ -40,7 +40,10 @@ LS----		 ---- RS
 
 #define HAS_LEFT_WALL 1000
 #define HAS_RIGHT_WALL 1000
-#define HAS_FRONT_WALL 1000
+#define HAS_FRONT_WALL 500
+
+#define LSMiddleValue 2500
+#define RSMiddleValue 1300
 
 
 // calibration
@@ -78,6 +81,7 @@ void ADCread2Channel(uint8_t CHx1, uint8_t CHx2, uint32_t *buf);
 void SensorOff(void);
 void SensorCallback(void);
 int  SensorFeedback(void); // return offset between walls
+void FingerStart();
 //uint32_t Sort(_sensor sensor);
 //void Move(_sensor *sensor);
 #endif

@@ -8,7 +8,6 @@ const float 	MOTOR_DRIVER_FREQ			= 1000.f; // Hz
 const float		MOTOR_DRIVER_T				= 1.f/MOTOR_DRIVER_FREQ;
 //const int 		ONE_CELL_DISTANCE			= 5450; // ticks, 180*30,28
 
-
 // needed for motors
 extern TIM_HandleTypeDef MOTOR_HTIM, MOTOR_HTIM_ENC_L, MOTOR_HTIM_ENC_R;
 extern uint32_t sens[];
@@ -180,6 +179,7 @@ void MotorUpdateEnc()
 	
 	motors.mot[0].lastEnc = el;
 	motors.mot[1].lastEnc = er;
+	
 }
 
 int MotorUpdateStatus()
@@ -230,10 +230,23 @@ void MotorUpdateVariable()
 		--motors.time;
 		motors.mot[0].targetVel = 0;
 		motors.mot[1].targetVel = 0;
-		
 		run();
-		if(!q_empty(&queue))
-			q_pop(&queue)->f_ptr(queue.queue_buf[queue.tail].a, queue.queue_buf[queue.tail].b, queue.queue_buf[queue.tail].c);
+//		int test = (EncL+EncR)/2;
+//		_itoa(test, Tx_buf, 10);
+//		UI_Send((uint8_t*)Tx_buf);
+		// enkodery zerujemy tylko jak robilimsy zakret
+//		if(motors.mot[0].idealEnc != motors.mot[1].idealEnc){
+//			MotorResetEnc();
+//			UI_Send("abc");
+//		}
+		// resetujemy enkodery po skrecie
+		_queue_elem* q_ptr = NULL;
+		if(queue.queue_buf[queue.tail].f_ptr == MotorTurnA){
+			MotorResetEnc();
+			sprintf(Tx_buf, "%d", queue.tail);
+			UI_Send((uint8_t*)Tx_buf);
+		}
+		q_pop(&queue)->f_ptr(queue.queue_buf[queue.tail].a, queue.queue_buf[queue.tail].b, queue.queue_buf[queue.tail].c);
 	}
 	
 	// position
@@ -279,9 +292,9 @@ void MotorDriver()
 	int errW = errWP + 5*errWD;
 	 
 	// sprzezenie od czujnikow
-	// tylko gdy dzies jedziesz
+	// tylko gdy gdzies jedziesz
 	static int i = 0;
-	if(motors.time > 0 && ++i>2)
+	if(motors.time > 0 && ++i > 2)
 	{
 		i = 0;
 		if(_motor_flag & FLAG_SENSOR)
@@ -295,16 +308,16 @@ void MotorDriver()
 	motors.mot[0].PWM = errV + errW;
 	motors.mot[1].PWM = errV - errW;
 	
-	// zapalaj LED'y
-	if(abs(motors.mot[0].errP) > 15)
-		UI_LedOn(UI_LED_L);
-	else
-		UI_LedOff(UI_LED_L);
-	
-	if(abs(motors.mot[1].errP) > 15)
-		UI_LedOn(UI_LED_R);
-	else
-		UI_LedOff(UI_LED_R);
+//	// zapalaj LED'y
+//	if(abs(motors.mot[0].errP) > 15)
+//		UI_LedOn(UI_LED_L);
+//	else
+//		UI_LedOff(UI_LED_L);
+//	
+//	if(abs(motors.mot[1].errP) > 15)
+//		UI_LedOn(UI_LED_R);
+//	else
+//		UI_LedOff(UI_LED_R);
 }
 
 
@@ -315,7 +328,19 @@ void MotorUpdate()
 	MotorUpdateEnc();
 	MotorUpdateVariable();
 	MotorDriver();
-	//MotorSetPWM();
+	MotorSetPWM();
+//	if(motors.mot[0].idealEnc == motors.mot[1].idealEnc){
+//		uint32_t ticks = ((EncL + EncR)/2) % ONE_CELL_DISTANCE
+//		if(ticks > (int)55*TICKS_PER_MM && ticks < (int)90*TICKS_PER_MM){
+//			UI_Send((uint8_t*)"dis");
+//			DISABLE_SENSOR;
+//		}
+//		else{
+//			UI_Send((uint8_t*)"en");
+//			ENABLE_SENSOR;
+//		}
+//	}
+	
 	//updateMap();
 }
 
@@ -394,6 +419,8 @@ float _MotorCalcVel(float lastV, float s, float t) // [mm], [mm/s], [s]
 
 void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 {
+	if(left == right)
+		ENABLE_SENSOR;
 	vel = fabs(vel);
 	float lVl = motors.mot[0].vel; //last vel left
 	float lVr = motors.mot[1].vel;
@@ -431,6 +458,7 @@ void MotorGoA(int left, int right, float vel) // [mm] [mm] [mm/s]
 
 void MotorTurnA(int angle, int r, float vel)
 {
+	DISABLE_SENSOR;
 	int left, right;
 	// direction we are heading
 	direction = angle/45;

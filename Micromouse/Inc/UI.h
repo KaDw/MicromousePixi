@@ -5,13 +5,17 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
-#define USE_FULL_ASSERT
 #include "stm32f4xx_hal.h"
 #include "gpio.h"
 #include "sensor.h"
 
+#define USE_FULL_ASSERT
+
 #define LOG(m)
 
+
+extern char Rx_buf[100];
+extern char Tx_buf[50];
 extern UART_HandleTypeDef huart1;
 #define UI_UART_Handle huart1
 

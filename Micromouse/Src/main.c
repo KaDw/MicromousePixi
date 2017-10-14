@@ -52,8 +52,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-char Rx_buf[100];
-char Tx_buf[50];
+//char Rx_buf[100];
+//char Tx_buf[50];
 /* Private variables ---------------------------------------------------------*/
 /* ADC */
 
@@ -109,31 +109,28 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	//ENABLE_GYRO();
-	//ENABLE_SENSOR();
-	
 	//SensorOff();
-	ENABLE_ENCODER();
-	ENABLE_SENSOR();
+	ENABLE_ENCODER;
+	ENABLE_SENSOR;
 	UI_LedOn(UI_LED_GREEN);
-	//UI_WaitBtnL();
+	UI_WaitBtnL();
 	UI_LedOffAll();
-	UI_Beep(50, 450);
 	HAL_Delay(2000);
-	//q_push(&queue, MotorGoA, 50, 50, 100);
+	q_push(&queue, MotorGoA, 180, 180, 100);
+	q_push(&queue, MotorGoA, 200, 200, 100);
 //	q_push(&queue, MotorGoA, 200, 200, 100);
 //	q_push(&queue, MotorGoA, 200, 200, 100);
-//	q_push(&queue, MotorGoA, 200, 200, 100);
+	q_push(&queue, MotorTurnA, 90, 0, 100);
+//	q_push(&queue, MotorGoA, 100, 100, 100);
 //	q_push(&queue, MotorTurnA, 90, 0, 100);
-//	q_push(&queue, MotorGoA, 200, 200, 100);
-//	q_push(&queue, MotorTurnA, 90, 0, 100);
-//	q_push(&queue, MotorGoA, 200, 200, 100);
+	q_push(&queue, MotorGoA, 200, 200, 100);
 	//ADCreadAmbient();
-	MotorGoA(180, 180, 100);
+	
+	MotorGoA(37, 37, 200);
 //	MotorTurnA(180, 0, 250);
-//	MotorGoA(200, 200, 250);
+//	MotorGoA(180, 180, 200);
 //	MotorTurnA(-180, 0, 250);
-//	MotorGoA(200, 200, 250)
-
+//	MotorGoA(200, 200, 250);
 	HAL_TIM_Base_Start_IT(&htim6);
 	while (1)
 	{

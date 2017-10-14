@@ -103,10 +103,24 @@ int SensorFeedback(void)
 	else if(r > 60)
 		offset = (162-WHEELBASE)/2 - l; // tutaj juz wiemy, ze l <= 60
 	else
-		offset = r - l;
+		offset = r-l; // r-l
 	return offset;
 }
 
+
+//int SensorFeedback(void)//the very basic case
+//{
+//	int sensorError = 0;
+//	
+//	if(SENS_LS > LSMiddleValue && SENS_RS < RSMiddleValue)
+//		sensorError = LSMiddleValue - SENS_LS;
+//	else if(SENS_RS > RSMiddleValue && SENS_LS < LSMiddleValue)
+//		sensorError = SENS_RS - RSMiddleValue;
+//	else
+//		sensorError = 0;
+//	
+//	return sensorError*0.07;
+//}
 
 void SensorCallback(void)
 {
@@ -319,11 +333,9 @@ void ADCcalibrate(){
 //}
 	
 
-uint8_t FingerStart(){ // calibrate after finger start
-while(sens[0] < 2000 && sens[2] < 2000) // LF and L sensor
-	{}
-		
-	return 1;
+void FingerStart(){ // calibrate after finger start
+	
+	while(SENS_RF < 2000 && SENS_R < 2000);
 }
 //void readSensor()
 //{

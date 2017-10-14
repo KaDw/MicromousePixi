@@ -18,6 +18,9 @@ uint16_t pos;
 void updateMap(){
 	//uint8_t cell_x = motors.mot[0].enc/ONE_CELL_DISTANCE;
 	static uint16_t last_pos = 0;
+	if(queue.queue_buf[queue.tail].f_ptr == MotorTurnA){
+			last_pos = 0;
+	}
 	uint16_t pos = ((EncL + EncR)/2)/ONE_CELL_DISTANCE;
 	if(pos > last_pos){
 		if(direction == 0)
@@ -33,8 +36,6 @@ void updateMap(){
 		}
 		if(!(map[x][y] & VISITED)){ // not visited
 			updateWalls();
-			//Floodfill();
-			//RightHand();
 		}
 }
 
@@ -170,17 +171,30 @@ wall_t getFront(uint8_t direction){
 
 // bez skosow
 void rightHand(){
-	if(!getRight(direction))
-		q_push(&queue, MotorTurnA, -90, 0, 100);
+	uint8_t test = 0;
+	if(!getRight(direction)){
+		q_push(&queue, MotorTurnA, -90, 0, 200);
+		q_push(&queue, MotorGoA, 180, 180, 200);
+		test = 1;
+	}
 		//add to queue motor turn right
-	else if(!getFront(direction))
-		q_push(&queue, MotorGoA, 180, 180, 100);
+	else if(!getFront(direction)){
+		q_push(&queue, MotorGoA, 180, 180, 200);
+		test = 2;
+	}
 		// motor go
-	else if(!getLeft(direction))
-		q_push(&queue, MotorTurnA, 90, 0, 100);
+	else if(!getLeft(direction)){
+		q_push(&queue, MotorTurnA, 90, 0, 200);
+		q_push(&queue, MotorGoA, 180, 180, 200);
+		test = 3;
+	}
 		// motor turn left
-	else
-		q_push(&queue, MotorTurnA, 180, 0, 100);
+	else{
+		q_push(&queue, MotorTurnA, 180, 0, 200);
+		test = 4;
+	}
+	sprintf(Tx_buf, "%d, %d, [%d][%d] %d\r\n", test, direction, x, y, queue.tail);
+	UI_Send(Tx_buf);
 		// turn 180, calibrate sensors
 		
 	// if(!(map[x][y] & direction/2)){
@@ -211,6 +225,7 @@ void run(){
 // 	else if(dir == 4){
 // 		return 2;
 // 	}
+
 // 	else if(dir == 6){
 // 		return 3;
 // 	}
